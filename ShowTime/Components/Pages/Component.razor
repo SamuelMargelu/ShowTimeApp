@@ -1,0 +1,142 @@
+﻿@page "/component"
+@inject NavigationManager NavigationManager
+@rendermode InteractiveServer
+
+<h3>Componentss</h3>
+
+<Button Color="Color.Primary" Clicked="ShowModal">Add New Card</Button>
+
+<CardDeck>
+	@foreach (var card in Cards)
+	{
+		<Card>
+			<CardImage Source="@card.ImageUrl" Alt="@card.Alt"></CardImage>
+			<CardBody>
+				<CardTitle Size="5">@card.Title</CardTitle>
+				<CardText>
+					@card.Text
+				</CardText>
+				<Button Color="Color.Primary" Clicked="() => GoToImage(card.ImageUrl)">Button</Button>
+				<Button Color="Color.Danger" Clicked="() => DeleteCard(card.Title)">Delete</Button>
+			</CardBody>
+		</Card>
+	}
+</CardDeck>
+
+<Modal @ref="modalRef">
+	<ModalContent Centered>
+		<ModalHeader>
+			<ModalTitle>Employee edit</ModalTitle>
+			<CloseButton />
+		</ModalHeader>
+		<ModalBody>
+			<Field>
+				<FieldLabel>ImageUrl</FieldLabel>
+				<TextEdit @bind-Text="NewImageUrl" Placeholder="Enter ImageUrl..." />
+			</Field>
+			<Field>
+				<FieldLabel>Alt</FieldLabel>
+				<TextEdit @bind-Text="NewAlt" Placeholder="Enter Alternative Name..." />
+			</Field>
+			<Field>
+				<FieldLabel>Title</FieldLabel>
+				<TextEdit @bind-Text="NewTitle" Placeholder="Enter Title..." />
+			</Field>
+			<Field>
+				<FieldLabel>Text</FieldLabel>
+				<TextEdit @bind-Text="NewText" Placeholder="Enter Text..." />
+			</Field>
+		</ModalBody>
+		<ModalFooter>
+			<Button Color="Color.Secondary" Clicked="@HideModal">Close</Button>
+			<Button Color="Color.Primary" Clicked="() => AddCard()">Add Card</Button>
+		</ModalFooter>
+	</ModalContent>
+</Modal>
+
+@code {
+
+	private string NewImageUrl { get; set; } = string.Empty;
+	private string NewAlt { get; set; } = string.Empty;
+	private string NewTitle { get; set; } = string.Empty;
+	private string NewText { get; set; } = string.Empty;
+
+	private List<CardModel> Cards = new()
+	{
+		new CardModel
+		{
+			ImageUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFYqoKTu_o3Zns2yExbst2Co84Gpc2Q1RJbA&s",
+			Alt = "Card image cap 3",
+			Title = "Card title 1",
+			Text = "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer."
+		},
+		new CardModel
+		{
+			ImageUrl = "https://letsenhance.io/static/73136da51c245e80edc6ccfe44888a99/1015f/MainBefore.jpg",
+			Alt = "Card image cap 9",
+			Title = "Card title 2",
+			Text = "This card has supporting text below as a natural lead-in to additional content."
+		},
+		new CardModel
+		{
+			ImageUrl = "https://letsenhance.io/static/73136da51c245e80edc6ccfe44888a99/1015f/MainBefore.jpg",
+			Alt = "Card image cap 12",
+			Title = "Card title 3",
+			Text = "This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action."
+		}
+	};
+
+	private Modal modalRef;
+
+	private Task ShowModal()
+	{
+		return modalRef.Show();
+	}
+
+	private Task HideModal()
+	{
+		return modalRef.Hide();
+	}
+
+	private void AddCard()
+	{
+		var a = new CardModel
+			{
+				ImageUrl = NewImageUrl,
+				Alt = NewAlt,
+				Title = NewTitle,
+				Text = NewText
+			};
+
+		Cards.Add(a);
+
+		NewImageUrl = string.Empty;
+		NewAlt = string.Empty;
+		NewTitle = string.Empty;
+		NewText = string.Empty;
+
+		HideModal();
+	}
+
+	private void DeleteCard(string name)
+	{
+		var cardToRemove = Cards.FirstOrDefault(c => c.Title == name);
+		if (cardToRemove != null)
+		{
+			Cards.Remove(cardToRemove);
+		}
+	}
+
+	private void GoToImage(string url)
+	{
+		NavigationManager.NavigateTo(url, forceLoad: true);
+	}
+
+	private class CardModel
+	{
+		public string ImageUrl { get; set; } = string.Empty;
+		public string Alt { get; set; } = string.Empty;
+		public string Title { get; set; } = string.Empty;
+		public string Text { get; set; } = string.Empty;
+	}
+}
