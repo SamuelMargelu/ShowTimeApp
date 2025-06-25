@@ -23,6 +23,19 @@
 	}
 </CardDeck>
 
+<Carousel @bind-SelectedSlide="@selectedSlide">
+	@foreach (var card in Cards)
+	{
+		<CarouselSlide Name="@card.Title">
+			<Image Source="@card.ImageUrl" Text="@card.Alt" Display="Display.Block" Width="Width.Is100" />
+		</CarouselSlide>
+	}
+	
+</Carousel>
+@code {
+	private string selectedSlide = "2";
+}
+
 <Modal @ref="modalRef">
 	<ModalContent Centered>
 		<ModalHeader>
