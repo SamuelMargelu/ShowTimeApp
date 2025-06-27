@@ -1,0 +1,122 @@
+@page "/BandCrudTest"
+@rendermode InteractiveServer
+@inject IService<Band> BandService
+
+<h3>Band CRUD Test</h3>
+
+@if (Bands == null)
+{
+	<p>Loading...</p>
+}
+else
+{
+	<h4>All Bands</h4>
+	<ul>
+		@foreach (var band in Bands)
+		{
+			<li>Id: @band.Id Name: @band.Name - (@band.Genre)</li>
+		}
+	</ul>
+}
+
+<h4>Add Band</h4>
+<Label Text="Band Name" />
+<TextEdit @bind-Text="NewBandName" Placeholder="Band Name" />
+<Label Text="Genre" />
+<Select @bind-SelectedValue="NewBandGenre">
+	@foreach (var genre in Enum.GetValues<Genre>())
+	{
+		<SelectItem Value="@genre">@genre</SelectItem>
+	}
+</Select>
+<Button Color="Color.Primary" @onclick="AddBand">Add</Button>
+
+<h4>Update Band</h4>
+<Label Text="Band ID" />
+<input @bind="UpdateBandId" placeholder="Band ID" type="number" />
+<Label Text="New Band Name" />
+<TextEdit @bind-Text="UpdateBandName" Placeholder="New Band Name" />
+<Label Text="Genre" />
+<Select @bind-SelectedValue="UpdateBandGenre">
+	@foreach (var genre in Enum.GetValues<Genre>())
+	{
+		<SelectItem Value="@genre">@genre</SelectItem>
+	}
+</Select>
+<Button Color="Color.Primary" @onclick="UpdateBand">Update</Button>
+
+<h4>Delete Band</h4>
+<Label Text="Band ID" />
+<input @bind="DeleteBandId" placeholder="Band ID" type="number" />
+<Button Color="Color.Danger" @onclick="DeleteBand">Delete</Button>
+
+@code {
+	private List<Band>? Bands;
+	private string NewBandName = string.Empty;
+	private Genre NewBandGenre;
+	private int UpdateBandId;
+	private string UpdateBandName = string.Empty;
+	private Genre UpdateBandGenre;
+	private int DeleteBandId;
+
+	protected override async Task OnInitializedAsync()
+	{
+		await LoadBands();
+	}
+
+	private async Task LoadBands()
+	{
+		try
+		{
+			Bands = (await BandService.GetAllAsync()).ToList();
+		}
+		catch (Exception ex)
+		{
+			Console.WriteLine($"Error loading bands: {ex.Message}");
+		}
+	}
+
+	private async Task AddBand()
+	{
+		var newBand = new Band
+			{
+				Name = NewBandName,
+				Genre = NewBandGenre
+			};
+
+		await BandService.AddAsync(newBand);
+		await LoadBands();
+
+		NewBandName = string.Empty;
+		NewBandGenre = Genre.Rock;
+	}
+
+	private async Task UpdateBand()
+	{
+		var bandToUpdate = await BandService.GetByIdAsync(UpdateBandId);
+		if (bandToUpdate != null)
+		{
+			bandToUpdate.Name = UpdateBandName;
+			bandToUpdate.Genre = UpdateBandGenre;
+
+			await BandService.UpdateAsync(bandToUpdate);
+			await LoadBands();
+
+			UpdateBandId = 0;
+			UpdateBandName = string.Empty;
+			UpdateBandGenre = Genre.Rock;
+		}
+	}
+
+	private async Task DeleteBand()
+	{
+		var bandToDelete = await BandService.GetByIdAsync(DeleteBandId);
+		if (bandToDelete != null)
+		{
+			await BandService.DeleteAsync(bandToDelete);
+			await LoadBands();
+
+			DeleteBandId = 0;
+		}
+	}
+}
