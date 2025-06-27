@@ -1,9 +1,27 @@
 using Blazorise;
 using Blazorise.Bootstrap5;
 using Blazorise.Icons.FontAwesome;
+using Microsoft.EntityFrameworkCore;
 using ShowTime.Components;
+using ShowTime.Context;
+using ShowTime.Repositories.Implementations;
+using ShowTime.Repositories.Interfaces;
+using ShowTime.Services.Implementations;
+using ShowTime.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Get ConnectionString from configuration
+
+var connectionString = builder.Configuration.GetConnectionString("ShowTimeDbConnectionString") ??
+    throw new InvalidOperationException("Connection string 'ShowTimeDbConnectionString' not found.");
+
+builder.Services.AddDbContext<ShowTimeDbContext>(options =>
+    options.UseSqlServer(connectionString));
+
+// Register services and repositories
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+builder.Services.AddScoped(typeof(IService<>), typeof(Service<>));
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
