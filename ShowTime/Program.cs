@@ -20,8 +20,17 @@ builder.Services.AddDbContext<ShowTimeDbContext>(options =>
     options.UseSqlServer(connectionString));
 
 // Register services and repositories
+// Generic
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped(typeof(IService<>), typeof(Service<>));
+
+//Festival
+builder.Services.AddScoped<IFestivalRepository, FestivalRepository>();
+builder.Services.AddScoped<IFestivalService, FestivalService>();
+
+//Band
+builder.Services.AddScoped<IBandRepository, BandRepository>();
+builder.Services.AddScoped<IBandService, BandSerivce>();
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
