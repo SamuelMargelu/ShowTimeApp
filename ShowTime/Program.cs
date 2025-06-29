@@ -22,6 +22,8 @@ builder.Services.AddDbContext<ShowTimeDbContext>(options =>
 // Register services and repositories
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped(typeof(IService<>), typeof(Service<>));
+builder.Services.AddScoped<IFestivalRepository, FestivalRepository>();
+builder.Services.AddScoped<IFestivalService, FestivalService>();
 
 // Add services to the container.
 builder.Services.AddRazorComponents()

@@ -1,0 +1,104 @@
+﻿@page "/FestivalCrudTest"  
+@rendermode InteractiveServer  
+@inject IService<Band> BandService  
+@inject IFestivalService FestivalService
+
+<h3>Festival CRUD Test</h3>  
+
+<!-- Add Festival Section -->  
+<h4>Add Festival</h4>  
+<div>  
+   <label>Name:</label>  
+   <input @bind="NewFestivalName" />  
+</div>  
+<div>  
+   <label>Location:</label>  
+   <input @bind="NewFestivalLocation" />  
+</div>  
+<div>  
+   <label>Start Date:</label>  
+   <input type="date" @bind="NewFestivalStartDate" />  
+</div>  
+<div>  
+   <label>End Date:</label>  
+   <input type="date" @bind="NewFestivalEndDate" />  
+</div>  
+<button @onclick="AddFestival">Add Festival</button>  
+
+<!--Link Band to Festival Section-->
+<h4>Link Band to Festival</h4>
+
+<div>
+   <label>Festival ID:</label>
+    <input type="number" @bind="SelectedFestivalId" />
+</div>
+<div>
+   <label>Band ID:</label>
+   <input type="number" @bind="SelectedBandId" />
+</div>
+<button @onclick="AddBandToFestival">Link Band to Festival</button>
+
+
+<!-- Update Festival Section -->  
+<h4>Update Festival</h4>  
+<div>  
+   <label>Festival ID:</label>  
+   <input type="number" @bind="UpdateFestivalId" />  
+</div>  
+<div>  
+   <label>Name:</label>  
+   <input @bind="UpdateFestivalName" />  
+</div>  
+<div>  
+   <label>Location:</label>  
+   <input @bind="UpdateFestivalLocation" />  
+</div>  
+<div>  
+   <label>Start Date:</label>  
+   <input type="date" @bind="UpdateFestivalStartDate" />  
+</div>  
+<div>  
+   <label>End Date:</label>  
+   <input type="date" @bind="UpdateFestivalEndDate" />  
+</div>  
+<button @onclick="UpdateFestival">Update Festival</button>  
+
+<!-- Delete Festival Section -->  
+<h4>Delete Festival</h4>  
+<div>  
+   <label>Festival ID:</label>  
+   <input type="number" @bind="DeleteFestivalId" />  
+</div>  
+<button @onclick="DeleteFestival">Delete Festival</button>  
+
+<!-- List Festivals Section -->  
+<h4>Festivals</h4>  
+@if (Festivals != null && Festivals.Any())  
+{  
+   <ul>  
+       @foreach (var festival in Festivals)  
+       {  
+           <li>Id: @festival.Id  @festival.Name (@festival.Location) - @festival.StartDate.ToShortDateString() to @festival.EndDate.ToShortDateString()</li>
+            @if (festival.Bands != null && festival.Bands.Any())
+            {
+                <li>
+                    Bands:
+                    <ul>
+                        @foreach (var band in festival.Bands)
+                        {
+                            <li>@band.Name</li>
+                        }
+                    </ul>
+                </li>
+            }
+            else
+            {
+                <li>No bands linked to this festival.</li>
+            }
+       }  
+   </ul>  
+}  
+else  
+{  
+   <p>No festivals available.</p>  
+}
