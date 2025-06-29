@@ -4,7 +4,7 @@ using ShowTime.Services.Interfaces;
 
 namespace ShowTime.Services.Implementations
 {
-    public class FestivalService(IFestivalRepository festivalRepository, IRepository<Band> bandRepository) : Service<Festival>(festivalRepository), IFestivalService
+    public class FestivalService(IFestivalRepository festivalRepository, IBandRepository bandRepository) : Service<Festival>(festivalRepository), IFestivalService
     {
         private readonly IFestivalRepository _festivalRepository = festivalRepository;
         private readonly IRepository<Band> _bandRepository = bandRepository;

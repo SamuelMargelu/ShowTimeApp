@@ -27,7 +27,7 @@ namespace ShowTime.Components.Pages
         {
             try
             {
-                Bands = (await BandService.GetAllAsync()).ToList();
+                Bands = (await BandService.GetBandsWithFestivalsAsync()).ToList();
             }
             catch (Exception ex)
             {

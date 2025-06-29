@@ -1,8 +1,8 @@
 ﻿using ShowTime.Entities;
 
-namespace ShowTime.Repositories.Interfaces
+namespace ShowTime.Services.Interfaces
 {
-    public interface IBandRepository : IRepository<Band>
+    public interface IBandService : IService<Band>
     {
         Task<IEnumerable<Band>> GetBandsWithFestivalsAsync();
     }
