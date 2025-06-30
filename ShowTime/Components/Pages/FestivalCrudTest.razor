@@ -84,7 +84,7 @@
         <!-- Add Festival -->
         <div class="col-lg-6 mb-4">
             <div class="card shadow-sm border-0 h-100">
-                <div class="card-header bg-success text-white">
+                <div class="card-header bg-primary text-white">
                     <h5 class="mb-0 d-flex align-items-center">
                         <i class="fas fa-plus me-2"></i>
                         Add Festival
@@ -112,7 +112,7 @@
                                 <input type="date" @bind="NewFestivalEndDate" class="form-control" />
                             </div>
                         </div>
-                        <button type="button" @onclick="AddFestival" class="btn btn-success w-100">
+                        <button type="button" @onclick="AddFestival" class="btn btn-primary w-100">
                             <i class="fas fa-plus me-2"></i>Add Festival
                         </button>
                     </form>
@@ -150,7 +150,7 @@
         <!-- Update Festival -->
         <div class="col-lg-6 mb-4">
             <div class="card shadow-sm border-0 h-100">
-                <div class="card-header bg-warning text-dark">
+                <div class="card-header bg-info text-white">
                     <h5 class="mb-0 d-flex align-items-center">
                         <i class="fas fa-edit me-2"></i>
                         Update Festival
@@ -182,7 +182,7 @@
                                 <input type="date" @bind="UpdateFestivalEndDate" class="form-control" />
                             </div>
                         </div>
-                        <button type="button" @onclick="UpdateFestival" class="btn btn-warning w-100">
+                        <button type="button" @onclick="UpdateFestival" class="btn btn-info w-100">
                             <i class="fas fa-save me-2"></i>Update Festival
                         </button>
                     </form>
@@ -193,7 +193,7 @@
         <!-- Delete Festival -->
         <div class="col-lg-6 mb-4">
             <div class="card shadow-sm border-0 h-100">
-                <div class="card-header bg-danger text-white">
+                <div class="card-header bg-secondary text-white">
                     <h5 class="mb-0 d-flex align-items-center">
                         <i class="fas fa-trash me-2"></i>
                         Delete Festival
@@ -205,7 +205,7 @@
                             <label class="form-label fw-medium">Festival ID</label>
                             <input type="number" @bind="DeleteFestivalId" class="form-control" placeholder="Enter festival ID to delete" min="1" />
                         </div>
-                        <button type="button" @onclick="DeleteFestival" class="btn btn-danger w-100">
+                        <button type="button" @onclick="DeleteFestival" class="btn btn-secondary w-100">
                             <i class="fas fa-trash me-2"></i>Delete Festival
                         </button>
                     </form>
