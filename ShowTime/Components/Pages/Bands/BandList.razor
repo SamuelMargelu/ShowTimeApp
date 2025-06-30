@@ -1,0 +1,29 @@
+﻿@page "/BandList"  
+@rendermode InteractiveServer  
+@inject IBandService BandService  
+@inject NavigationManager NavigationManager  
+
+<DataGrid TItem="Band" ShowPager="true" Data="@Bands">  
+   <DataGridColumn TItem="Band" Field="@nameof(Band.Name)" Caption="Band Name" />  
+   <DataGridColumn TItem="Band" Field="@nameof(Band.Genre)" Caption="Genre" />  
+   <DataGridColumn TItem="Band" Field="@nameof(Band.Id)" Caption="ID" />  
+</DataGrid>  
+
+<Button class="btn btn-primary" @onclick="NavigateToCreateBand">Create Band</Button>  
+
+@if (Bands != null)  
+{  
+   foreach (var band in Bands)  
+   {  
+       if (band.Festivals != null)  
+       {  
+           foreach (var festival in band.Festivals)  
+           {  
+               <ul>  
+                   <li>@festival.Name</li>  
+               </ul>  
+           }  
+       }  
+   }  
+}  
+

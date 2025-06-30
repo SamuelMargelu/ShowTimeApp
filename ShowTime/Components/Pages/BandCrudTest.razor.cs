@@ -24,10 +24,10 @@ namespace ShowTime.Components.Pages
         }
 
         private async Task LoadBands()
-        {
+        { 
             try
             {
-                Bands = (await BandService.GetBandsWithFestivalsAsync()).ToList();
+                Bands = (await BandService.GetAllIncludingAsync(b => b.Festivals)).ToList();
             }
             catch (Exception ex)
             {

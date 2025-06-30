@@ -1,5 +1,6 @@
 ﻿using ShowTime.Repositories.Interfaces;
 using ShowTime.Services.Interfaces;
+using System.Linq.Expressions;
 
 namespace ShowTime.Services.Implementations
 {
@@ -15,6 +16,18 @@ namespace ShowTime.Services.Implementations
         public async Task<IEnumerable<T>> GetAllAsync()
         {
             var result = await _repository.GetAllAsync();
+
+            if (!result.Any())
+            {
+                throw new InvalidOperationException("No Items Found");
+            }
+
+            return result;
+        }
+
+        public async Task<IEnumerable<T>> GetAllIncludingAsync(params Expression<Func<T, object>>[] includes)
+        {
+            var result = await _repository.GetAllIncludingAsync(includes);
 
             if (!result.Any())
             {
