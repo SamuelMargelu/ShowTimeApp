@@ -6,19 +6,17 @@ namespace ShowTime.Services.Implementations
 {
     public class FestivalService(IFestivalRepository festivalRepository, IBandRepository bandRepository) : Service<Festival>(festivalRepository), IFestivalService
     {
-        private readonly IFestivalRepository _festivalRepository = festivalRepository;
-        private readonly IRepository<Band> _bandRepository = bandRepository;
         public async Task<IEnumerable<Festival>> GetFestivalsWithBandsAsync()
         {
-            return await _festivalRepository.GetFestivalsWithBandsAsync();
+            return await festivalRepository.GetFestivalsWithBandsAsync();
         }
 
         public async Task AddBandtoFestival(int bandId, int festivalId)
         {
-            var festival = await _festivalRepository.GetByIdAsync(festivalId)
+            var festival = await festivalRepository.GetByIdAsync(festivalId)
                 ?? throw new ArgumentException($"Festival with ID {festivalId} not found.");
 
-            var band = await _bandRepository.GetByIdAsync(bandId)
+            var band = await bandRepository.GetByIdAsync(bandId)
                 ?? throw new ArgumentException($"Band with ID {bandId} not found.");
 
             if (festival.Bands.Any(b => b.Id == bandId))
@@ -27,8 +25,8 @@ namespace ShowTime.Services.Implementations
             }
 
             festival.Bands.Add(band);
-            await _festivalRepository.UpdateAsync(festival);
-            await _festivalRepository.SaveChangesAsync();
+            await festivalRepository.UpdateAsync(festival);
+            await festivalRepository.SaveChangesAsync();
         }
     }
 }

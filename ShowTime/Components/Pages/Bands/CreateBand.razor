@@ -1,0 +1,21 @@
+﻿@page "/CreateBand"
+@rendermode InteractiveServer
+@inject IBandService BandService
+@inject NavigationManager NavigationManager
+
+<h3>CreateBand</h3>
+
+<Field>
+	<TextEdit @bind-Text="NewBandName" Placeholder="Name" />
+	<Select @bind-SelectedValue="NewBandGenre" TValue="Genre">
+		@foreach (var genre in Enum.GetValues<Genre>())
+		{
+			<SelectItem Value="@genre">@genre</SelectItem>
+		}
+	</Select>  
+</Field>
+
+<Button Color="Color.Primary" @onclick="AddBand">Create</Button>
+<Button Color="Color.Secondary" @onclick="NavigateToBandList">Back to Band List</Button>
+
+

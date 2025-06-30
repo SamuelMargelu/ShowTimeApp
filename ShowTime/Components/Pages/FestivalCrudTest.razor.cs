@@ -33,7 +33,7 @@ namespace ShowTime.Components.Pages
         {
             try
             {
-                Festivals = (await FestivalService.GetFestivalsWithBandsAsync()).ToList();
+                Festivals = (await FestivalService.GetAllIncludingAsync(f => f.Bands)).ToList();
             }
             catch (Exception ex)
             {
