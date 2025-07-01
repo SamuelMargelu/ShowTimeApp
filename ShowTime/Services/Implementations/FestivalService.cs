@@ -6,11 +6,6 @@ namespace ShowTime.Services.Implementations
 {
     public class FestivalService(IFestivalRepository festivalRepository, IBandRepository bandRepository) : Service<Festival>(festivalRepository), IFestivalService
     {
-        public async Task<IEnumerable<Festival>> GetFestivalsWithBandsAsync()
-        {
-            return await festivalRepository.GetFestivalsWithBandsAsync();
-        }
-
         public async Task AddBandtoFestival(int bandId, int festivalId)
         {
             var festival = await festivalRepository.GetByIdAsync(festivalId)
