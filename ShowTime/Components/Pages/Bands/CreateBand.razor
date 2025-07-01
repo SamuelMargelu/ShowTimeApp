@@ -3,19 +3,103 @@
 @inject IBandService BandService
 @inject NavigationManager NavigationManager
 
-<h3>CreateBand</h3>
+<Container Fluid>
+    <Row JustifyContent="JustifyContent.Center">
+        <Column ColumnSize="ColumnSize.Is12.OnMobile.Is10.OnTablet.Is8.OnDesktop.Is6.OnWidescreen">
+            <!-- Header Section -->
+            <Div Class="d-flex align-items-center mb-4">
+                <Button Color="Color.Light" Size="Size.Medium" @onclick="NavigateToBandList" Margin="Margin.Is3.FromEnd">
+                    <Icon Name="IconName.ArrowLeft" />
+                </Button>
+                <Heading Size="HeadingSize.Is2" TextColor="TextColor.Primary" TextWeight="TextWeight.Bold" Margin="Margin.Is0">
+                    <Icon Name="IconName.Add" Margin="Margin.Is2.FromEnd" />
+                    Create New Band
+                </Heading>
+            </Div>
 
-<Field>
-	<TextEdit @bind-Text="NewBandName" Placeholder="Name" />
-	<Select @bind-SelectedValue="NewBandGenre" TValue="Genre">
-		@foreach (var genre in Enum.GetValues<Genre>())
-		{
-			<SelectItem Value="@genre">@genre</SelectItem>
-		}
-	</Select>  
-</Field>
+            <!-- Main Form Card -->
+            <Card Shadow="Shadow.Default" Border="Border.Is0">
+                <CardHeader Background="Background.Primary" TextColor="TextColor.White">
+                    <CardTitle Size="5" Margin="Margin.Is0">
+                        <Icon Name="IconName.Music" Margin="Margin.Is2.FromEnd" />
+                        Band Information
+                    </CardTitle>
+                </CardHeader>
+                
+                <CardBody Padding="Padding.Is4">
+                    <form>
+                        <!-- Band Name Field -->
+                        <Field Margin="Margin.Is3.FromBottom">
+                            <FieldLabel TextWeight="TextWeight.Bold">
+                                <Icon Name="IconName.User" Margin="Margin.Is1.FromEnd" />
+                                Band Name
+                            </FieldLabel>
+                            <FieldBody>
+                                <TextEdit @bind-Text="NewBandName" 
+                                         Placeholder="Enter the band name..." 
+                                         Size="Size.Large"
+                                         class="form-control" />
+                            </FieldBody>
+                            <FieldHelp>
+                                Choose a unique and memorable name for your band
+                            </FieldHelp>
+                        </Field>
 
-<Button Color="Color.Primary" @onclick="AddBand">Create</Button>
-<Button Color="Color.Secondary" @onclick="NavigateToBandList">Back to Band List</Button>
+                        <!-- Genre Field -->
+                        <Field Margin="Margin.Is4.FromBottom">
+                            <FieldLabel TextWeight="TextWeight.Bold">
+                                <Icon Name="IconName.Tag" Margin="Margin.Is1.FromEnd" />
+                                Music Genre
+                            </FieldLabel>
+                            <FieldBody>
+                                <Select @bind-SelectedValue="NewBandGenre" 
+                                       TValue="Genre" 
+                                       Size="Size.Large"
+                                       class="form-select">
+                                    @foreach (var genre in Enum.GetValues<Genre>())
+                                    {
+                                        <SelectItem Value="@genre">@genre</SelectItem>
+                                    }
+                                </Select>
+                            </FieldBody>
+                            <FieldHelp>
+                                Select the primary genre that best describes your band's music style
+                            </FieldHelp>
+                        </Field>
+
+                        <!-- Action Buttons -->
+                        <Div Class="d-flex gap-3 justify-content-end mt-4">
+                            <Button Color="Color.Secondary" 
+                                   Size="Size.Large" 
+                                   Outline 
+                                   @onclick="NavigateToBandList"
+                                   Style="min-width: 120px;">
+                                <Icon Name="IconName.Times" Margin="Margin.Is1.FromEnd" />
+                                Cancel
+                            </Button>
+                            
+                            <Button Color="Color.Primary" 
+                                   Size="Size.Large" 
+                                   @onclick="AddBand"
+                                   Style="min-width: 120px;">
+                                <Icon Name="IconName.Save" Margin="Margin.Is1.FromEnd" />
+                                Create Band
+                            </Button>
+                        </Div>
+                    </form>
+                </CardBody>
+            </Card>
+
+            <!-- Help Section -->
+            <Alert Color="Color.Info" Visible Margin="Margin.Is4.FromTop">
+                <AlertMessage>
+                    <Icon Name="IconName.InfoCircle" Margin="Margin.Is2.FromEnd" />
+                    <Strong>Getting Started:</Strong> 
+                    After creating your band, you'll be able to add them to festivals and manage their bookings from the Band Directory.
+                </AlertMessage>
+            </Alert>
+        </Column>
+    </Row>
+</Container>
 
 

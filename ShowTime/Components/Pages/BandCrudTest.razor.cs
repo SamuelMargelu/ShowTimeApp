@@ -79,5 +79,15 @@ namespace ShowTime.Components.Pages
                 DeleteBandId = 0;
             }
         }
+
+        private async Task DeleteBandById(int bandId)
+        {
+            var bandToDelete = await BandService.GetByIdAsync(bandId);
+            if (bandToDelete != null)
+            {
+                await BandService.DeleteAsync(bandToDelete);
+                await LoadBands();
+            }
+        }
     }
 }
