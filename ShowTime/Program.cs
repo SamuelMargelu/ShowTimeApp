@@ -24,13 +24,18 @@ builder.Services.AddDbContext<ShowTimeDbContext>(options =>
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped(typeof(IService<>), typeof(Service<>));
 
-//Festival
+// Festival
 builder.Services.AddScoped<IFestivalRepository, FestivalRepository>();
 builder.Services.AddScoped<IFestivalService, FestivalService>();
 
-//Band
+// Band
 builder.Services.AddScoped<IBandRepository, BandRepository>();
 builder.Services.AddScoped<IBandService, BandSerivce>();
+
+// Booking
+
+builder.Services.AddScoped<IBookingRepository, BookingRepository>();
+builder.Services.AddScoped<IBookingService, BookingService>();
 
 // Add services to the container.
 builder.Services.AddRazorComponents()

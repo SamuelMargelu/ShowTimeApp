@@ -4,7 +4,7 @@ using ShowTime.Services.Interfaces;
 
 namespace ShowTime.Services.Implementations
 {
-    public class BandSerivce(IBandRepository bandRepository) : Service<Band>(bandRepository), IBandService
+    public class BookingService(IBookingRepository bookingRepository) : Service<Booking>(bookingRepository), IBookingService
     {
     }
 }

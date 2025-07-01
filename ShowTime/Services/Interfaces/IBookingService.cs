@@ -1,8 +1,9 @@
 ﻿using ShowTime.Entities;
 
+
 namespace ShowTime.Services.Interfaces
 {
-    public interface IBandService : IService<Band>
+    public interface IBookingService : IService<Booking>
     {
     }
 }
