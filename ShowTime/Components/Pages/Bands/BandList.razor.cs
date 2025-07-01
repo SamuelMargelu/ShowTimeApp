@@ -5,7 +5,7 @@ namespace ShowTime.Components.Pages.Bands
 {
     public partial class BandList
     {
-        List<Band>? Bands;
+        List<Band>? Bands = new List<Band>();
 
         protected override async Task OnInitializedAsync()
         {

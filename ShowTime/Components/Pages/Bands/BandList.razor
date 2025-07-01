@@ -1,29 +1,129 @@
-﻿@page "/BandList"  
-@rendermode InteractiveServer  
-@inject IBandService BandService  
-@inject NavigationManager NavigationManager  
+﻿@page "/BandList"
+@rendermode InteractiveServer
+@inject IBandService BandService
+@inject NavigationManager NavigationManager
 
-<DataGrid TItem="Band" ShowPager="true" Data="@Bands">  
-   <DataGridColumn TItem="Band" Field="@nameof(Band.Name)" Caption="Band Name" />  
-   <DataGridColumn TItem="Band" Field="@nameof(Band.Genre)" Caption="Genre" />  
-   <DataGridColumn TItem="Band" Field="@nameof(Band.Id)" Caption="ID" />  
-</DataGrid>  
+<Container Fluid>
+    <Row>
+        <Column>
+            <Div Class="d-flex justify-content-between align-items-center mb-4">
+                <Heading Size="HeadingSize.Is2" TextColor="TextColor.Primary" TextWeight="TextWeight.Bold">
+                    <Icon Name="IconName.Music" Margin="Margin.Is2.FromEnd" />
+                    Band Directory
+                </Heading>
+                <Button Color="Color.Primary" Size="Size.Medium" @onclick="NavigateToCreateBand">
+                    <Icon Name="IconName.Add" Margin="Margin.Is1.FromEnd" />
+                    Add New Band
+                </Button>
+            </Div>
+        </Column>
+    </Row>
 
-<Button class="btn btn-primary" @onclick="NavigateToCreateBand">Create Band</Button>  
+    @if (Bands == null || !Bands.Any())
+    {
+        <Row>
+            <Column>
+                <Card>
+                    <CardBody Class="text-center py-5">
+                        <Icon Name="IconName.Music" Size="IconSize.x5" TextColor="TextColor.Muted" Margin="Margin.Is3.FromBottom" />
+                        <Heading Size="HeadingSize.Is4" TextColor="TextColor.Muted" Margin="Margin.Is2.FromBottom">
+                            No Bands Found
+                        </Heading>
+                        <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is3.FromBottom">
+                            There are no bands in the directory yet. Start by adding your first band!
+                        </Paragraph>
+                        <Button Color="Color.Primary" @onclick="NavigateToCreateBand">
+                            <Icon Name="IconName.Add" Margin="Margin.Is1.FromEnd" />
+                            Add First Band
+                        </Button>
+                    </CardBody>
+                </Card>
+            </Column>
+        </Row>
+    }
+    else if (!Bands.Any())
+    {
+    }
+    else
+    {
+        <Row>
+            @foreach (var band in Bands)
+            {
+                <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop" Margin="Margin.Is5.FromBottom">
+                    <Card Shadow="Shadow.Default" Border="Border.Is0">
+                        <CardImage Source="https://img.freepik.com/free-vector/cerulean-blue-curve-frame-template-vector_53876-136094.jpg" Alt="@($"{band.Name} cover image")" />
+                        <CardBody>
+                            <CardTitle Size="5" TextColor="TextColor.Primary" Margin="Margin.Is2.FromBottom">
+                                @band.Name
+                            </CardTitle>
 
-@if (Bands != null)  
-{  
-   foreach (var band in Bands)  
-   {  
-       if (band.Festivals != null)  
-       {  
-           foreach (var festival in band.Festivals)  
-           {  
-               <ul>  
-                   <li>@festival.Name</li>  
-               </ul>  
-           }  
-       }  
-   }  
-}  
+                            <Div Margin="Margin.Is2.FromBottom">
+                                <Badge Color="Color.Info" Pill>
+                                    <Icon Name="IconName.StickyNote" Margin="Margin.Is1.FromEnd" />
+                                    @band.Genre
+                                </Badge>
+                            </Div>
+
+                            @if (band.Festivals != null && band.Festivals.Any())
+                            {
+                                <Div Margin="Margin.Is2.FromBottom">
+                                    <Small TextColor="TextColor.Muted" TextWeight="TextWeight.Bold">
+                                        <Icon Name="IconName.CalendarDay" Margin="Margin.Is1.FromEnd" />
+                                        Upcoming Festivals:
+                                    </Small>
+                                    <Div Margin="Margin.Is1.FromTop">
+                                        @foreach (var festival in band.Festivals.Take(3))
+                                        {
+                                            <Badge Color="Color.Light" TextColor="TextColor.Dark" Margin="Margin.Is1.FromEnd.Is1.FromBottom">
+                                                @festival.Name
+                                            </Badge>
+                                        }
+                                        @if (band.Festivals.Count > 3)
+                                        {
+                                            <Badge Color="Color.Secondary" TextColor="TextColor.White">
+                                                +@(band.Festivals.Count - 3) more
+                                            </Badge>
+                                        }
+                                    </Div>
+                                </Div>
+                            }
+                            else
+                            {
+                                <Div Margin="Margin.Is2.FromBottom">
+                                    <Small TextColor="TextColor.Muted" Style="font-style: italic;">
+                                        <Icon Name="IconName.Frown" Margin="Margin.Is1.FromEnd" />
+                                        No festivals scheduled 
+                                    </Small>
+                                </Div>
+                            }
+
+                            <Div Class="d-flex gap-2 mt-3">
+                                <Button Color="Color.Primary" Size="Size.Small" Outline Block>
+                                    <Icon Name="IconName.Eye" Margin="Margin.Is1.FromEnd" />
+                                    View Details
+                                </Button>
+                                <Button Color="Color.Info" Size="Size.Small" Outline>
+                                    <Icon Name="IconName.Edit" />
+                                </Button>
+                            </Div>
+                        </CardBody>
+                    </Card>
+                </Column>
+            }
+        </Row>
+
+        <!-- Summary Statistics -->
+        <Row Margin="Margin.Is4.FromTop">
+            <Column>
+                <Alert Color="Color.Info" Visible>
+                    <AlertMessage>
+                        <Icon Name="IconName.InfoCircle" Margin="Margin.Is2.FromEnd" />
+                        <Strong>Directory Summary:</Strong>
+                        Showing @Bands.Count band@(Bands.Count != 1 ? "s" : "") with @Bands.Sum(b => b.Festivals?.Count ?? 0) total festival booking@(Bands.Sum(b => b.Festivals?.Count ?? 0) != 1 ? "s" : "")
+                    </AlertMessage>
+                </Alert>
+            </Column>
+        </Row>
+    }
+</Container>
 
