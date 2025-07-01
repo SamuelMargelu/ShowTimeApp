@@ -1,0 +1,41 @@
+﻿@page "/BookingCrudTest"
+@rendermode InteractiveServer
+@inject IBookingService BookingService
+@inject IFestivalService FestivalSerivce
+
+<h3>BookingCrudTest</h3>
+
+
+<Div Class="container-fluid py-4">
+    <Div Class="row">
+        <Div Class="col-12">
+            <Div Class="d-flex align-items-center mb-4">
+                <h1 class="h3 mb-0 text-primary fw-bold">Bookings Management</h1>
+            </Div>
+        </Div>
+    </Div>
+    @* Add Booking *@
+    <Div Class="row">
+        <Div Class="col-lg-6 mb-4">
+            <Div Class="card shadow-sm border-0 h-100">
+                <h5 class="card-header bg-primary text-white">
+                    <Icon Name="IconName.Add"/>
+                    Add Booking
+                </h5>
+                <Field>
+                    <FieldLabel>
+                        Email Address
+                    </FieldLabel>
+                    <FieldBody>
+                        <TextEdit @bind-Text="NewBookingEmail" />
+                    </FieldBody>
+                </Field>
+            </Div>
+        </Div>
+
+    </Div>
+</Div>
+ private string NewBookingEmail = string.Empty;
+        private int NewFestivalId;
+        private Festival? NewBookingFestival;
+        private DateTime NewBookingDate = DateTime.Now;
