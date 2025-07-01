@@ -19,22 +19,7 @@
         </Column>
     </Row>
 
-    @if (Bands == null)
-    {
-        <Row>
-            <Column>
-                <Div Class="d-flex justify-content-center align-items-center" Style="min-height: 300px;">
-                    <Div Class="text-center">
-                        <Div Class="spinner-border text-primary mb-3" Style="width: 3rem; height: 3rem;" role="status">
-                            <span class="visually-hidden">Loading...</span>
-                        </Div>
-                        <Paragraph TextColor="TextColor.Muted">Loading bands...</Paragraph>
-                    </Div>
-                </Div>
-            </Column>
-        </Row>
-    }
-    else if (!Bands.Any())
+    @if (Bands == null || !Bands.Any())
     {
         <Row>
             <Column>
@@ -55,6 +40,9 @@
                 </Card>
             </Column>
         </Row>
+    }
+    else if (!Bands.Any())
+    {
     }
     else
     {
