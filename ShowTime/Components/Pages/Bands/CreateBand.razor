@@ -4,76 +4,88 @@
 @inject NavigationManager NavigationManager
 
 <Div Class="d-flex justify-content-between align-items-center mb-4">
-    <Heading Size="HeadingSize.Is2" TextColor="TextColor.Primary" TextWeight="TextWeight.Bold">
-        <Icon Name="IconName.Add" Margin="Margin.Is2.FromEnd" />
-        Create New Band
-    </Heading>
+	<Heading Size="HeadingSize.Is2" TextColor="TextColor.Primary" TextWeight="TextWeight.Bold">
+		<Icon Name="IconName.Add" Margin="Margin.Is2.FromEnd" />
+		Create New Band
+	</Heading>
 </Div>
 
 <Container Class="py-5">
-    <Row JustifyContent="JustifyContent.Center">
-        <Column xs="12" md="8" lg="6" xl="5">
-            <!-- Form Starts -->
-            <form>
-                <!-- Band Name -->
-                <Field Margin="Margin.Is3.FromBottom">
-                    <FieldLabel TextWeight="TextWeight.Bold">
-                        <Icon Name="IconName.User" Margin="Margin.Is1.FromEnd" />
-                        Band Name
-                    </FieldLabel>
-                    <FieldBody>
-                        <TextEdit @bind-Text="NewBandName"
-                                  Placeholder="Enter the band name..."
-                                  Size="Size.Large"
-                                  Class="form-control" />
-                    </FieldBody>
-                    <FieldHelp>
-                        Choose a unique and memorable name for your band.
-                    </FieldHelp>
-                </Field>
+	<Row JustifyContent="JustifyContent.Center">
+		<Column xs="12" md="8" lg="6" xl="5">
+			<!-- Form Starts -->
+			<Form>
+				<!-- Band Name -->
+				<Field Margin="Margin.Is3.FromBottom">
+					<FieldLabel TextWeight="TextWeight.Bold">
+						<Icon Name="IconName.User" Margin="Margin.Is1.FromEnd" />
+						Band Name
+					</FieldLabel>
+					<FieldBody>
+						<TextEdit @bind-Text="NewBandName"
+								  Placeholder="Enter the band name..."
+								  Size="Size.Large"
+								  Class="form-control" />
+					</FieldBody>
+					<FieldHelp>
+						Choose a unique and memorable name for your band.
+					</FieldHelp>
+				</Field>
 
-                <!-- Genre -->
-                <Field Margin="Margin.Is4.FromBottom">
-                    <FieldLabel TextWeight="TextWeight.Bold">
-                        <Icon Name="IconName.Tag" Margin="Margin.Is1.FromEnd" />
-                        Music Genre
-                    </FieldLabel>
-                    <FieldBody>
-                        <Select @bind-SelectedValue="NewBandGenre"
-                                TValue="Genre"
-                                Size="Size.Large"
-                                Class="form-select">
-                            @foreach (var genre in Enum.GetValues<Genre>())
-                            {
-                                <SelectItem Value="@genre">@genre</SelectItem>
-                            }
-                        </Select>
-                    </FieldBody>
-                    <FieldHelp>
-                        Select the genre that best describes your band's style.
-                    </FieldHelp>
-                </Field>
+				<!-- Genre -->
+				<Field Margin="Margin.Is4.FromBottom">
+					<FieldLabel TextWeight="TextWeight.Bold">
+						<Icon Name="IconName.Tag" Margin="Margin.Is1.FromEnd" />
+						Music Genre
+					</FieldLabel>
+					<FieldBody>
+						<Select @bind-SelectedValue="NewBandGenre"
+								TValue="Genre"
+								Size="Size.Large"
+								Class="form-select">
+							@foreach (var genre in Enum.GetValues<Genre>())
+							{
+								<SelectItem Value="@genre">@genre</SelectItem>
+							}
+						</Select>
+					</FieldBody>
+					<FieldHelp>
+						Select the genre that best describes your band's style.
+					</FieldHelp>
+				</Field>
 
-                <!-- Buttons -->
-                <Div Class="d-flex gap-3 justify-content-end mt-4">
-                    <Button Color="Color.Secondary"
-                            Size="Size.Large"
-                            Outline
-                            @onclick="NavigateToBandList"
-                            Style="min-width: 120px;">
-                        <Icon Name="IconName.Times" Margin="Margin.Is1.FromEnd" />
-                        Cancel
-                    </Button>
+				<!-- Photo Selection -->
+				<Field Margin="Margin.Is4.FromBottom">
+					<FieldLabel TextWeight="TextWeight.Bold">
+						<Icon Name="IconName.Image" Margin="Margin.Is1.FromEnd" />
+						Photo
+					</FieldLabel>
+					<FilePicker Upload="OnFileUpload" ShowMode="FilePickerShowMode.List" />
+					<FieldHelp>
+						Upload a photo for your band. This will be displayed on your band's card.
+					</FieldHelp>
+				</Field>
 
-                    <Button Color="Color.Primary"
-                            Size="Size.Large"
-                            @onclick="AddBand"
-                            Style="min-width: 120px;">
-                        <Icon Name="IconName.Save" Margin="Margin.Is1.FromEnd" />
-                        Create Band
-                    </Button>
-                </Div>
-            </form>
-        </Column>
-    </Row>
+				<!-- Buttons -->
+				<Div Class="d-flex gap-3 justify-content-end mt-4">
+					<Button Color="Color.Secondary"
+							Size="Size.Large"
+							Outline
+							@onclick="NavigateToBandList"
+							Style="min-width: 120px;">
+						<Icon Name="IconName.Times" Margin="Margin.Is1.FromEnd" />
+						Cancel
+					</Button>
+
+					<Button Color="Color.Primary"
+							Size="Size.Large"
+							@onclick="AddBand"
+							Style="min-width: 120px;">
+						<Icon Name="IconName.Save" Margin="Margin.Is1.FromEnd" />
+						Create Band
+					</Button>
+				</Div>
+			</Form>
+		</Column>
+	</Row>
 </Container>
