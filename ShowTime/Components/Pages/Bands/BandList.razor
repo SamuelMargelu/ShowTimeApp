@@ -3,6 +3,7 @@
 @inject IBandService BandService
 @inject NavigationManager NavigationManager
 
+
 <Container Fluid>
 	<Row>
 		<Column>
@@ -50,7 +51,7 @@
 			@foreach (var band in Bands)
 			{
 				<Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop" Margin="Margin.Is5.FromBottom">
-					<Card Shadow="Shadow.Default" Border="Border.Is0">
+					<Card Class="band-card" Shadow="Shadow.Default" Border="Border.Is0">
 						<CardImage Source="@(band.Photo != null
         ? $"data:image/jpeg;base64,{Convert.ToBase64String(band.Photo)}"
         : "https://img.freepik.com/free-vector/cerulean-blue-curve-frame-template-vector_53876-136094.jpg")"
