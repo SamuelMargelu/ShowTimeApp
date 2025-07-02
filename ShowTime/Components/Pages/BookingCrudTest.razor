@@ -1,0 +1,171 @@
+﻿@page "/BookingCrudTest"
+@rendermode InteractiveServer
+@inject IBookingService BookingService
+@inject IFestivalService FestivalSerivce
+
+<Container Fluid Class="py-4">
+	<Row>
+		<Column>
+			<Div Class="d-flex align-items-center mb-4">
+				<Heading Size="HeadingSize.Is3" TextColor="TextColor.Primary" TextWeight="TextWeight.Bold">
+					Booking Management
+				</Heading>
+			</Div>
+		</Column>
+	</Row>
+
+	<!-- Bookings List Section -->
+	<Row Class="mb-5">
+		<Column>
+			<Card Shadow="Shadow.Default" Border="Border.Is0">
+				<CardHeader Background="Background.Primary" TextColor="TextColor.White">
+					<CardTitle Size="5" Margin="Margin.Is0">
+						<Icon Name="IconName.List" Margin="Margin.Is2.FromEnd" />
+						All Bookings
+					</CardTitle>
+				</CardHeader>
+				<CardBody>
+					@if (Bookings == null)
+					{
+						<Div Class="d-flex justify-content-center align-items-center py-5">
+							<Div Class="spinner-border text-primary me-3" role="status">
+								<Span Class="visually-hidden">Loading...</Span>
+							</Div>
+							<Span Class="text-muted">Loading bookings...</Span>
+						</Div>
+					}
+					else if (!Bookings.Any())
+					{
+						<Div Class="text-center py-5">
+							<Icon Name="IconName.List" Size="IconSize.Large" Class="text-muted mb-3" />
+							<Paragraph Class="text-muted mb-0">No bookings available</Paragraph>
+						</Div>
+					}
+					else
+					{
+						<Table Striped Hoverable Responsive>
+							<TableHeader>
+								<TableRow>
+									<TableHeaderCell>ID</TableHeaderCell>
+									<TableHeaderCell>Email</TableHeaderCell>
+									<TableHeaderCell>Festival</TableHeaderCell>
+									<TableHeaderCell>Date</TableHeaderCell>
+								</TableRow>
+							</TableHeader>
+							<TableBody>
+								@foreach (var booking in Bookings)
+								{
+									<TableRow>
+										<TableRowCell>@booking.Id</TableRowCell>
+										<TableRowCell>@booking.Email</TableRowCell>
+										<TableRowCell>
+											@if (booking.Festival != null)
+											{
+												<Div>
+													@booking.Festival.Name (@booking.FestivalId)
+												</Div>
+											}
+											else
+											{
+											<span class="text-muted">N/A</span>
+											}
+										</TableRowCell>
+										<TableRowCell>@booking.BookingDate.ToShortDateString()</TableRowCell>
+									</TableRow>
+								}
+							</TableBody>
+						</Table>
+					}
+				</CardBody>
+			</Card>
+		</Column>
+	</Row>
+
+	<!-- Actions Section -->
+	<Row>
+		<!-- Add Booking -->
+		<Column lg="4" Class="mb-4">
+			<Card Shadow="Shadow.Default" Border="Border.Is0" Class="h-100">
+				<CardHeader Background="Background.Primary" TextColor="TextColor.White">
+					<CardTitle Size="5" Margin="Margin.Is0">
+						<Icon Name="IconName.Add" Margin="Margin.Is2.FromEnd" />
+						Add Booking
+					</CardTitle>
+				</CardHeader>
+				<CardBody>
+					<Form>
+						<div class="mb-3">
+							<Label Text="Email Address" Class="form-label fw-medium" />
+							<TextEdit @bind-Text="NewBookingEmail" Placeholder="Enter email address" Class="form-control" />
+						</div>
+						<div class="mb-3">
+							<Label Text="Festival ID" Class="form-label fw-medium" />
+							<NumericEdit TValue="int" @bind-Value="NewFestivalId" Min="1" Class="form-control" Placeholder="Enter festival ID" />
+						</div>
+						<div class="mb-4">
+							<Label Text="Booking Date" Class="form-label fw-medium" />
+							<DateEdit @bind-Date="NewBookingDate" Class="form-control" />
+						</div>
+						<Button Color="Color.Primary" @onclick="AddBooking" Class="w-100">
+							<Icon Name="IconName.Add" Margin="Margin.Is2.FromEnd" />Add Booking
+						</Button>
+					</Form>
+				</CardBody>
+			</Card>
+		</Column>
+
+		<!-- Update Booking -->
+		<Column lg="4" Class="mb-4">
+			<Card Shadow="Shadow.Default" Border="Border.Is0" Class="h-100">
+				<CardHeader Background="Background.Info" TextColor="TextColor.White">
+					<CardTitle Size="5" Margin="Margin.Is0">
+						<Icon Name="IconName.Edit" Margin="Margin.Is2.FromEnd" />
+						Update Booking
+					</CardTitle>
+				</CardHeader>
+				<CardBody>
+					<Form>
+						<div class="mb-3">
+							<Label Text="Booking ID" Class="form-label fw-medium" />
+							<NumericEdit TValue="int" @bind-Value="UpdateBookingId" Min="1" Class="form-control" Placeholder="Enter booking ID" />
+						</div>
+						<div class="mb-3">
+							<Label Text="Festival ID" Class="form-label fw-medium" />
+							<NumericEdit TValue="int" @bind-Value="UpdateBookingFestivalId" Min="1" Class="form-control" Placeholder="Enter festival ID" />
+						</div>
+						<div class="mb-3">
+							<Label Text="Email Address" Class="form-label fw-medium" />
+							<TextEdit @bind-Text="UpdateBookingEmail" Placeholder="Enter new email address" Class="form-control" />
+						</div>
+						<Button Color="Color.Info" @onclick="UpdateBooking" Class="w-100">
+							<Icon Name="IconName.Save" Margin="Margin.Is2.FromEnd" />Update Booking
+						</Button>
+					</Form>
+				</CardBody>
+			</Card>
+		</Column>
+
+		<!-- Delete Booking -->
+		<Column lg="4" Class="mb-4">
+			<Card Shadow="Shadow.Default" Border="Border.Is0" Class="h-100">
+				<CardHeader Background="Background.Secondary" TextColor="TextColor.White">
+					<CardTitle Size="5" Margin="Margin.Is0">
+						<Icon Name="IconName.Remove" Margin="Margin.Is2.FromEnd" />
+						Delete Booking
+					</CardTitle>
+				</CardHeader>
+				<CardBody>
+					<Form>
+						<div class="mb-4">
+							<Label Text="Booking ID" Class="form-label fw-medium" />
+							<NumericEdit TValue="int" @bind-Value="DeleteBookingId" Min="1" Class="form-control" Placeholder="Enter booking ID to delete" />
+						</div>
+						<Button Color="Color.Secondary" @onclick="DeleteBooking" Class="w-100">
+							<Icon Name="IconName.Remove" Margin="Margin.Is2.FromEnd" />Delete Booking
+						</Button>
+					</Form>
+				</CardBody>
+			</Card>
+		</Column>
+	</Row>
+</Container>

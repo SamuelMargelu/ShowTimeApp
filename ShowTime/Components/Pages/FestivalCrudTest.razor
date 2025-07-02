@@ -1,216 +1,236 @@
-﻿@page "/FestivalCrudTest"  
-@rendermode InteractiveServer  
-@inject IBandService BandService  
+﻿@page "/FestivalCrudTest"
+@rendermode InteractiveServer
+@inject IBandService BandService
 @inject IFestivalService FestivalService
 
 <div class="container-fluid py-4">
-    <div class="row">
-        <div class="col-12">
-            <div class="d-flex align-items-center mb-4">
-                <h1 class="h3 mb-0 text-primary fw-bold">Festival Management</h1>
-            </div>
-        </div>
-    </div>
+	<div class="row">
+		<div class="col-12">
+			<div class="d-flex align-items-center mb-4">
+				<h1 class="h3 mb-0 text-primary fw-bold">Festival Management</h1>
+			</div>
+		</div>
+	</div>
 
-    <!-- Festivals List Section -->
-    <div class="row mb-5">
-        <div class="col-12">
-            <div class="card shadow-sm border-0">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0 d-flex align-items-center">
-                        <i class="fas fa-calendar-alt me-2"></i>
-                        All Festivals
-                    </h5>
-                </div>
-                <div class="card-body">
-                    @if (Festivals != null && Festivals.Any())  
-                    {  
-                        <div class="row">
-                            @foreach (var festival in Festivals)  
-                            {  
-                                <div class="col-lg-6 col-xl-4 mb-4">
-                                    <div class="card h-100 border-light">
-                                        <div class="card-body">
-                                            <div class="d-flex justify-content-between align-items-start mb-2">
-                                                <h6 class="card-title text-primary mb-1">@festival.Name</h6>
-                                                <span class="badge bg-secondary">ID: @festival.Id</span>
-                                            </div>
-                                            <p class="card-text mb-2">
-                                                <i class="fas fa-map-marker-alt text-muted me-1"></i>
-                                                <small class="text-muted">@festival.Location</small>
-                                            </p>
-                                            <p class="card-text mb-3">
-                                                <i class="fas fa-calendar text-muted me-1"></i>
-                                                <small class="text-muted">
-                                                    @festival.StartDate.ToShortDateString() - @festival.EndDate.ToShortDateString()
-                                                </small>
-                                            </p>
-                                            @if (festival.Bands != null && festival.Bands.Any())
-                                            {
-                                                <div>
-                                                    <small class="text-muted fw-bold">Performing Bands:</small>
-                                                    <div class="mt-1">
-                                                        @foreach (var band in festival.Bands)
-                                                        {
-                                                            <span class="badge bg-light text-dark me-1 mb-1">@band.Name</span>
-                                                        }
-                                                    </div>
-                                                </div>
-                                            }
-                                            else
-                                            {
-                                                <small class="text-muted">No bands linked to this festival</small>
-                                            }
-                                        </div>
-                                    </div>
-                                </div>
-                            }
-                        </div>
-                    }  
-                    else  
-                    {  
-                        <div class="text-center py-5">
-                            <i class="fas fa-calendar-alt fa-3x text-muted mb-3"></i>
-                            <p class="text-muted mb-0">No festivals available</p>
-                        </div>
-                    }
-                </div>
-            </div>
-        </div>
-    </div>
+	<!-- Festivals List Section -->
+	<div class="row mb-5">
+		<div class="col-12">
+			<div class="card shadow-sm border-0">
+				<div class="card-header bg-primary text-white">
+					<h5 class="mb-0 d-flex align-items-center">
+						<i class="fas fa-calendar-alt me-2"></i>
+						All Festivals
+					</h5>
+				</div>
+				<div class="card-body">
+					@if (Festivals != null && Festivals.Any())
+					{
+						<div class="row">
+							@foreach (var festival in Festivals)
+							{
+								<div class="col-lg-6 col-xl-4 mb-4">
+									<div class="card h-100 border-light">
+										<div class="card-body">
+											<div class="d-flex justify-content-between align-items-start mb-2">
+												<h6 class="card-title text-primary mb-1">@festival.Name</h6>
+												<span class="badge bg-secondary">ID: @festival.Id</span>
+											</div>
+											<p class="card-text mb-2">
+												<i class="fas fa-map-marker-alt text-muted me-1"></i>
+												<small class="text-muted">@festival.Location</small>
+											</p>
+											<p class="card-text mb-3">
+												<i class="fas fa-calendar text-muted me-1"></i>
+												<small class="text-muted">
+													@festival.StartDate.ToShortDateString() - @festival.EndDate.ToShortDateString()
+												</small>
+											</p>
+											@if (festival.Bands != null && festival.Bands.Any())
+											{
+												<div>
+													<small class="text-muted fw-bold">Performing Bands:</small>
+													<div class="mt-1">
+														@foreach (var band in festival.Bands)
+														{
+															<span class="badge bg-light text-dark me-1 mb-1">@band.Name</span>
+														}
+													</div>
+												</div>
+											}
+											else
+											{
+												<div>
+													<small class="text-muted">No bands linked to this festival</small>
+												</div>
+											}
+											@if (festival.Bookings != null && festival.Bookings.Any())
+											{
+												<div>
+													<small class="text-muted fw-bold">Bookings:</small>
+													<div class="mt-1">
+														@foreach (var booking in festival.Bookings)
+														{
+															<span class="badge bg-light text-dark me-1 mb-1">@booking.Email</span>
+														}
+													</div>
+												</div>
+											}
+											else
+											{
+												<div>
+													<small class="text-muted">No bookings for this this festival</small>
+												</div>
+											}
+										</div>
+									</div>
+								</div>
+							}
+						</div>
+					}
+					else
+					{
+						<div class="text-center py-5">
+							<i class="fas fa-calendar-alt fa-3x text-muted mb-3"></i>
+							<p class="text-muted mb-0">No festivals available</p>
+						</div>
+					}
+				</div>
+			</div>
+		</div>
+	</div>
 
-    <!-- Actions Section -->
-    <div class="row">
-        <!-- Add Festival -->
-        <div class="col-lg-6 mb-4">
-            <div class="card shadow-sm border-0 h-100">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0 d-flex align-items-center">
-                        <i class="fas fa-plus me-2"></i>
-                        Add Festival
-                    </h5>
-                </div>
-                <div class="card-body">
-                    <form>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label fw-medium">Festival Name</label>
-                                <input @bind="NewFestivalName" class="form-control" placeholder="Enter festival name" />
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label fw-medium">Location</label>
-                                <input @bind="NewFestivalLocation" class="form-control" placeholder="Enter location" />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label fw-medium">Start Date</label>
-                                <input type="date" @bind="NewFestivalStartDate" class="form-control" />
-                            </div>
-                            <div class="col-md-6 mb-4">
-                                <label class="form-label fw-medium">End Date</label>
-                                <input type="date" @bind="NewFestivalEndDate" class="form-control" />
-                            </div>
-                        </div>
-                        <button type="button" @onclick="AddFestival" class="btn btn-primary w-100">
-                            <i class="fas fa-plus me-2"></i>Add Festival
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
+	<!-- Actions Section -->
+	<div class="row">
+		<!-- Add Festival -->
+		<div class="col-lg-6 mb-4">
+			<div class="card shadow-sm border-0 h-100">
+				<div class="card-header bg-primary text-white">
+					<h5 class="mb-0 d-flex align-items-center">
+						<i class="fas fa-plus me-2"></i>
+						Add Festival
+					</h5>
+				</div>
+				<div class="card-body">
+					<form>
+						<div class="row">
+							<div class="col-md-6 mb-3">
+								<label class="form-label fw-medium">Festival Name</label>
+								<input @bind="NewFestivalName" class="form-control" placeholder="Enter festival name" />
+							</div>
+							<div class="col-md-6 mb-3">
+								<label class="form-label fw-medium">Location</label>
+								<input @bind="NewFestivalLocation" class="form-control" placeholder="Enter location" />
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6 mb-3">
+								<label class="form-label fw-medium">Start Date</label>
+								<input type="date" @bind="NewFestivalStartDate" class="form-control" />
+							</div>
+							<div class="col-md-6 mb-4">
+								<label class="form-label fw-medium">End Date</label>
+								<input type="date" @bind="NewFestivalEndDate" class="form-control" />
+							</div>
+						</div>
+						<button type="button" @onclick="AddFestival" class="btn btn-primary w-100">
+							<i class="fas fa-plus me-2"></i>Add Festival
+						</button>
+					</form>
+				</div>
+			</div>
+		</div>
 
-        <!-- Link Band to Festival -->
-        <div class="col-lg-6 mb-4">
-            <div class="card shadow-sm border-0 h-100">
-                <div class="card-header bg-info text-white">
-                    <h5 class="mb-0 d-flex align-items-center">
-                        <i class="fas fa-link me-2"></i>
-                        Link Band to Festival
-                    </h5>
-                </div>
-                <div class="card-body">
-                    <form>
-                        <div class="mb-3">
-                            <label class="form-label fw-medium">Festival ID</label>
-                            <input type="number" @bind="SelectedFestivalId" class="form-control" placeholder="Enter festival ID" min="1" />
-                        </div>
-                        <div class="mb-4">
-                            <label class="form-label fw-medium">Band ID</label>
-                            <input type="number" @bind="SelectedBandId" class="form-control" placeholder="Enter band ID" min="1" />
-                        </div>
-                        <button type="button" @onclick="AddBandToFestival" class="btn btn-info w-100">
-                            <i class="fas fa-link me-2"></i>Link Band to Festival
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
+		<!-- Link Band to Festival -->
+		<div class="col-lg-6 mb-4">
+			<div class="card shadow-sm border-0 h-100">
+				<div class="card-header bg-info text-white">
+					<h5 class="mb-0 d-flex align-items-center">
+						<i class="fas fa-link me-2"></i>
+						Link Band to Festival
+					</h5>
+				</div>
+				<div class="card-body">
+					<form>
+						<div class="mb-3">
+							<label class="form-label fw-medium">Festival ID</label>
+							<input type="number" @bind="SelectedFestivalId" class="form-control" placeholder="Enter festival ID" min="1" />
+						</div>
+						<div class="mb-4">
+							<label class="form-label fw-medium">Band ID</label>
+							<input type="number" @bind="SelectedBandId" class="form-control" placeholder="Enter band ID" min="1" />
+						</div>
+						<button type="button" @onclick="AddBandToFestival" class="btn btn-info w-100">
+							<i class="fas fa-link me-2"></i>Link Band to Festival
+						</button>
+					</form>
+				</div>
+			</div>
+		</div>
 
-        <!-- Update Festival -->
-        <div class="col-lg-6 mb-4">
-            <div class="card shadow-sm border-0 h-100">
-                <div class="card-header bg-info text-white">
-                    <h5 class="mb-0 d-flex align-items-center">
-                        <i class="fas fa-edit me-2"></i>
-                        Update Festival
-                    </h5>
-                </div>
-                <div class="card-body">
-                    <form>
-                        <div class="mb-3">
-                            <label class="form-label fw-medium">Festival ID</label>
-                            <input type="number" @bind="UpdateFestivalId" class="form-control" placeholder="Enter festival ID" min="1" />
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label fw-medium">Festival Name</label>
-                                <input @bind="UpdateFestivalName" class="form-control" placeholder="Enter new name" />
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label fw-medium">Location</label>
-                                <input @bind="UpdateFestivalLocation" class="form-control" placeholder="Enter new location" />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label fw-medium">Start Date</label>
-                                <input type="date" @bind="UpdateFestivalStartDate" class="form-control" />
-                            </div>
-                            <div class="col-md-6 mb-4">
-                                <label class="form-label fw-medium">End Date</label>
-                                <input type="date" @bind="UpdateFestivalEndDate" class="form-control" />
-                            </div>
-                        </div>
-                        <button type="button" @onclick="UpdateFestival" class="btn btn-info w-100">
-                            <i class="fas fa-save me-2"></i>Update Festival
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
+		<!-- Update Festival -->
+		<div class="col-lg-6 mb-4">
+			<div class="card shadow-sm border-0 h-100">
+				<div class="card-header bg-info text-white">
+					<h5 class="mb-0 d-flex align-items-center">
+						<i class="fas fa-edit me-2"></i>
+						Update Festival
+					</h5>
+				</div>
+				<div class="card-body">
+					<form>
+						<div class="mb-3">
+							<label class="form-label fw-medium">Festival ID</label>
+							<input type="number" @bind="UpdateFestivalId" class="form-control" placeholder="Enter festival ID" min="1" />
+						</div>
+						<div class="row">
+							<div class="col-md-6 mb-3">
+								<label class="form-label fw-medium">Festival Name</label>
+								<input @bind="UpdateFestivalName" class="form-control" placeholder="Enter new name" />
+							</div>
+							<div class="col-md-6 mb-3">
+								<label class="form-label fw-medium">Location</label>
+								<input @bind="UpdateFestivalLocation" class="form-control" placeholder="Enter new location" />
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6 mb-3">
+								<label class="form-label fw-medium">Start Date</label>
+								<input type="date" @bind="UpdateFestivalStartDate" class="form-control" />
+							</div>
+							<div class="col-md-6 mb-4">
+								<label class="form-label fw-medium">End Date</label>
+								<input type="date" @bind="UpdateFestivalEndDate" class="form-control" />
+							</div>
+						</div>
+						<button type="button" @onclick="UpdateFestival" class="btn btn-info w-100">
+							<i class="fas fa-save me-2"></i>Update Festival
+						</button>
+					</form>
+				</div>
+			</div>
+		</div>
 
-        <!-- Delete Festival -->
-        <div class="col-lg-6 mb-4">
-            <div class="card shadow-sm border-0 h-100">
-                <div class="card-header bg-secondary text-white">
-                    <h5 class="mb-0 d-flex align-items-center">
-                        <i class="fas fa-trash me-2"></i>
-                        Delete Festival
-                    </h5>
-                </div>
-                <div class="card-body">
-                    <form>
-                        <div class="mb-4">
-                            <label class="form-label fw-medium">Festival ID</label>
-                            <input type="number" @bind="DeleteFestivalId" class="form-control" placeholder="Enter festival ID to delete" min="1" />
-                        </div>
-                        <button type="button" @onclick="DeleteFestival" class="btn btn-secondary w-100">
-                            <i class="fas fa-trash me-2"></i>Delete Festival
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+		<!-- Delete Festival -->
+		<div class="col-lg-6 mb-4">
+			<div class="card shadow-sm border-0 h-100">
+				<div class="card-header bg-secondary text-white">
+					<h5 class="mb-0 d-flex align-items-center">
+						<i class="fas fa-trash me-2"></i>
+						Delete Festival
+					</h5>
+				</div>
+				<div class="card-body">
+					<form>
+						<div class="mb-4">
+							<label class="form-label fw-medium">Festival ID</label>
+							<input type="number" @bind="DeleteFestivalId" class="form-control" placeholder="Enter festival ID to delete" min="1" />
+						</div>
+						<button type="button" @onclick="DeleteFestival" class="btn btn-secondary w-100">
+							<i class="fas fa-trash me-2"></i>Delete Festival
+						</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
