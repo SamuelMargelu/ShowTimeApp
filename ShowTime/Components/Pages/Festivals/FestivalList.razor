@@ -1,7 +1,7 @@
 ﻿@page "/FestivalList"
 @rendermode InteractiveServer
 @inject IFestivalService FestivalService
-
+@* <Card Style="min-height:600px"  *@
 <Container Fluid>
     <Row>
         <Column>
@@ -76,7 +76,7 @@
                             <Div>
                                 <Icon Name="IconName.TicketAlt" Margin="Margin.Is1.FromEnd" />
                                 <span class="text-muted">
-                                    Bookings: @festival.Bookings?.Count ?? 0
+                                    Bookings: @festival.Bookings?.Count
                                 </span>
                             </Div>
                         </CardBody>
