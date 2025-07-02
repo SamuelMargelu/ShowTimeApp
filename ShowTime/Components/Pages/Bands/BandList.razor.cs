@@ -28,19 +28,5 @@ namespace ShowTime.Components.Pages.Bands
         {
             NavigationManager.NavigateTo("/CreateBand");
         }
-
-        private async void OnLocationChanged(object? sender, Microsoft.AspNetCore.Components.Routing.LocationChangedEventArgs e)
-        {
-            if (e.Location.Contains("/BandList", StringComparison.OrdinalIgnoreCase))
-            {
-                await LoadBands();
-                StateHasChanged();
-            }
-        }
-
-        public void Dispose()
-        {
-            NavigationManager.LocationChanged -= OnLocationChanged;
-        }
     }
 }

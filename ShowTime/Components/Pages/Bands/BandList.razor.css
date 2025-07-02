@@ -1,0 +1,17 @@
+﻿.band-card {
+    height: 22rem; /* Default for mobile */
+    display: flex;
+    flex-direction: column;
+}
+
+@media (min-width: 576px) { /* Small devices (tablets) */
+    .band-card {
+        height: 26rem;
+    }
+}
+
+@media (min-width: 992px) { /* Large devices (desktops) */
+    .band-card {
+        height: 30rem;
+    }
+}
