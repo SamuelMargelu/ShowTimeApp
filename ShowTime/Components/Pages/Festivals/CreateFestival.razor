@@ -1,0 +1,136 @@
+﻿@page "/CreateFestival"
+
+@inject IFestivalService FestivalService
+@inject IBandService BandService
+@inject NavigationManager NavigationManager
+
+@rendermode InteractiveServer
+
+<Div Class="d-flex justify-content-between align-items-center mb-4">
+    <Heading Size="HeadingSize.Is2" TextColor="TextColor.Primary" TextWeight="TextWeight.Bold">
+        <Icon Name="IconName.Add" Margin="Margin.Is2.FromEnd" />
+        Create New Festival
+    </Heading>
+</Div>
+
+<Container Class="py-5">
+    <Row JustifyContent="JustifyContent.Center">
+        <Column xs="12" md="8" lg="6" xl="5">
+            <!-- Form Starts -->
+            <Form>
+                <!-- Festival Name -->
+                <Field Margin="Margin.Is3.FromBottom">
+                    <FieldLabel TextWeight="TextWeight.Bold">
+                        <Icon Name="IconName.User" Margin="Margin.Is1.FromEnd" />
+                        Festival Name
+                    </FieldLabel>
+                    <FieldBody>
+                        <TextEdit @bind-Text="NewFestivalName"
+                                  Placeholder="Enter the festival name..."
+                                  Size="Size.Large"
+                                  Class="form-control" />
+                    </FieldBody>
+                    <FieldHelp>
+                        Choose a unique and memorable name for your festival.
+                    </FieldHelp>
+                </Field>
+
+                <!-- Location -->
+                <Field Margin="Margin.Is4.FromBottom">
+                    <FieldLabel TextWeight="TextWeight.Bold">
+                        <Icon Name="IconName.MapMarker" Margin="Margin.Is1.FromEnd" />
+                        Location
+                    </FieldLabel>
+                    <FieldBody>
+                        <TextEdit @bind-Text="NewFestivalLocation"
+                                  Placeholder="Enter the festival location..."
+                                  Size="Size.Large"
+                                  Class="form-control" />
+                    </FieldBody>
+                    <FieldHelp>
+                        Specify the location where the festival will take place.
+                    </FieldHelp>
+                </Field>
+
+                <!-- Start Date -->
+                <Field Margin="Margin.Is4.FromBottom">
+                    <FieldLabel TextWeight="TextWeight.Bold">
+                        <Icon Name="IconName.CalendarDay" Margin="Margin.Is1.FromEnd" />
+                        Start Date
+                    </FieldLabel>
+                    <FieldBody>
+                        <InputDate @bind-Value="NewFestivalStartDate"
+                                   class="form-control"
+                                   style="width: 100%;" />
+                    </FieldBody>
+                    <FieldHelp>
+                        Select the start date for the festival.
+                    </FieldHelp>
+                </Field>
+
+                <!-- End Date -->
+                <Field Margin="Margin.Is4.FromBottom">
+                    <FieldLabel TextWeight="TextWeight.Bold">
+                        <Icon Name="IconName.CalendarDay" Margin="Margin.Is1.FromEnd" />
+                        End Date
+                    </FieldLabel>
+                    <FieldBody>
+                        <InputDate @bind-Value="NewFestivalEndDate"
+                                   class="form-control"
+                                   style="width: 100%;" />
+                    </FieldBody>
+                    <FieldHelp>
+                        Select the end date for the festival.
+                    </FieldHelp>
+                </Field>
+
+                <!-- Bands (optional, multi-select) -->
+                <Field Margin="Margin.Is4.FromBottom">
+                    <FieldLabel TextWeight="TextWeight.Bold">
+                        <Icon Name="IconName.Users" Margin="Margin.Is1.FromEnd" />
+                        Bands
+                    </FieldLabel>
+                    <FieldBody>
+                        <Div Class="d-flex flex-wrap gap-2">
+                            @if (AllBands != null)
+                            {
+                                @foreach (var band in AllBands)
+                                {
+                                    <Button Color="@(SelectedBandIds.Contains(band.Id) ? Color.Primary : Color.Dark)"
+                                            Outline="@(SelectedBandIds.Contains(band.Id) ? false : true)"
+                                            Size="Size.Small"
+                                            @onclick="() => ToggleBandSelection(band.Id)">
+                                        @band.Name
+                                    </Button>
+                                }
+                            }
+                        </Div>
+                    </FieldBody>
+                    <FieldHelp>
+                        Click to select or deselect bands for the festival.
+                    </FieldHelp>
+                </Field>
+
+                <!-- Buttons -->
+                <Div Class="d-flex gap-3 justify-content-end mt-4">
+                    <Button Color="Color.Secondary"
+                            Size="Size.Large"
+                            Outline
+                            @onclick="NavigateToFestivalList"
+                            Style="min-width: 120px;">
+                        <Icon Name="IconName.Times" Margin="Margin.Is1.FromEnd" />
+                        Cancel
+                    </Button>
+
+                    <Button Color="Color.Primary"
+                            Size="Size.Large"
+                            @onclick="AddFestival"
+                            Style="min-width: 120px;">
+                        <Icon Name="IconName.Save" Margin="Margin.Is1.FromEnd" />
+                        Create Festival
+                    </Button>
+                </Div>
+            </Form>
+        </Column>
+    </Row>
+</Container>
