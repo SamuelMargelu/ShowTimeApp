@@ -51,6 +51,7 @@
                         <!-- Card Image - 65% height (422px) -->
                         <Div Style="height: 422px; overflow: hidden; position: relative;">
                             <CardImage 
+
                                 Source="@(band.Photo != null ? $"data:image/jpeg;base64,{Convert.ToBase64String(band.Photo)}" : "https://img.freepik.com/free-vector/cerulean-blue-curve-frame-template-vector_53876-136094.jpg")"
                                 Alt="@($"{band.Name} cover image")" 
                                 Style="width: 100%; height: 100%; object-fit: cover;" />

@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Linq.Expressions;
 
 namespace ShowTime.Repositories.Interfaces
 {
@@ -7,6 +8,7 @@ namespace ShowTime.Repositories.Interfaces
         Task<IEnumerable<T>> GetAllAsync();
         Task<IEnumerable<T>> GetAllIncludingAsync(params Expression<Func<T, object>>[] includes);
         Task<T?> GetByIdAsync(int id);
+        Task<T?> GetByIdIncludingAsync(int id, params Expression<Func<T, object>>[] includes);
         Task AddAsync(T entity);
         Task UpdateAsync(T entity);
         Task DeleteAsync(T entity);

@@ -36,6 +36,17 @@ namespace ShowTime.Repositories.Implementations
             return await _dbSet.FindAsync(id);
         }
 
+        public async Task<T?> GetByIdIncludingAsync(int id, params Expression<Func<T, object>>[] includes)
+        {
+            var query = _dbSet.AsQueryable();
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+
+            return await query.FirstOrDefaultAsync(e => EF.Property<int>(e, "Id") == id);
+        }
+
         public async Task AddAsync(T entity)
         {
             await _dbSet.AddAsync(entity);

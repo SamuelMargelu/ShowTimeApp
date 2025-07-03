@@ -23,5 +23,10 @@ namespace ShowTime.Components.Pages.Festivals
                 Console.WriteLine($"Error loading festivals: {ex.Message}");
             }
         }
+
+        private void NavigateToFestivalDetails(int festivalId)
+        {
+            NavigationManager.NavigateTo($"/FestivalDetails/{festivalId}");
+        }
     }
 }
