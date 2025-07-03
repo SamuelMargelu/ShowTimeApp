@@ -1,17 +1,1 @@
-﻿.festival-card {
-    min-height: 1000px !important;
-
-    flex-direction: column;
-}
-
-.festival-card-img {
-    object-fit: cover;
-}
-
-.festival-card-body {
-    flex: 1 1 auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    min-height: 0;
-}
+﻿

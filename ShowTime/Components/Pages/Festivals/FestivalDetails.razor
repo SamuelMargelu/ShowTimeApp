@@ -1,0 +1,11 @@
+﻿@page "/FestivalDetails/{FestivalId:int}"
+@inject IFestivalService FestivalService
+@rendermode InteractiveServer
+
+<h3>FestivalDetails</h3>
+
+@if (Festival != null)
+{
+	@Festival.Name
+	@Festival.Location
+}

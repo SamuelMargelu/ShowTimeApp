@@ -49,6 +49,18 @@ namespace ShowTime.Services.Implementations
             return result;
         }
 
+        public async Task<T?> GetByIdIncludingAsync(int id, params Expression<Func<T, object>>[] includes)
+        {
+            var result = await _repository.GetByIdIncludingAsync(id, includes);
+
+            if (result == null)
+            {
+                throw new KeyNotFoundException($"Item with ID {id} not found.");
+            }
+
+            return result;
+        }
+
         public async Task AddAsync(T entity)
         {
             await _repository.AddAsync(entity);
