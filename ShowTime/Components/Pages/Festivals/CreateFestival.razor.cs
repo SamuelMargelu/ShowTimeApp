@@ -1,8 +1,9 @@
-using Blazorise;
+﻿using Blazorise;
 using Microsoft.AspNetCore.Components;
-using ShowTime.Entities;
 using Microsoft.JSInterop;
-using ShowTime.Services.Implementations;
+using ShowTime.Entities;
+using ShowTime.Enum;
+using static ShowTime.Components.Pages.Festivals.CreateFestival;
 
 namespace ShowTime.Components.Pages.Festivals
 {
@@ -24,14 +25,6 @@ namespace ShowTime.Components.Pages.Festivals
         protected override async Task OnInitializedAsync()
         {
             AllBands = (await BandService.GetAllAsync()).ToList();
-
-            DropBands = AllBands.Select(b => new DropBand
-            {
-                Band = b,
-                Group = "1"
-            }).ToList();
-
-            StateHasChanged();
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -39,8 +32,27 @@ namespace ShowTime.Components.Pages.Festivals
             await base.OnAfterRenderAsync(firstRender);
             if (firstRender)
             {
-                await JS.InvokeVoidAsync("scrollToTop");
+                DropBands = (await BandService.GetAllAsync()).Select(b => new DropBand
+                {
+                    Band = b,
+                    Group = "1" // toate în zona 1 inițial
+                }).ToList();
             }
+            //await base.OnAfterRenderAsync(firstRender);
+            //if (firstRender)
+            //{
+            //    await JS.InvokeVoidAsync("scrollToTop");
+            //    if (AllBands is not null)
+            //    {
+            //        DropBands = AllBands.Select(b => new DropBand
+            //        {
+            //            Band = b,
+            //            Group = "1" // toate în zona 1 inițial
+            //        }).ToList();
+
+            //        StateHasChanged(); // asigură re-render
+            //    }
+            //}
         }
         private async Task AddFestival()
         {
@@ -96,9 +108,49 @@ namespace ShowTime.Components.Pages.Festivals
             public Band? Band { get; set; }
             public string? Group { get; set; }
         }
-
-        private List<DropBand> DropBands = new List<DropBand>();
-
+        private List<DropBand> DropBands = new();
+        //{
+        //    new DropBand
+        //    {
+        //        Band = new Band
+        //        {
+        //            Id = 1,
+        //            Name = "Radiohead",
+        //            Genre = Genre.Rock
+        //        },
+        //        Group = "1"
+        //    },
+        //    new DropBand
+        //    {
+        //        Band = new Band
+        //        {
+        //            Id = 2,
+        //            Name = "Daft Punk",
+        //            Genre = Genre.Electronic
+        //        },
+        //        Group = "2"
+        //    },
+        //    new DropBand
+        //    {
+        //        Band = new Band
+        //        {
+        //            Id = 3,
+        //            Name = "Coldplay",
+        //            Genre = Genre.Pop
+        //        },
+        //        Group = "1"
+        //    },
+        //    new DropBand
+        //    {
+        //        Band = new Band
+        //        {
+        //            Id = 4,
+        //            Name = "Metallica",
+        //            Genre = Genre.Metal
+        //        },
+        //        Group = "3"
+        //    }
+        //};
         private void HandleOnDeleted(Band deletedBand)
         {
             DropBands = DropBands.Where(b => b.Band?.Id != deletedBand.Id).ToList();
