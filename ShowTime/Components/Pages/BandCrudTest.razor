@@ -54,14 +54,14 @@
 											<p class="card-text mb-2">
 												<span class="badge bg-info">@band.Genre</span>
 											</p>
-											@if (band.Festivals != null && band.Festivals.Any())
+											@if (band.BandFestivals != null && band.BandFestivals.Any())
 											{
 												<div>
 													<small class="text-muted fw-bold">Festivals:</small>
 													<div class="mt-1">
-														@foreach (var festival in band.Festivals)
+														@foreach (var festival in band.BandFestivals)
 														{
-															<span class="badge bg-light text-dark me-1 mb-1">@festival.Name</span>
+															<span class="badge bg-light text-dark me-1 mb-1">@festival.Festival.Name</span>
 														}
 													</div>
 												</div>

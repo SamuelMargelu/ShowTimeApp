@@ -36,7 +36,14 @@ namespace ShowTime.Components.Pages.Festivals
         }
         private async Task AddFestival()
         {
-            var selectedBands = AllBands?.Where(b => SelectedBandIds.Contains(b.Id)).ToList() ?? new List<Band>();
+            var selectedBands = AllBands?.Where(b => SelectedBandIds.Contains(b.Id))
+              .Select(b => new BandFestival
+              {
+                  BandsId = b.Id,
+                  Band = b,
+              }).ToList() ?? new List<BandFestival>();
+
+
 
             var newFestival = new Festival
             {
@@ -45,7 +52,7 @@ namespace ShowTime.Components.Pages.Festivals
                 Location = NewFestivalLocation,
                 StartDate = NewFestivalStartDate,
                 EndDate = NewFestivalEndDate,
-                Bands = selectedBands,
+                BandFestivals = selectedBands,
                 Photo = NewFestivalPhoto
             };
 

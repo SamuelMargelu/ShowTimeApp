@@ -15,13 +15,15 @@ namespace ShowTime.Components.Pages.Festivals
         {
             try
             {
-                Festivals = (await FestivalService.GetAllIncludingAsync(f => f.Bands,
+                Festivals = (await FestivalService.GetAllIncludingAsync(f => f.BandFestivals,
+                                                                        f => (f.BandFestivals as BandFestival).Band,
                                                                         f => f.Bookings)).ToList();
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error loading festivals: {ex.Message}");
             }
+
         }
 
         private void NavigateToFestivalDetails(int festivalId)

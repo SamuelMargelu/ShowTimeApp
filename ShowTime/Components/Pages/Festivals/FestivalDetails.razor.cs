@@ -35,7 +35,8 @@ namespace ShowTime.Components.Pages.Festivals
 
             try
             {
-                Festival = await FestivalService.GetByIdIncludingAsync(FestivalId, f => f.Bands);
+                Festival = await FestivalService.GetByIdIncludingAsync(FestivalId, f => f.BandFestivals,
+                                                                                   f => (f.BandFestivals as BandFestival).Band);
                 
                 if (Festival == null)
                 {

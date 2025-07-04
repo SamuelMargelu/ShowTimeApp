@@ -45,14 +45,14 @@
 													@festival.StartDate.ToShortDateString() - @festival.EndDate.ToShortDateString()
 												</small>
 											</p>
-											@if (festival.Bands != null && festival.Bands.Any())
+											@if (festival.BandFestivals != null && festival.BandFestivals.Any())
 											{
 												<div>
 													<small class="text-muted fw-bold">Performing Bands:</small>
 													<div class="mt-1">
-														@foreach (var band in festival.Bands)
+														@foreach (var band in festival.BandFestivals)
 														{
-															<span class="badge bg-light text-dark me-1 mb-1">@band.Name</span>
+															<span class="badge bg-light text-dark me-1 mb-1">@band.Band.Name</span>
 														}
 													</div>
 												</div>

@@ -102,7 +102,7 @@
 							<div class="stat-item">
 								<i class="fas fa-users stat-icon"></i>
 								<div class="stat-content">
-									<h3>@(Festival.Bands?.Count ?? 0)</h3>
+									<h3>@(Festival.BandFestivals?.Count ?? 0)</h3>
 									<p>Bands</p>
 								</div>
 							</div>
@@ -135,24 +135,24 @@
 					<div class="section-header">
 						<h2>
 							<i class="fas fa-music me-3"></i>
-							Performing Bands (@(Festival.Bands?.Count ?? 0))
+							Performing Bands (@(Festival.BandFestivals?.Count ?? 0))
 						</h2>
 					</div>
 
-					@if (Festival.Bands != null && Festival.Bands.Any())
+					@if (Festival.BandFestivals != null && Festival.BandFestivals.Any())
 					{
 						<div class="bands-grid">
-							@foreach (var band in Festival.Bands)
+							@foreach (var band in Festival.BandFestivals)
 							{
-								<div class="band-card" @onclick="() => NavigateToBandDetails(band.Id)">
+								<div class="band-card" @onclick="() => NavigateToBandDetails(band.BandsId)">
 									<div class="band-image">
-										<img src="@(band.Photo != null ? $"data:image/jpeg;base64,{Convert.ToBase64String(band.Photo)}" : "https://img.freepik.com/free-vector/cerulean-blue-curve-frame-template-vector_53876-136094.jpg")"
-											 alt="@($"{band.Name} photo")" />
+										<img src="@(band.Band.Photo != null ? $"data:image/jpeg;base64,{Convert.ToBase64String(band.Band.Photo)}" : "https://img.freepik.com/free-vector/cerulean-blue-curve-frame-template-vector_53876-136094.jpg")"
+											 alt="@($"{band.Band.Name} photo")" />
 									</div>
 									<div class="band-info">
-										<h5>@band.Name</h5>
+										<h5>@band.Band.Name</h5>
 										<span class="badge bg-info rounded-pill">
-											@band.Genre
+											@band.Band.Genre
 										</span>
 									</div>
 								</div>
