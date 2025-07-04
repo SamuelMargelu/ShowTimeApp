@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ShowTime.Context;
 
@@ -11,9 +12,11 @@ using ShowTime.Context;
 namespace ShowTime.Migrations
 {
     [DbContext(typeof(ShowTimeDbContext))]
-    partial class ShowTimeDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250704082753_AddBandFestival")]
+    partial class AddBandFestival
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

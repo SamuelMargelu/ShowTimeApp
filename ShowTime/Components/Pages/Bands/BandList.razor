@@ -75,7 +75,7 @@
 
                             <!-- Content Section - Flexible height -->
                             <Div Class="flex-grow-1" Style="min-height: 80px; max-height: 100px; overflow: hidden;">
-                                @if (band.Festivals != null && band.Festivals.Any())
+                                @if (band.BandFestivals != null && band.BandFestivals.Any())
                                 {
                                     <Div Margin="Margin.Is2.FromBottom">
                                         <Small TextColor="TextColor.Muted" TextWeight="TextWeight.Bold">
@@ -83,16 +83,16 @@
                                             Upcoming Festivals:
                                         </Small>
                                         <Div Margin="Margin.Is2.FromTop" Style="max-height: 60px; overflow: hidden;">
-                                            @foreach (var festival in band.Festivals.Take(3))
+                                            @foreach (var festival in band.BandFestivals.Take(3))
                                             {
                                                 <Badge Color="Color.Light" TextColor="TextColor.Dark" Margin="Margin.Is1.FromEnd.Is1.FromBottom">
-                                                    @festival.Name
+													@festival.Festival.Name
                                                 </Badge>
                                             }
-                                            @if (band.Festivals.Count > 3)
+                                            @if (band.BandFestivals.Count > 3)
                                             {
                                                 <Badge Color="Color.Secondary" TextColor="TextColor.White">
-                                                    +@(band.Festivals.Count - 3) more
+                                                    +@(band.BandFestivals.Count - 3) more
                                                 </Badge>
                                             }
                                         </Div>
@@ -134,7 +134,7 @@
                     <AlertMessage>
                         <Icon Name="IconName.InfoCircle" Margin="Margin.Is2.FromEnd" />
                         <Strong>Directory Summary:</Strong>
-                        Showing @Bands.Count band@(Bands.Count != 1 ? "s" : "") with @Bands.Sum(b => b.Festivals?.Count ?? 0) total festival booking@(Bands.Sum(b => b.Festivals?.Count ?? 0) != 1 ? "s" : "")
+                        Showing @Bands.Count band@(Bands.Count != 1 ? "s" : "") with @Bands.Sum(b => b.BandFestivals?.Count ?? 0) total festival booking@(Bands.Sum(b => b.BandFestivals?.Count ?? 0) != 1 ? "s" : "")
                     </AlertMessage>
                 </Alert>
             </Column>
