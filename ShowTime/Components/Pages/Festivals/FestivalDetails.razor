@@ -6,178 +6,172 @@
 @rendermode InteractiveServer
 
 <div class="festival-details-container">
-    @if (isLoading)
-    {
-        <!-- Loading State -->
-        <div class="loading-container">
-            <div class="text-center">
-                <div class="spinner-border text-primary mb-3" style="width: 3rem; height: 3rem;" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                </div>
-                <p class="text-muted">Loading festival details...</p>
-            </div>
-        </div>
-    }
-    else if (!string.IsNullOrEmpty(errorMessage))
-    {
-        <!-- Error State -->
-        <div class="error-container">
-            <div class="alert alert-danger" role="alert">
-                <i class="fas fa-exclamation-triangle me-2"></i>
-                @errorMessage
-            </div>
-            <div class="text-center mt-4">
-                <button type="button" class="btn btn-primary" @onclick="NavigateToFestivalList">
-                    <i class="fas fa-arrow-left me-1"></i>
-                    Back to Festivals
-                </button>
-            </div>
-        </div>
-    }
-    else if (Festival != null)
-    {
-        <!-- Festival Hero Section with Large Image -->
-        <div class="festival-hero">
-            <div class="hero-image-container">
-                <img src="@(Festival.Photo != null ? $"data:image/jpeg;base64,{Convert.ToBase64String(Festival.Photo)}" : "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80")"
-                     alt="@($"{Festival.Name} festival")"
-                     class="hero-image" />
-                <div class="hero-overlay">
-                    <div class="hero-content">
-                        <div class="hero-header">
-                            <button type="button" class="btn btn-light back-button square-button" @onclick="NavigateToFestivalList">
-                                <i class="fas fa-arrow-left"></i>
-                            </button>
-                            <span class="badge status-badge status-@GetStatusBootstrapColor()">
-                                @GetFestivalStatus()
-                            </span>
-                        </div>
-                        <div class="hero-title">
-                            <h1>@Festival.Name</h1>
-                            <p class="hero-subtitle small-location">
-                                <i class="fas fa-map-marker-alt me-2"></i>
-                                @Festival.Location
-                            </p>
-                        </div>
-                        <div class="hero-actions">
-                            <button type="button" class="btn btn-primary btn-lg edit-button" @onclick="NavigateToEditFestival">
-                                <i class="fas fa-edit me-2"></i>
-                                Edit Festival
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+	@if (isLoading)
+	{
+		<!-- Loading State -->
+		<div class="loading-container">
+			<div class="text-center">
+				<div class="spinner-border text-primary mb-3" style="width: 3rem; height: 3rem;" role="status">
+					<span class="visually-hidden">Loading...</span>
+				</div>
+				<p class="text-muted">Loading festival details...</p>
+			</div>
+		</div>
+	}
+	else if (!string.IsNullOrEmpty(errorMessage))
+	{
+		<!-- Error State -->
+		<div class="error-container">
+			<div class="alert alert-danger" role="alert">
+				<i class="fas fa-exclamation-triangle me-2"></i>
+				@errorMessage
+			</div>
+			<div class="text-center mt-4">
+				<button type="button" class="btn btn-primary" @onclick="NavigateToFestivalList">
+					<i class="fas fa-arrow-left me-1"></i>
+					Back to Festivals
+				</button>
+			</div>
+		</div>
+	}
+	else if (Festival != null)
+	{
+		<!-- Festival Hero Section with Large Image -->
+		<div class="festival-hero">
+			<div class="hero-image-container">
+				<img src="@(Festival.Photo != null ? $"data:image/jpeg;base64,{Convert.ToBase64String(Festival.Photo)}" : "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80")"
+					 alt="@($"{Festival.Name} festival")"
+					 class="hero-image" />
+				<div class="hero-overlay">
+					<div class="hero-content">
+						<div class="hero-header">
+							<button type="button" class="btn btn-light back-button square-button" @onclick="NavigateToFestivalList">
+								<i class="fas fa-arrow-left"></i>
+							</button>
+						</div>
+						<div class="hero-title">
+							<h1>@Festival.Name</h1>
+							<p class="hero-subtitle small-location">
+								<i class="fas fa-map-marker-alt me-2"></i>
+								@Festival.Location
+							</p>
+						</div>
+					</div>
+				<span class="badge status-badge status-@GetStatusBootstrapColor()">
+					@GetFestivalStatus()
+				</span>
+				</div>
+			</div>
+		</div>
 
-        <!-- Festival Details Content -->
-        <div class="festival-content">
-            <div class="container-fluid">
-                <!-- Quick Stats Section -->
-                <div class="quick-stats">
-                    <div class="row">
-                        <div class="col-12 col-md-3">
-                            <div class="stat-item">
-                                <i class="fas fa-calendar-day stat-icon"></i>
-                                <div class="stat-content">
-                                    <h3>@Festival.StartDate.ToString("MMM dd")</h3>
-                                    <p>Start Date</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-3">
-                            <div class="stat-item">
-                                <i class="fas fa-calendar-day stat-icon"></i>
-                                <div class="stat-content">
-                                    <h3>@Festival.EndDate.ToString("MMM dd")</h3>
-                                    <p>End Date</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-3">
-                            <div class="stat-item">
-                                <i class="fas fa-clock stat-icon"></i>
-                                <div class="stat-content">
-                                    <h3>@GetFestivalDuration()</h3>
-                                    <p>Days</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-3">
-                            <div class="stat-item">
-                                <i class="fas fa-users stat-icon"></i>
-                                <div class="stat-content">
-                                    <h3>@(Festival.Bands?.Count ?? 0)</h3>
-                                    <p>Bands</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+		<!-- Festival Details Content -->
+		<div class="festival-content">
+			<div class="container-fluid">
+				<!-- Quick Stats Section -->
+				<div class="quick-stats">
+					<div class="row">
+						<div class="col-12 col-md-3">
+							<div class="stat-item">
+								<i class="fas fa-calendar-day stat-icon"></i>
+								<div class="stat-content">
+									<h3>@Festival.StartDate.ToString("MMM dd")</h3>
+									<p>Start Date</p>
+								</div>
+							</div>
+						</div>
+						<div class="col-12 col-md-3">
+							<div class="stat-item">
+								<i class="fas fa-calendar-day stat-icon"></i>
+								<div class="stat-content">
+									<h3>@Festival.EndDate.ToString("MMM dd")</h3>
+									<p>End Date</p>
+								</div>
+							</div>
+						</div>
+						<div class="col-12 col-md-3">
+							<div class="stat-item">
+								<i class="fas fa-clock stat-icon"></i>
+								<div class="stat-content">
+									<h3>@GetFestivalDuration()</h3>
+									<p>Days</p>
+								</div>
+							</div>
+						</div>
+						<div class="col-12 col-md-3">
+							<div class="stat-item">
+								<i class="fas fa-users stat-icon"></i>
+								<div class="stat-content">
+									<h3>@(Festival.Bands?.Count ?? 0)</h3>
+									<p>Bands</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 
-                <!-- Festival Progress Section -->
-                @if (GetFestivalStatus() != "Completed")
-                {
-                    <div class="progress-section">
-                        <div class="progress-info">
-                            <h4>Festival Progress</h4>
-                            <p class="text-muted">@GetDaysUntilStart() days until start</p>
-                        </div>
-                        <div class="progress festival-progress">
-                            <div class="progress-bar bg-@GetStatusBootstrapColor()"
-                                 role="progressbar"
-                                 style="width: @GetFestivalProgress()%"
-                                 aria-valuenow="@GetFestivalProgress()"
-                                 aria-valuemin="0"
-                                 aria-valuemax="100">
-                            </div>
-                        </div>
-                    </div>
-                }
+				<!-- Festival Progress Section -->
+				@if (GetFestivalStatus() != "Completed")
+				{
+					<div class="progress-section">
+						<div class="progress-info">
+							<h4>Festival Progress</h4>
+							<p class="text-muted">@GetDaysUntilStart() days until start</p>
+						</div>
+						<div class="progress festival-progress">
+							<div class="progress-bar bg-@GetStatusBootstrapColor()"
+								 role="progressbar"
+								 style="width: @GetFestivalProgress()%"
+								 aria-valuenow="@GetFestivalProgress()"
+								 aria-valuemin="0"
+								 aria-valuemax="100">
+							</div>
+						</div>
+					</div>
+				}
 
-                <!-- Performing Bands Section -->
-                <div class="bands-section">
-                    <div class="section-header">
-                        <h2>
-                            <i class="fas fa-music me-3"></i>
-                            Performing Bands (@(Festival.Bands?.Count ?? 0))
-                        </h2>
-                    </div>
+				<!-- Performing Bands Section -->
+				<div class="bands-section">
+					<div class="section-header">
+						<h2>
+							<i class="fas fa-music me-3"></i>
+							Performing Bands (@(Festival.Bands?.Count ?? 0))
+						</h2>
+					</div>
 
-                    @if (Festival.Bands != null && Festival.Bands.Any())
-                    {
-                        <div class="bands-grid">
-                            @foreach (var band in Festival.Bands)
-                            {
-                                <div class="band-card" @onclick="() => NavigateToBandDetails(band.Id)">
-                                    <div class="band-image">
-                                        <img src="@(band.Photo != null ? $"data:image/jpeg;base64,{Convert.ToBase64String(band.Photo)}" : "https://img.freepik.com/free-vector/cerulean-blue-curve-frame-template-vector_53876-136094.jpg")"
-                                             alt="@($"{band.Name} photo")" />
-                                    </div>
-                                    <div class="band-info">
-                                        <h5>@band.Name</h5>
-                                        <span class="badge bg-info rounded-pill">
-                                            @band.Genre
-                                        </span>
-                                    </div>
-                                </div>
-                            }
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="no-bands">
-                            <i class="fas fa-music empty-icon"></i>
-                            <h4>No Bands Assigned</h4>
-                            <p>This festival doesn't have any bands assigned yet.</p>
-                            <button type="button" class="btn btn-primary" @onclick="NavigateToEditFestival">
-                                <i class="fas fa-plus me-2"></i>
-                                Add Bands
-                            </button>
-                        </div>
-                    }
-                </div>
-            </div>
-        </div>
-    }
+					@if (Festival.Bands != null && Festival.Bands.Any())
+					{
+						<div class="bands-grid">
+							@foreach (var band in Festival.Bands)
+							{
+								<div class="band-card" @onclick="() => NavigateToBandDetails(band.Id)">
+									<div class="band-image">
+										<img src="@(band.Photo != null ? $"data:image/jpeg;base64,{Convert.ToBase64String(band.Photo)}" : "https://img.freepik.com/free-vector/cerulean-blue-curve-frame-template-vector_53876-136094.jpg")"
+											 alt="@($"{band.Name} photo")" />
+									</div>
+									<div class="band-info">
+										<h5>@band.Name</h5>
+										<span class="badge bg-info rounded-pill">
+											@band.Genre
+										</span>
+									</div>
+								</div>
+							}
+						</div>
+					}
+					else
+					{
+						<div class="no-bands">
+							<i class="fas fa-music empty-icon"></i>
+							<h4>No Bands Assigned</h4>
+							<p>This festival doesn't have any bands assigned yet.</p>
+							<button type="button" class="btn btn-primary" @onclick="NavigateToEditFestival">
+								<i class="fas fa-plus me-2"></i>
+								Add Bands
+							</button>
+						</div>
+					}
+				</div>
+			</div>
+		</div>
+	}
 </div>

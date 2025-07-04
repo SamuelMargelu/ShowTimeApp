@@ -94,7 +94,7 @@ namespace ShowTime.Components.Pages.Festivals
             return GetFestivalStatus() switch
             {
                 "Upcoming" => "info",
-                "Ongoing" => "success", 
+                "Ongoing" => "dark", 
                 "Completed" => "secondary",
                 _ => "light"
             };

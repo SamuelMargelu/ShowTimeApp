@@ -260,7 +260,7 @@
   left: 5px;
   transform: translateY(-50%);
   width: 6px;
-  height: 30px;
+  height: 40px;
   background: linear-gradient(
     135deg,
     rgba(139, 92, 246, 0.9),
@@ -276,8 +276,8 @@
   top: 50%;
   left: 13px;
   transform: translateY(-50%) rotate(45deg);
-  width: 6px;
-  height: 6px;
+  width: 10px;
+  height: 10px;
   border-top: 2px solid rgba(139, 92, 246, 0.9);
   border-right: 2px solid rgba(139, 92, 246, 0.9);
   border-radius: 1px;
