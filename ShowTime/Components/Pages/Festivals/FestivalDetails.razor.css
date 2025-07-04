@@ -1,0 +1,284 @@
+﻿.festival-details-container {
+    min-height: 100vh;
+}
+
+.loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 50vh;
+}
+
+.error-container {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+/* Hero Section */
+.festival-hero {
+    position: relative;
+    height: 60vh;
+    min-height: 500px;
+    overflow: hidden;
+}
+
+.hero-image-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.hero-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient( to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 100% );
+    display: flex;
+    align-items: flex-end;
+    padding: 2rem;
+}
+
+.hero-content {
+    width: 100%;
+    color: white;
+}
+
+.hero-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.back-button {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.status-badge {
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    backdrop-filter: blur(10px);
+}
+
+.hero-title h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.hero-subtitle {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+    display: flex;
+    align-items: center;
+}
+
+.edit-button {
+    backdrop-filter: blur(10px);
+    background: rgba(13, 110, 253, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Content Section */
+.festival-content {
+    padding: 3rem 0;
+    background: #f8f9fa;
+}
+
+.quick-stats {
+    background: white;
+    border-radius: 15px;
+    padding: 2rem;
+    margin-bottom: 3rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    text-align: center;
+    flex-direction: column;
+}
+
+.stat-icon {
+    font-size: 2.5rem;
+    color: #0d6efd;
+    margin-bottom: 1rem;
+}
+
+.stat-content h3 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: #0d6efd;
+}
+
+.stat-content p {
+    margin: 0;
+    color: #6c757d;
+    font-weight: 500;
+}
+
+.progress-section {
+    background: white;
+    border-radius: 15px;
+    padding: 2rem;
+    margin-bottom: 3rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.progress-info h4 {
+    margin-bottom: 0.5rem;
+    color: #212529;
+}
+
+.festival-progress {
+    height: 12px;
+    margin-top: 1rem;
+}
+
+.bands-section {
+    background: white;
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.section-header {
+    margin-bottom: 2rem;
+    border-bottom: 2px solid #e9ecef;
+    padding-bottom: 1rem;
+}
+
+    .section-header h2 {
+        margin: 0;
+        color: #212529;
+        display: flex;
+        align-items: center;
+    }
+
+.bands-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.band-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: 1px solid #e9ecef;
+}
+
+    .band-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+
+.band-image {
+    height: 200px;
+    overflow: hidden;
+}
+
+    .band-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+.band-card:hover .band-image img {
+    transform: scale(1.05);
+}
+
+.band-info {
+    padding: 1.5rem;
+}
+
+    .band-info h5 {
+        margin-bottom: 1rem;
+        font-weight: 600;
+        color: #212529;
+    }
+
+.no-bands {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: #6c757d;
+}
+
+.empty-icon {
+    font-size: 4rem;
+    margin-bottom: 1.5rem;
+    opacity: 0.5;
+}
+
+.no-bands h4 {
+    margin-bottom: 1rem;
+    color: #495057;
+}
+
+.no-bands p {
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hero-overlay {
+        padding: 1rem;
+    }
+
+    .hero-title h1 {
+        font-size: 2.5rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1.2rem;
+    }
+
+    .festival-content {
+        padding: 2rem 0;
+    }
+
+    .quick-stats,
+    .progress-section,
+    .bands-section {
+        margin: 0 1rem 2rem 1rem;
+        padding: 1.5rem;
+    }
+
+    .stat-item {
+        margin-bottom: 1rem;
+    }
+
+    .bands-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+}

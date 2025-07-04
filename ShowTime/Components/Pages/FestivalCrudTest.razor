@@ -81,6 +81,9 @@
 													<small class="text-muted">No bookings for this this festival</small>
 												</div>
 											}
+											<button type="button" @onclick="() => DeleteFestivalById(festival.Id)" class="btn btn-secondary w-100">
+												<i class="fas fa-trash me-2"></i>Delete Festival
+											</button>
 										</div>
 									</div>
 								</div>

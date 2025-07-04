@@ -4,186 +4,179 @@
 @inject IFestivalService FestivalService
 
 <div class="container-fluid py-4">
-    <div class="row">
-        <div class="col-12">
-            <div class="d-flex align-items-center mb-4">
-                <h1 class="h3 mb-0 text-primary fw-bold">Band Management</h1>
-            </div>
-        </div>
-    </div>
-    @if (Bands != null)
-    {
-        foreach (var band in Bands)
-        {
-            <div>
-                <span>@band.Name (@band.Genre)</span>
-                <button class="btn btn-danger btn-sm" @onclick="() => DeleteBandById(band.Id)">Delete</button>
-            </div>
-        }
-    }
+	<div class="row">
+		<div class="col-12">
+			<div class="d-flex align-items-center mb-4">
+				<h1 class="h3 mb-0 text-primary fw-bold">Band Management</h1>
+			</div>
+		</div>
+	</div>
 
-    <!-- Bands List Section -->
-    <div class="row mb-5">
-        <div class="col-12">
-            <div class="card shadow-sm border-0">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0 d-flex align-items-center">
-                        <i class="fas fa-music me-2"></i>
-                        All Bands
-                    </h5>
-                </div>
-                <div class="card-body">
-                    @if (Bands == null)
-                    {
-                        <div class="d-flex justify-content-center align-items-center py-5">
-                            <div class="spinner-border text-primary me-3" role="status">
-                                <span class="visually-hidden">Loading...</span>
-                            </div>
-                            <span class="text-muted">Loading bands...</span>
-                        </div>
-                    }
-                    else if (!Bands.Any())
-                    {
-                        <div class="text-center py-5">
-                            <i class="fas fa-music fa-3x text-muted mb-3"></i>
-                            <p class="text-muted mb-0">No bands available</p>
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="row">
-                            @foreach (var band in Bands)
-                            {
-                                <div class="col-md-6 col-lg-4 mb-3">
-                                    <div class="card h-100 border-light">
-                                        <div class="card-body">
-                                            <div class="d-flex justify-content-between align-items-start mb-2">
-                                                <h6 class="card-title text-primary mb-1">@band.Name</h6>
-                                                <span class="badge bg-secondary">ID: @band.Id</span>
-                                            </div>
-                                            <p class="card-text mb-2">
-                                                <span class="badge bg-info">@band.Genre</span>
-                                            </p>
-                                            @if (band.Festivals != null && band.Festivals.Any())
-                                            {
-                                                <div>
-                                                    <small class="text-muted fw-bold">Festivals:</small>
-                                                    <div class="mt-1">
-                                                        @foreach (var festival in band.Festivals)
-                                                        {
-                                                            <span class="badge bg-light text-dark me-1 mb-1">@festival.Name</span>
-                                                        }
-                                                    </div>
-                                                </div>
-                                            }
-                                            else
-                                            {
-                                                <small class="text-muted">No festivals linked</small>
-                                            }
-                                        </div>
-                                    </div>
-                                </div>
-                            }
-                        </div>
-                    }
-                </div>
-            </div>
-        </div>
-    </div>
+	<!-- Bands List Section -->
+	<div class="row mb-5">
+		<div class="col-12">
+			<div class="card shadow-sm border-0">
+				<div class="card-header bg-primary text-white">
+					<h5 class="mb-0 d-flex align-items-center">
+						<i class="fas fa-music me-2"></i>
+						All Bands
+					</h5>
+				</div>
+				<div class="card-body">
+					@if (Bands == null)
+					{
+						<div class="d-flex justify-content-center align-items-center py-5">
+							<div class="spinner-border text-primary me-3" role="status">
+								<span class="visually-hidden">Loading...</span>
+							</div>
+							<span class="text-muted">Loading bands...</span>
+						</div>
+					}
+					else if (!Bands.Any())
+					{
+						<div class="text-center py-5">
+							<i class="fas fa-music fa-3x text-muted mb-3"></i>
+							<p class="text-muted mb-0">No bands available</p>
+						</div>
+					}
+					else
+					{
+						<div class="row">
+							@foreach (var band in Bands)
+							{
+								<div class="col-md-6 col-lg-4 mb-3">
+									<div class="card h-100 border-light">
+										<div class="card-body">
+											<div class="d-flex justify-content-between align-items-start mb-2">
+												<h6 class="card-title text-primary mb-1">@band.Name</h6>
+												<span class="badge bg-secondary">ID: @band.Id</span>
+											</div>
+											<p class="card-text mb-2">
+												<span class="badge bg-info">@band.Genre</span>
+											</p>
+											@if (band.Festivals != null && band.Festivals.Any())
+											{
+												<div>
+													<small class="text-muted fw-bold">Festivals:</small>
+													<div class="mt-1">
+														@foreach (var festival in band.Festivals)
+														{
+															<span class="badge bg-light text-dark me-1 mb-1">@festival.Name</span>
+														}
+													</div>
+												</div>
+											}
+											else
+											{
+												<small class="text-muted">No festivals linked</small>
+											}
+										</div>
+										<button type="button" @onclick="() => DeleteBandById(band.Id)" class="btn btn-secondary w-100">
+											<i class="fas fa-trash me-2"></i>Delete Band
+										</button>
+									</div>
+								</div>
+							}
+						</div>
+					}
+				</div>
+			</div>
+		</div>
+	</div>
 
-    <!-- Actions Section -->
-    <div class="row">
-        <!-- Add Band -->
-        <div class="col-lg-4 mb-4">
-            <div class="card shadow-sm border-0 h-100">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0 d-flex align-items-center">
-                        <i class="fas fa-plus me-2"></i>
-                        Add Band
-                    </h5>
-                </div>
-                <div class="card-body">
-                    <form>
-                        <div class="mb-3">
-                            <Label Text="Band Name" class="form-label fw-medium" />
-                            <TextEdit @bind-Text="NewBandName" Placeholder="Enter band name" class="form-control" />
-                        </div>
-                        <div class="mb-4">
-                            <Label Text="Genre" class="form-label fw-medium" />
-                            <Select @bind-SelectedValue="NewBandGenre" class="form-select">
-                                @foreach (var genre in Enum.GetValues<Genre>())
-                                {
-                                    <SelectItem Value="@genre">@genre</SelectItem>
-                                }
-                            </Select>
-                        </div>
-                        <Button Color="Color.Primary" @onclick="AddBand" class="w-100">
-                            <i class="fas fa-plus me-2"></i>Add Band
-                        </Button>
-                    </form>
-                </div>
-            </div>
-        </div>
+	<!-- Actions Section -->
+	<div class="row">
+		<!-- Add Band -->
+		<div class="col-lg-4 mb-4">
+			<div class="card shadow-sm border-0 h-100">
+				<div class="card-header bg-primary text-white">
+					<h5 class="mb-0 d-flex align-items-center">
+						<i class="fas fa-plus me-2"></i>
+						Add Band
+					</h5>
+				</div>
+				<div class="card-body">
+					<form>
+						<div class="mb-3">
+							<Label Text="Band Name" class="form-label fw-medium" />
+							<TextEdit @bind-Text="NewBandName" Placeholder="Enter band name" class="form-control" />
+						</div>
+						<div class="mb-4">
+							<Label Text="Genre" class="form-label fw-medium" />
+							<Select @bind-SelectedValue="NewBandGenre" class="form-select">
+								@foreach (var genre in Enum.GetValues<Genre>())
+								{
+									<SelectItem Value="@genre">@genre</SelectItem>
+								}
+							</Select>
+						</div>
+						<Button Color="Color.Primary" @onclick="AddBand" class="w-100">
+							<i class="fas fa-plus me-2"></i>Add Band
+						</Button>
+					</form>
+				</div>
+			</div>
+		</div>
 
-        <!-- Update Band -->
-        <div class="col-lg-4 mb-4">
-            <div class="card shadow-sm border-0 h-100">
-                <div class="card-header bg-info text-white">
-                    <h5 class="mb-0 d-flex align-items-center">
-                        <i class="fas fa-edit me-2"></i>
-                        Update Band
-                    </h5>
-                </div>
-                <div class="card-body">
-                    <form>
-                        <div class="mb-3">
-                            <Label Text="Band ID" class="form-label fw-medium" />
-                            <input @bind="UpdateBandId" placeholder="Enter band ID" type="number" class="form-control" min="1" />
-                        </div>
-                        <div class="mb-3">
-                            <Label Text="New Band Name" class="form-label fw-medium" />
-                            <TextEdit @bind-Text="UpdateBandName" Placeholder="Enter new band name" class="form-control" />
-                        </div>
-                        <div class="mb-4">
-                            <Label Text="Genre" class="form-label fw-medium" />
-                            <Select @bind-SelectedValue="UpdateBandGenre" class="form-select">
-                                @foreach (var genre in Enum.GetValues<Genre>())
-                                {
-                                    <SelectItem Value="@genre">@genre</SelectItem>
-                                }
-                            </Select>
-                        </div>
-                        <Button Color="Color.Info" @onclick="UpdateBand" class="w-100">
-                            <i class="fas fa-save me-2"></i>Update Band
-                        </Button>
-                    </form>
-                </div>
-            </div>
-        </div>
+		<!-- Update Band -->
+		<div class="col-lg-4 mb-4">
+			<div class="card shadow-sm border-0 h-100">
+				<div class="card-header bg-info text-white">
+					<h5 class="mb-0 d-flex align-items-center">
+						<i class="fas fa-edit me-2"></i>
+						Update Band
+					</h5>
+				</div>
+				<div class="card-body">
+					<form>
+						<div class="mb-3">
+							<Label Text="Band ID" class="form-label fw-medium" />
+							<input @bind="UpdateBandId" placeholder="Enter band ID" type="number" class="form-control" min="1" />
+						</div>
+						<div class="mb-3">
+							<Label Text="New Band Name" class="form-label fw-medium" />
+							<TextEdit @bind-Text="UpdateBandName" Placeholder="Enter new band name" class="form-control" />
+						</div>
+						<div class="mb-4">
+							<Label Text="Genre" class="form-label fw-medium" />
+							<Select @bind-SelectedValue="UpdateBandGenre" class="form-select">
+								@foreach (var genre in Enum.GetValues<Genre>())
+								{
+									<SelectItem Value="@genre">@genre</SelectItem>
+								}
+							</Select>
+						</div>
+						<Button Color="Color.Info" @onclick="UpdateBand" class="w-100">
+							<i class="fas fa-save me-2"></i>Update Band
+						</Button>
+					</form>
+				</div>
+			</div>
+		</div>
 
-        <!-- Delete Band -->
-        <div class="col-lg-4 mb-4">
-            <div class="card shadow-sm border-0 h-100">
-                <div class="card-header bg-secondary text-white">
-                    <h5 class="mb-0 d-flex align-items-center">
-                        <i class="fas fa-trash me-2"></i>
-                        Delete Band
-                    </h5>
-                </div>
-                <div class="card-body">
-                    <form>
-                        <div class="mb-4">
-                            <Label Text="Band ID" class="form-label fw-medium" />
-                            <input @bind="DeleteBandId" placeholder="Enter band ID to delete" type="number" class="form-control" min="1" />
-                        </div>
-                        <Button Color="Color.Secondary" @onclick="DeleteBand" class="w-100">
-                            <i class="fas fa-trash me-2"></i>Delete Band
-                        </Button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+		<!-- Delete Band -->
+		<div class="col-lg-4 mb-4">
+			<div class="card shadow-sm border-0 h-100">
+				<div class="card-header bg-secondary text-white">
+					<h5 class="mb-0 d-flex align-items-center">
+						<i class="fas fa-trash me-2"></i>
+						Delete Band
+					</h5>
+				</div>
+				<div class="card-body">
+					<form>
+						<div class="mb-4">
+							<Label Text="Band ID" class="form-label fw-medium" />
+							<input @bind="DeleteBandId" placeholder="Enter band ID to delete" type="number" class="form-control" min="1" />
+						</div>
+						<Button Color="Color.Secondary" @onclick="DeleteBand" class="w-100">
+							<i class="fas fa-trash me-2"></i>Delete Band
+						</Button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
 
