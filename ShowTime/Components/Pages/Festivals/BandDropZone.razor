@@ -1,0 +1,44 @@
+﻿@using ShowTime.Entities
+@using Blazorise
+
+<DropContainer TItem="Band"
+               Items="@Bands"
+               ItemDropped="@OnBandDropped"
+               Flex="Flex.Wrap.Grow.Is1">
+    <ChildContent>
+        <DropZone TItem="Band"
+                  Name="bands"
+                  AllowReorder
+                  Reordered="@OnBandsReordered"
+                  Padding="Padding.Is3"
+                  Margin="Margin.Is3"
+                  Flex="Flex.Grow.Is1">
+            <Heading Size="HeadingSize.Is4" Margin="Margin.Is3.FromBottom">Bands</Heading>
+        </DropZone>
+    </ChildContent>
+    <ItemTemplate>
+        <Card Shadow="Shadow.Default" Margin="Margin.Is3.OnY">
+            <CardBody>
+                @context.Name
+            </CardBody>
+        </Card>
+    </ItemTemplate>
+</DropContainer>
+
+@code {
+    [Parameter] public List<Band> Bands { get; set; } = new();
+    [Parameter] public EventCallback<List<Band>> BandsChanged { get; set; }
+
+    private Task OnBandDropped(DraggableDroppedEventArgs<Band> args)
+    {
+        // Optionally handle drop logic here
+        return Task.CompletedTask;
+    }
+
+    private async Task OnBandsReordered(DropZoneOrder<Band> order)
+    {
+        // Update the order of bands and notify parent
+        var newOrder = order.OrderedItems.OrderBy(x => x.Order).Select(x => x.Item).ToList();
+        await BandsChanged.InvokeAsync(newOrder);
+    }
+}

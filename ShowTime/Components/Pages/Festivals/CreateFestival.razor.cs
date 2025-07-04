@@ -24,6 +24,14 @@ namespace ShowTime.Components.Pages.Festivals
         protected override async Task OnInitializedAsync()
         {
             AllBands = (await BandService.GetAllAsync()).ToList();
+
+            DropBands = AllBands.Select(b => new DropBand
+            {
+                Band = b,
+                Group = "1"
+            }).ToList();
+
+            StateHasChanged();
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -82,6 +90,40 @@ namespace ShowTime.Components.Pages.Festivals
             if (!SelectedBandIds.Add(bandId))
                 SelectedBandIds.Remove(bandId);
         }
+
+        public class DropBand
+        {
+            public Band? Band { get; set; }
+            public string? Group { get; set; }
+        }
+
+        private List<DropBand> DropBands = new List<DropBand>();
+
+        private void HandleOnDeleted(Band deletedBand)
+        {
+            DropBands = DropBands.Where(b => b.Band?.Id != deletedBand.Id).ToList();
+        }
+
+        private Task BandDropped(DraggableDroppedEventArgs<DropBand> dropBand)
+        {
+            dropBand.Item.Group = dropBand.DropZoneName;
+
+            DropBands = DropBands.Select(b => new DropBand
+            {
+                Band = b.Band,
+                Group = b.Group
+            }).ToList();
+
+            return Task.CompletedTask;
+        }
+
+        private string reorderStatus = string.Empty;
+        private Task Reordered(DropZoneOrder<DropBand> order)
+        {
+            reorderStatus = $"Order in dropzone {order.DestinationDropZoneName}: {string.Join(", ", order.OrderedItems.OrderBy(x => x.Order).Select(x => x.Item.Band.Name))}";
+            return Task.CompletedTask;
+        }
+
 
         private void NavigateToFestivalList()
         {
