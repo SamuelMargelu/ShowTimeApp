@@ -1,298 +1,312 @@
 ﻿.festival-details-container {
-    min-height: 100vh;
+  min-height: 100vh;
 }
 
-.loading-container, .error-container {
-    min-height: 60vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem;
+.loading-container,
+.error-container {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
 }
 
 .festival-hero {
-    position: relative;
-    height: 70vh;
-    min-height: 500px;
-    overflow: hidden;
+  position: relative;
+  height: 70vh;
+  min-height: 500px;
+  overflow: hidden;
 }
 
 .hero-image-container {
-    position: relative;
-    width: 100%;
-    height: 100%;
+  position: relative;
+  width: 100%;
+  height: 100%;
 }
 
 .hero-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 
 .hero-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.2) 100%);
-    display: flex;
-    align-items: flex-end;
-    padding: 2rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.2) 0%,
+    rgba(0, 0, 0, 0.2) 100%
+  );
+  display: flex;
+  align-items: flex-end;
+  padding: 2rem;
 }
 
 .hero-content {
-    color: white;
-    width: 100%;
+  color: white;
+  width: 100%;
 }
 
 .hero-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
 }
 
 /* Square button styling */
 .square-button {
-    width: 50px !important;
-    height: 50px !important;
-    padding: 0 !important;
-    border-radius: 8px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
+  width: 50px !important;
+  height: 50px !important;
+  padding: 0 !important;
+  border-radius: 8px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: #ffffff !important;
+  border: 2px solid #000000 !important;
+  transition: background 0.2s, border-color 0.2s;
 }
 
-    .square-button i {
-        font-size: 18px;
-    }
+.square-button:hover {
+  background: #3c72df !important;
+  border-color: #ffffff !important;
+}
+
+.square-button i {
+  font-size: 18px;
+  color: #000000 !important;
+}
 
 /* Status badge with solid background */
 .status-badge {
-    font-size: 14px !important;
-    padding: 8px 16px !important;
-    border-radius: 20px !important;
-    font-weight: 600 !important;
+  font-size: 14px !important;
+  padding: 8px 16px !important;
+  border-radius: 20px !important;
+  font-weight: 600 !important;
 }
 
 .status-upcoming {
-    background-color: #17a2b8 !important;
-    color: white !important;
+  background-color: #17a2b8 !important;
+  color: white !important;
 }
 
 .status-ongoing {
-    background-color: #28a745 !important;
-    color: white !important;
+  background-color: #28a745 !important;
+  color: white !important;
 }
 
 .status-completed {
-    background-color: #6c757d !important;
-    color: white !important;
+  background-color: #6c757d !important;
+  color: white !important;
 }
 
 .status-info {
-    background-color: #17a2b8 !important;
-    color: white !important;
+  background-color: #17a2b8 !important;
+  color: white !important;
 }
 
 .status-success {
-    background-color: #28a745 !important;
-    color: white !important;
+  background-color: #28a745 !important;
+  color: white !important;
 }
 
 .status-secondary {
-    background-color: #6c757d !important;
-    color: white !important;
+  background-color: #6c757d !important;
+  color: white !important;
 }
 
 .hero-title h1 {
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 /* Small location text */
 .small-location {
-    font-size: 1rem !important;
-    font-weight: 400 !important;
-    opacity: 0.9;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+  font-size: 1rem !important;
+  font-weight: 400 !important;
+  opacity: 0.9;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .hero-actions {
-    margin-top: 2rem;
+  margin-top: 2rem;
 }
 
 .edit-button {
-    border-radius: 25px;
-    padding: 12px 30px;
-    font-weight: 600;
+  border-radius: 25px;
+  padding: 12px 30px;
+  font-weight: 600;
 }
 
 .festival-content {
-    padding: 3rem 0;
-    background: #f8f9fa;
+  padding: 3rem 0;
+  background: #f8f9fa;
 }
 
 .quick-stats {
-    background: white;
-    border-radius: 15px;
-    padding: 2rem;
-    margin-bottom: 3rem;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  background: white;
+  border-radius: 15px;
+  padding: 2rem;
+  margin-bottom: 3rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .stat-item {
-    display: flex;
-    align-items: center;
-    padding: 1rem;
-    text-align: left;
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  text-align: left;
 }
 
 .stat-icon {
-    font-size: 2.5rem;
-    color: #007bff;
-    margin-right: 1rem;
-    width: 60px;
-    text-align: center;
+  font-size: 2.5rem;
+  color: #007bff;
+  margin-right: 1rem;
+  width: 60px;
+  text-align: center;
 }
 
 .stat-content h3 {
-    font-size: 2rem;
-    font-weight: 700;
-    margin: 0;
-    color: #333;
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0;
+  color: #333;
 }
 
 .stat-content p {
-    margin: 0;
-    color: #666;
-    font-size: 0.9rem;
+  margin: 0;
+  color: #666;
+  font-size: 0.9rem;
 }
 
 .progress-section {
-    background: white;
-    border-radius: 15px;
-    padding: 2rem;
-    margin-bottom: 3rem;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  background: white;
+  border-radius: 15px;
+  padding: 2rem;
+  margin-bottom: 3rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .progress-info h4 {
-    margin-bottom: 0.5rem;
-    color: #333;
+  margin-bottom: 0.5rem;
+  color: #333;
 }
 
 .festival-progress {
-    height: 12px;
-    border-radius: 6px;
-    margin-top: 1rem;
+  height: 12px;
+  border-radius: 6px;
+  margin-top: 1rem;
 }
 
 .bands-section {
-    background: white;
-    border-radius: 15px;
-    padding: 2rem;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  background: white;
+  border-radius: 15px;
+  padding: 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .section-header h2 {
-    color: #333;
-    margin-bottom: 2rem;
+  color: #333;
+  margin-bottom: 2rem;
 }
 
 .bands-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
 }
 
 .band-card {
-    background: white;
-    border-radius: 12px;
-    overflow: hidden;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    border: 1px solid #e9ecef;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e9ecef;
 }
 
-    .band-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-    }
+.band-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
 
 .band-image {
-    height: 200px;
-    overflow: hidden;
-    position: relative;
+  height: 200px;
+  overflow: hidden;
+  position: relative;
 }
 
-    .band-image img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: transform 0.3s ease;
-    }
+.band-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
 
 .band-card:hover .band-image img {
-    transform: scale(1.05);
+  transform: scale(1.05);
 }
 
 .band-info {
-    padding: 1.5rem;
+  padding: 1.5rem;
 }
 
-    .band-info h5 {
-        margin-bottom: 0.75rem;
-        color: #333;
-        font-weight: 600;
-    }
+.band-info h5 {
+  margin-bottom: 0.75rem;
+  color: #333;
+  font-weight: 600;
+}
 
 .no-bands {
-    text-align: center;
-    padding: 4rem 2rem;
-    color: #666;
+  text-align: center;
+  padding: 4rem 2rem;
+  color: #666;
 }
 
 .empty-icon {
-    font-size: 4rem;
-    color: #dee2e6;
-    margin-bottom: 1rem;
+  font-size: 4rem;
+  color: #dee2e6;
+  margin-bottom: 1rem;
 }
 
 .no-bands h4 {
-    color: #666;
-    margin-bottom: 0.5rem;
+  color: #666;
+  margin-bottom: 0.5rem;
 }
 
 @media (max-width: 768px) {
-    .hero-title h1 {
-        font-size: 2rem;
-    }
+  .hero-title h1 {
+    font-size: 2rem;
+  }
 
-    .small-location {
-        font-size: 0.9rem !important;
-    }
+  .small-location {
+    font-size: 0.9rem !important;
+  }
 
-    .hero-overlay {
-        padding: 1rem;
-    }
+  .hero-overlay {
+    padding: 1rem;
+  }
 
-    .festival-content {
-        padding: 2rem 0;
-    }
+  .festival-content {
+    padding: 2rem 0;
+  }
 
-    .stat-item {
-        margin-bottom: 1rem;
-        justify-content: center;
-        text-align: center;
-    }
+  .stat-item {
+    margin-bottom: 1rem;
+    justify-content: center;
+    text-align: center;
+  }
 
-    .bands-grid {
-        grid-template-columns: 1fr;
-    }
+  .bands-grid {
+    grid-template-columns: 1fr;
+  }
 }
