@@ -29,7 +29,10 @@ namespace ShowTime.Components.Pages.Festivals
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             await base.OnAfterRenderAsync(firstRender);
-            await JS.InvokeVoidAsync("scrollToTop");
+            if (firstRender)
+            {
+                await JS.InvokeVoidAsync("scrollToTop");
+            }
         }
         private async Task AddFestival()
         {
