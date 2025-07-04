@@ -8,7 +8,9 @@ namespace ShowTime.Components.Pages.Festivals
 {
     public partial class CreateFestival
     {
-
+        [Parameter]
+        public int? FestivalIdQueryParameter { get; set; } = -1;
+        private Festival? FestivalToUpdate { get; set; } = null;
         private string NewFestivalName = string.Empty;
         private string NewFestivalLocation = string.Empty;
         private DateTime NewFestivalStartDate = DateTime.Now;
@@ -19,11 +21,14 @@ namespace ShowTime.Components.Pages.Festivals
         private List<Band>? AllBands;
         private HashSet<int> SelectedBandIds = new();
 
+        private string errorMessage = string.Empty;
+
 
 
         protected override async Task OnInitializedAsync()
         {
             AllBands = (await BandService.GetAllAsync()).ToList();
+            await FillFields();
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -66,6 +71,64 @@ namespace ShowTime.Components.Pages.Festivals
             NewFestivalPhoto = null;
 
             NavigateToFestivalList();
+        }
+
+        private async Task UpdateFestival()
+        {
+            if (FestivalToUpdate == null)
+            {
+                errorMessage = "Festival to update is not set.";
+                return;
+            }
+            var selectedBands = AllBands?.Where(b => SelectedBandIds.Contains(b.Id))
+              .Select(b => new BandFestival
+              {
+                  BandsId = b.Id,
+                  Band = b,
+              }).ToList() ?? new List<BandFestival>();
+
+            FestivalToUpdate.Name = NewFestivalName;
+            FestivalToUpdate.Location = NewFestivalLocation;
+            FestivalToUpdate.StartDate = NewFestivalStartDate;
+            FestivalToUpdate.EndDate = NewFestivalEndDate;
+            FestivalToUpdate.BandFestivals = selectedBands;
+            FestivalToUpdate.Photo = NewFestivalPhoto;
+
+            await FestivalService.UpdateAsync(FestivalToUpdate);
+            NavigateToFestivalList();
+        }
+
+        private async Task FillFields()
+        {
+            if (FestivalIdQueryParameter != null)
+            {
+                int FestivalId = FestivalIdQueryParameter.Value;
+                errorMessage = string.Empty;
+                try
+                {
+                    FestivalToUpdate = await FestivalService.GetByIdIncludingAsync(FestivalId, f => f.BandFestivals,
+                                                                                       f => (f.BandFestivals as BandFestival).Band);
+
+                    if (FestivalToUpdate == null)
+                    {
+                        errorMessage = "Festival not found.";
+                    } else
+                    {
+                        NewFestivalName = FestivalToUpdate.Name;
+                        NewFestivalLocation = FestivalToUpdate.Location;
+                        NewFestivalStartDate = FestivalToUpdate.StartDate;
+                        NewFestivalEndDate = FestivalToUpdate.EndDate;
+                        NewFestivalPhoto = FestivalToUpdate.Photo;
+                        SelectedBandIds = new HashSet<int>(FestivalToUpdate.BandFestivals.Select(bf => bf.BandsId));
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    errorMessage = $"Error loading festival details: {ex.Message}";
+                    Console.WriteLine($"Error loading festival with id {FestivalId} - {ex.Message}");
+                }
+            }
         }
 
         private async void OnFileUpload(FileUploadEventArgs e)
