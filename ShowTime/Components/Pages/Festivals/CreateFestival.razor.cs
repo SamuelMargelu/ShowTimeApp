@@ -1,6 +1,7 @@
 using Blazorise;
 using Microsoft.AspNetCore.Components;
 using ShowTime.Entities;
+using Microsoft.JSInterop;
 using ShowTime.Services.Implementations;
 
 namespace ShowTime.Components.Pages.Festivals
@@ -23,6 +24,12 @@ namespace ShowTime.Components.Pages.Festivals
         protected override async Task OnInitializedAsync()
         {
             AllBands = (await BandService.GetAllAsync()).ToList();
+        }
+
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            await base.OnAfterRenderAsync(firstRender);
+            await JS.InvokeVoidAsync("scrollToTop");
         }
         private async Task AddFestival()
         {

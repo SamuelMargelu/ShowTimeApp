@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Routing;
+using Microsoft.JSInterop;
 using ShowTime.Entities;
 using ShowTime.Services.Interfaces;
 
@@ -7,7 +9,7 @@ namespace ShowTime.Components.Pages.Festivals
     public partial class FestivalDetails : ComponentBase
     {
         [Parameter] public int FestivalId { get; set; }
-              
+
         public Festival? Festival;
         public bool isLoading = true;
         public string errorMessage = string.Empty;
@@ -15,6 +17,12 @@ namespace ShowTime.Components.Pages.Festivals
         protected override async Task OnInitializedAsync()
         {
             await LoadFestival();
+        }
+
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            await base.OnAfterRenderAsync(firstRender);
+            await JS.InvokeVoidAsync("scrollToTop");
         }
 
         private async Task LoadFestival()

@@ -4,3 +4,12 @@
         <FocusOnNavigate RouteData="routeData" Selector="h1" />
     </Found>
 </Router>
+
+@code {
+    [Inject] IJSRuntime JS { get; set; }
+
+    private async Task HandleNavigation(NavigationContext args)
+    {
+        await JS.InvokeVoidAsync("scrollToTop");
+    }
+}
