@@ -7,10 +7,10 @@ namespace ShowTime.Components.Pages.Festivals
     public partial class FestivalDetails : ComponentBase
     {
         [Parameter] public int FestivalId { get; set; }
-       
-        private Festival? Festival;
-        private bool isLoading = true;
-        private string errorMessage = string.Empty;
+              
+        public Festival? Festival;
+        public bool isLoading = true;
+        public string errorMessage = string.Empty;
 
         protected override async Task OnInitializedAsync()
         {
@@ -43,28 +43,28 @@ namespace ShowTime.Components.Pages.Festivals
             }
         }
 
-        private void NavigateToFestivalList()
+        public void NavigateToFestivalList()
+        {
+            NavigationManager.NavigateTo("/FestivalList");
+        }
+
+        public void NavigateToEditFestival()
         {
             NavigationManager.NavigateTo("/FestivalCrudTest");
         }
 
-        private void NavigateToEditFestival()
-        {
-            NavigationManager.NavigateTo($"/EditFestival/{FestivalId}");
-        }
-
-        private void NavigateToBandDetails(int bandId)
+        public void NavigateToBandDetails(int bandId)
         {
             NavigationManager.NavigateTo($"/BandDetails/{bandId}");
         }
 
-        private int GetFestivalDuration()
+        public int GetFestivalDuration()
         {
             if (Festival == null) return 0;
             return (Festival.EndDate - Festival.StartDate).Days + 1;
         }
 
-        private string GetFestivalStatus()
+        public string GetFestivalStatus()
         {
             if (Festival == null) return "Unknown";
 
@@ -78,7 +78,7 @@ namespace ShowTime.Components.Pages.Festivals
                 return "Ongoing";
         }
 
-        private Blazorise.Color GetStatusColor()
+        public Blazorise.Color GetStatusColor()
         {
             return GetFestivalStatus() switch
             {
@@ -89,14 +89,24 @@ namespace ShowTime.Components.Pages.Festivals
             };
         }
 
-        private int GetDaysUntilStart()
+        public string GetStatusBootstrapColor()
+        {
+            return GetFestivalStatus() switch
+            {
+                "Upcoming" => "info",
+                "Ongoing" => "success", 
+                "Completed" => "secondary",
+                _ => "light"
+            };
+        }
+        public int GetDaysUntilStart()
         {
             if (Festival == null) return 0;
             var days = (Festival.StartDate - DateTime.Today).Days;
             return days > 0 ? days : 0;
         }
 
-        private int GetFestivalProgress()
+        public int GetFestivalProgress()
         {
             if (Festival == null) return 0;
             
@@ -107,16 +117,6 @@ namespace ShowTime.Components.Pages.Festivals
             var progress = (double)daysPassed / totalDays * 100;
             
             return Math.Max(0, Math.Min(100, (int)progress));
-        }
-        private string GetStatusBootstrapColor()
-        {
-            return GetFestivalStatus() switch
-            {
-                "Upcoming" => "info",
-                "Ongoing" => "success", 
-                "Completed" => "secondary",
-                _ => "light"
-            };
         }
     }
 }

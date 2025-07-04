@@ -45,16 +45,16 @@
                 <div class="hero-overlay">
                     <div class="hero-content">
                         <div class="hero-header">
-                            <button type="button" class="btn btn-light back-button" @onclick="NavigateToFestivalList">
+                            <button type="button" class="btn btn-light back-button square-button" @onclick="NavigateToFestivalList">
                                 <i class="fas fa-arrow-left"></i>
                             </button>
-                            <span class="badge status-badge bg-@GetStatusColor()">
+                            <span class="badge status-badge status-@GetStatusBootstrapColor()">
                                 @GetFestivalStatus()
                             </span>
                         </div>
                         <div class="hero-title">
                             <h1>@Festival.Name</h1>
-                            <p class="hero-subtitle">
+                            <p class="hero-subtitle small-location">
                                 <i class="fas fa-map-marker-alt me-2"></i>
                                 @Festival.Location
                             </p>
@@ -181,6 +181,3 @@
         </div>
     }
 </div>
-
-
-
