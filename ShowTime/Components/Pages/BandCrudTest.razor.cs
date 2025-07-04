@@ -7,7 +7,6 @@ namespace ShowTime.Components.Pages
     public partial class BandCrudTest
     {
         private List<Band>? Bands;
-        private List<Festival>? Festivals;
 
         private string NewBandName = string.Empty;
         private Genre NewBandGenre;

@@ -5,7 +5,6 @@ namespace ShowTime.Components.Pages
     public partial class FestivalCrudTest
     {
         private List<Festival>? Festivals;
-        private List<Band>? Bands;
 
         private string NewFestivalName = string.Empty;
         private string NewFestivalLocation = string.Empty;
@@ -91,6 +90,18 @@ namespace ShowTime.Components.Pages
                 UpdateFestivalStartDate = DateTime.Now;
                 UpdateFestivalEndDate = DateTime.Now.AddDays(1);
             }
+        }
+
+        private async Task DeleteFestivalById(int id)
+        {
+            DeleteFestivalId = id;
+            var festivalToDelete = await FestivalService.GetByIdAsync(DeleteFestivalId);
+            if (festivalToDelete != null)
+            { 
+                await FestivalService.DeleteAsync(festivalToDelete);
+                await LoadFestivals();
+            }
+
         }
 
         private async Task DeleteFestival()
