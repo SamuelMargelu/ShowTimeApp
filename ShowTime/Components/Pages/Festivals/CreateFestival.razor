@@ -1,4 +1,4 @@
-﻿@page "/CreateFestival"
+﻿@page "/CreateFestival/{FestivalIdQueryParameter:int?}"
 
 @inject IFestivalService FestivalService
 @inject IBandService BandService
@@ -9,8 +9,10 @@
 
 <Div Class="d-flex justify-content-between align-items-center mb-4">
     <Heading Size="HeadingSize.Is2" TextColor="TextColor.Primary" TextWeight="TextWeight.Bold">
-        <Icon Name="IconName.Add" Margin="Margin.Is2.FromEnd" />
-        Create New Festival
+        <Icon Name="@(FestivalIdQueryParameter == null ? IconName.Add : IconName.Save)" Margin="Margin.Is2.FromEnd" />
+        @(FestivalIdQueryParameter == null
+            ? "Create New Festival"
+            : $"Update {FestivalToUpdate?.Name ?? "Festival"} Festival")
     </Heading>
 </Div>
 
@@ -137,10 +139,12 @@
 
                     <Button Color="Color.Primary"
                             Size="Size.Large"
-                            @onclick="AddFestival"
+                            @onclick="FestivalIdQueryParameter == null ? AddFestival : UpdateFestival"
                             Style="min-width: 120px;">
                         <Icon Name="IconName.Save" Margin="Margin.Is1.FromEnd" />
-                        Create Festival
+                        @(FestivalIdQueryParameter == null
+                            ? "Create Festival"
+                            : $"Update")
                     </Button>
                 </Div>
             </Form>
