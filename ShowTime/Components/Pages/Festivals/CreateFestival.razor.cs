@@ -95,6 +95,14 @@ namespace ShowTime.Components.Pages.Festivals
             FestivalToUpdate.Photo = NewFestivalPhoto;
 
             await FestivalService.UpdateAsync(FestivalToUpdate);
+
+            NewFestivalName = string.Empty;
+            NewFestivalLocation = string.Empty;
+            NewFestivalStartDate = DateTime.Now;
+            NewFestivalEndDate = DateTime.Now.AddDays(1);
+            SelectedBandIds.Clear();
+            NewFestivalPhoto = null;
+
             NavigateToFestivalList();
         }
 
