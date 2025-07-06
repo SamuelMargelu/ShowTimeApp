@@ -1,0 +1,63 @@
+﻿@page "/BuyTicket/{FestivalId:int}"
+
+@inject IFestivalService FestivalService
+@inject IBookingService BookingService
+@inject NavigationManager NavigationManager
+
+@rendermode InteractiveServer
+
+
+<Div Class="d-flex justify-content-between align-items-center mb-4">
+	<Heading Size="HeadingSize.Is2" TextColor="TextColor.Primary" TextWeight="TextWeight.Bold">
+		<Icon Name="IconName.Ticket" Margin="Margin.Is2.FromEnd" />
+		Get your ticket for @NewBookingFestival?.Name Festival
+	</Heading>
+</Div>
+
+<Container Class="py-5">
+	<Row JustifyContent="JustifyContent.Center">
+		<Column xs="12" md="8" lg="6" xl="5">
+			<!-- Form Starts -->
+			<Form>
+				<!-- Email Address -->
+				<Field Margin="Margin.Is3.FromBottom">
+					<FieldLabel TextWeight="TextWeight.Bold">
+						<Icon Name="IconName.User" Margin="Margin.Is1.FromEnd" />
+						Email Address
+					</FieldLabel>
+					<FieldBody>
+						<TextEdit @bind-Text="NewBookingEmail"
+								  Placeholder="Enter your email address..."
+								  Size="Size.Large"
+								  Class="form-control" />
+					</FieldBody>
+					<FieldHelp>
+						Please enter a valid email address to receive your ticket confirmation.
+					</FieldHelp>
+				</Field>
+
+				<!-- Buttons -->
+				<Div Class="d-flex gap-3 justify-content-end mt-4">
+					<Button Color="Color.Secondary"
+							Size="Size.Large"
+							Outline
+							@onclick="NavigateToFestivalList"
+							Style="min-width: 120px;">
+						<Icon Name="IconName.Times" Margin="Margin.Is1.FromEnd" />
+						Cancel
+					</Button>
+
+					<Button Color="Color.Primary"
+							Size="Size.Large"
+							@onclick="AddBooking"
+							Style="min-width: 120px;">
+						<Icon Name="IconName.Save" Margin="Margin.Is1.FromEnd" />
+						Buy Ticket
+					</Button>
+				</Div>
+			</Form>
+		</Column>
+	</Row>
+</Container>
+
+
