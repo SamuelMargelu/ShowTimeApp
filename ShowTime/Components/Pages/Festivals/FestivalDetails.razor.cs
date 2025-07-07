@@ -70,6 +70,11 @@ namespace ShowTime.Components.Pages.Festivals
             NavigationManager.NavigateTo($"/BandDetails/{bandId}");
         }
 
+        public void NavigateToBuyTicket(int festivalId)
+        {
+            NavigationManager.NavigateTo($"/BuyTicket/{festivalId}");
+        }
+
         public int GetFestivalDuration()
         {
             if (Festival == null) return 0;

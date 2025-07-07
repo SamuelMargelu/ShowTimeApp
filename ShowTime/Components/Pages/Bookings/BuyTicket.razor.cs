@@ -8,6 +8,8 @@ namespace ShowTime.Components.Pages.Bookings
         [Parameter]
         public int FestivalId { get; set; }
 
+        private bool ShowPurchaseCompleted = false;
+
         private string NewBookingEmail = string.Empty;
         private Festival? NewBookingFestival;
         private DateTime NewBookingDate = DateTime.Now;
@@ -20,7 +22,7 @@ namespace ShowTime.Components.Pages.Bookings
 
         private async Task AddBooking()
         {
-            
+
             if (NewBookingFestival != null)
             {
                 var newBoking = new Booking
@@ -33,6 +35,12 @@ namespace ShowTime.Components.Pages.Bookings
 
                 await BookingService.AddAsync(newBoking);
 
+
+                ShowPurchaseCompleted = true;
+                StateHasChanged();
+
+                await Task.Delay(2000);
+
                 NewBookingEmail = string.Empty;
                 NewBookingDate = DateTime.Now;
 
@@ -43,6 +51,11 @@ namespace ShowTime.Components.Pages.Bookings
         private void NavigateToFestivalList()
         {
             NavigationManager.NavigateTo("/FestivalList");
+        }
+
+        private void NavigateToFestivalDetails()
+        {
+            NavigationManager.NavigateTo($"/FestivalDetails/{FestivalId}");
         }
     }
 }

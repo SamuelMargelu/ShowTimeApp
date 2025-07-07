@@ -41,7 +41,7 @@
 					<Button Color="Color.Secondary"
 							Size="Size.Large"
 							Outline
-							@onclick="NavigateToFestivalList"
+							@onclick="NavigateToFestivalDetails"
 							Style="min-width: 120px;">
 						<Icon Name="IconName.Times" Margin="Margin.Is1.FromEnd" />
 						Cancel
@@ -60,4 +60,29 @@
 	</Row>
 </Container>
 
+<Div Class="fixed-bottom-alert">
+	<Alert Color="Color.Success" @bind-Visible="@ShowPurchaseCompleted">
+		<Icon Name="IconName.CheckCircle" Margin="Margin.Is1.FromEnd" />
+		<AlertMessage>Purchase completed!</AlertMessage>
+		<AlertDescription>You will be redirected to the festival list.</AlertDescription>
+	</Alert>
+</Div>
 
+
+<style>
+	.fixed-bottom-alert {
+		position: fixed;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		z-index: 1050;
+		display: flex;
+		justify-content: center;
+		pointer-events: none; 
+	}
+
+		.fixed-bottom-alert .alert {
+			pointer-events: auto; 
+			margin-bottom: 1rem;
+		}
+</style>
