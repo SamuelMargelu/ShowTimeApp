@@ -64,7 +64,7 @@ namespace ShowTime.Components.Pages.Festivals
                 Location = NewFestivalLocation,
                 StartDate = NewFestivalStartDate,
                 EndDate = NewFestivalEndDate,
-                BandFestivals = selectedBands,
+                BandFestivals = NewBandFestival,
                 Photo = NewFestivalPhoto
             };
 
@@ -75,6 +75,7 @@ namespace ShowTime.Components.Pages.Festivals
             NewFestivalStartDate = DateTime.Now;
             NewFestivalEndDate = DateTime.Now.AddDays(1);
             SelectedBandIds.Clear();
+            NewBandFestival = null;
             NewFestivalPhoto = null;
 
             NavigateToFestivalList();
@@ -111,12 +112,6 @@ namespace ShowTime.Components.Pages.Festivals
         {
             dropBand.Item.Group = dropBand.DropZoneName;
 
-            DropBands = DropBands.Select(b => new DropBand
-            {
-                Band = b.Band,
-                Group = b.Group
-            }).ToList();
-
             return Task.CompletedTask;
         }
 
@@ -124,17 +119,19 @@ namespace ShowTime.Components.Pages.Festivals
         private Task Reordered(DropZoneOrder<DropBand> order)
         {
             reorderStatus = $"Order in dropzone {order.DestinationDropZoneName}: {string.Join(", ", order.OrderedItems.OrderBy(x => x.Order).Select(x => x.Item.Band.Name))}";
-            var bandOrder = 1;
-            var dropZone2Bands = DropBands
-                .Where(b => b.Group == "SelectedBands" && b.Band != null)
-                .Select(b => new BandFestival
-                {
-                    BandsId = b.Band.Id,
-                    Band = b.Band,
-                    BandOrder = bandOrder++,
-                })
-                .ToList();
-
+            if (order.DestinationDropZoneName == "SelectedBands")
+            {
+                NewBandFestival = order.OrderedItems
+                    .OrderBy(x => x.Order)
+                    .Where(x => x.Item.Band != null)
+                    .Select((x, idx) => new BandFestival
+                    {
+                        BandsId = x.Item.Band.Id,
+                        Band = x.Item.Band,
+                        BandOrder = idx + 1
+                    })
+                    .ToList();
+            }
 
             return Task.CompletedTask;
         }
