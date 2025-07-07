@@ -84,7 +84,11 @@ builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSe
 
 builder.Services.AddAuthenticationCore();
 
+builder.Services.AddAntiforgery();
+
 var app = builder.Build();
+
+app.MapAdditionalIdentityEndpoints();
 
 // Configure Blazorise and its providers.
 
