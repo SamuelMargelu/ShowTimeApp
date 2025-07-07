@@ -22,7 +22,6 @@ namespace ShowTime.Components.Pages.Festivals
         private byte[]? NewFestivalPhoto;
 
         private List<Band>? AllBands;
-        private HashSet<int> SelectedBandIds = new();
 
         private string errorMessage = string.Empty;
 
@@ -55,15 +54,6 @@ namespace ShowTime.Components.Pages.Festivals
         }
         private async Task AddFestival()
         {
-            var selectedBands = AllBands?.Where(b => SelectedBandIds.Contains(b.Id))
-              .Select(b => new BandFestival
-              {
-                  BandsId = b.Id,
-                  Band = b,
-              }).ToList() ?? new List<BandFestival>();
-
-
-
             var newFestival = new Festival
             {
                 Name = NewFestivalName,
@@ -81,7 +71,6 @@ namespace ShowTime.Components.Pages.Festivals
             NewFestivalLocation = string.Empty;
             NewFestivalStartDate = DateTime.Now;
             NewFestivalEndDate = DateTime.Now.AddDays(1);
-            SelectedBandIds.Clear();
             NewBandFestival = null;
             NewFestivalPhoto = null;
 
@@ -95,18 +84,12 @@ namespace ShowTime.Components.Pages.Festivals
                 errorMessage = "Festival to update is not set.";
                 return;
             }
-            var selectedBands = AllBands?.Where(b => SelectedBandIds.Contains(b.Id))
-              .Select(b => new BandFestival
-              {
-                  BandsId = b.Id,
-                  Band = b,
-              }).ToList() ?? new List<BandFestival>();
 
             FestivalToUpdate.Name = NewFestivalName;
             FestivalToUpdate.Location = NewFestivalLocation;
             FestivalToUpdate.StartDate = NewFestivalStartDate;
             FestivalToUpdate.EndDate = NewFestivalEndDate;
-            FestivalToUpdate.BandFestivals = selectedBands;
+            FestivalToUpdate.BandFestivals = NewBandFestival;
             FestivalToUpdate.Photo = NewFestivalPhoto;
 
             await FestivalService.UpdateAsync(FestivalToUpdate);
@@ -115,7 +98,7 @@ namespace ShowTime.Components.Pages.Festivals
             NewFestivalLocation = string.Empty;
             NewFestivalStartDate = DateTime.Now;
             NewFestivalEndDate = DateTime.Now.AddDays(1);
-            SelectedBandIds.Clear();
+            NewBandFestival = null;
             NewFestivalPhoto = null;
 
             NavigateToFestivalList();
@@ -142,7 +125,14 @@ namespace ShowTime.Components.Pages.Festivals
                         NewFestivalStartDate = FestivalToUpdate.StartDate;
                         NewFestivalEndDate = FestivalToUpdate.EndDate;
                         NewFestivalPhoto = FestivalToUpdate.Photo;
-                        SelectedBandIds = new HashSet<int>(FestivalToUpdate.BandFestivals.Select(bf => bf.BandsId));
+                        NewBandFestival = FestivalToUpdate.BandFestivals?
+                            .OrderBy(bf => bf.BandOrder)
+                            .Select(bf => new BandFestival
+                            {
+                                BandsId = bf.BandsId,
+                                Band = bf.Band,
+                                BandOrder = bf.BandOrder
+                            }).ToList() ?? new List<BandFestival>();
                     }
 
                 }
@@ -161,12 +151,6 @@ namespace ShowTime.Components.Pages.Festivals
             using var memoryStream = new MemoryStream();
             await stream.CopyToAsync(memoryStream);
             NewFestivalPhoto = memoryStream.ToArray();
-        }
-
-        private void ToggleBandSelection(int bandId)
-        {
-            if (!SelectedBandIds.Add(bandId))
-                SelectedBandIds.Remove(bandId);
         }
 
         public class DropBand
