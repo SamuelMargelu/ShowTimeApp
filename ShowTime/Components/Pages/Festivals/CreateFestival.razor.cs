@@ -14,6 +14,7 @@ namespace ShowTime.Components.Pages.Festivals
         private string NewFestivalLocation = string.Empty;
         private DateTime NewFestivalStartDate = DateTime.Now;
         private DateTime NewFestivalEndDate = DateTime.Now.AddDays(1);
+        private List<BandFestival>? NewBandFestival = null;
         private DropContainer<DropBand> drop_Container;
 
         private byte[]? NewFestivalPhoto;
@@ -30,7 +31,7 @@ namespace ShowTime.Components.Pages.Festivals
             DropBands = AllBands.Select(b => new DropBand
             {
                 Band = b,
-                Group = "1" // toate în zona 1 inițial
+                Group = "AllBands" // toate în zona 1 inițial
             }).ToList();
 
         }
@@ -41,22 +42,9 @@ namespace ShowTime.Components.Pages.Festivals
             if (firstRender)
             {
                 drop_Container.Refresh();
+                await JS.InvokeVoidAsync("scrollToTop");
             }
-            //await base.OnAfterRenderAsync(firstRender);
-            //if (firstRender)
-            //{
-            //    await JS.InvokeVoidAsync("scrollToTop");
-            //    if (AllBands is not null)
-            //    {
-            //        DropBands = AllBands.Select(b => new DropBand
-            //        {
-            //            Band = b,
-            //            Group = "1" // toate în zona 1 inițial
-            //        }).ToList();
 
-            //        StateHasChanged(); // asigură re-render
-            //    }
-            //}
         }
         private async Task AddFestival()
         {
@@ -113,49 +101,8 @@ namespace ShowTime.Components.Pages.Festivals
             public string? Group { get; set; }
         }
         private List<DropBand> DropBands = new();
-    //    {
-    //        new DropBand
-    //        {
-    //            Band = new Band
-    //            {
-    //                Id = 1,
-    //                Name = "Radiohead",
-    //                Genre = Genre.Rock
-    //},
-    //            Group = "1"
-    //        },
-    //        new DropBand
-    //        {
-    //            Band = new Band
-    //            {
-    //                Id = 2,
-    //                Name = "Daft Punk",
-    //                Genre = Genre.Electronic
-    //            },
-    //            Group = "2"
-    //        },
-    //        new DropBand
-    //        {
-    //            Band = new Band
-    //            {
-    //                Id = 3,
-    //                Name = "Coldplay",
-    //                Genre = Genre.Pop
-    //            },
-    //            Group = "1"
-    //        },
-    //        new DropBand
-    //        {
-    //            Band = new Band
-    //            {
-    //                Id = 4,
-    //                Name = "Metallica",
-    //                Genre = Genre.Metal
-    //            },
-    //            Group = "3"
-    //        }
-    //    };
-private void HandleOnDeleted(Band deletedBand)
+
+        private void HandleOnDeleted(Band deletedBand)
         {
             DropBands = DropBands.Where(b => b.Band?.Id != deletedBand.Id).ToList();
         }
@@ -177,6 +124,18 @@ private void HandleOnDeleted(Band deletedBand)
         private Task Reordered(DropZoneOrder<DropBand> order)
         {
             reorderStatus = $"Order in dropzone {order.DestinationDropZoneName}: {string.Join(", ", order.OrderedItems.OrderBy(x => x.Order).Select(x => x.Item.Band.Name))}";
+            var bandOrder = 1;
+            var dropZone2Bands = DropBands
+                .Where(b => b.Group == "SelectedBands" && b.Band != null)
+                .Select(b => new BandFestival
+                {
+                    BandsId = b.Band.Id,
+                    Band = b.Band,
+                    BandOrder = bandOrder++,
+                })
+                .ToList();
+
+
             return Task.CompletedTask;
         }
 

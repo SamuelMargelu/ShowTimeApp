@@ -124,28 +124,16 @@
                     </FieldHelp>
                 </Field>
                 <Div>
-                    DropBands Count: 
-                    @DropBands.Count()
-                    @string.Join(", ", DropBands.Select(b => b.Band?.Name))
-                    @string.Join(", ", DropBands.Select(b => b.Group))
                 </Div>
                 <DropContainer TItem="DropBand" @ref="drop_Container" Items="@DropBands" ItemsFilter="@((item, dropZone) => item.Group == dropZone)" ItemDropped="@BandDropped" Flex="Flex.Wrap.Grow.Is1">
                     <ChildContent>
-                        @for (int i = 1; i < 4; i++)
-                        {
-                            var dropzone = i.ToString();
-
-                            <DropZone TItem="DropBand" Name="@dropzone" AllowReorder Reordered="@Reordered" Padding="Padding.Is3" Margin="Margin.Is3" Flex="Flex.Grow.Is1">
-                                <Heading Size="HeadingSize.Is4" Margin="Margin.Is3.FromBottom">Drop Zone @dropzone</Heading>
+                        <DropZone TItem="DropBand" Name="1" AllowReorder Reordered="@Reordered" Padding="Padding.Is3" Margin="Margin.Is3" Flex="Flex.Grow.Is1">
+                                <Heading Size="HeadingSize.Is4" Margin="Margin.Is3.FromBottom">All Bands</Heading>
                             </DropZone>
 
-                            <Div>
-                                <Div>
-                                    dropZone @i count:
-                                    @DropBands.Count(b => b.Group == dropzone)
-                                </Div>
-                            </Div>
-                        }
+                        <DropZone TItem="DropBand" Name="2" AllowReorder Reordered="@Reordered" Padding="Padding.Is3" Margin="Margin.Is3" Flex="Flex.Grow.Is1">
+                            <Heading Size="HeadingSize.Is4" Margin="Margin.Is3.FromBottom">Selected Bands</Heading>
+                        </DropZone>
                     </ChildContent>
                     
                     <ItemTemplate>
