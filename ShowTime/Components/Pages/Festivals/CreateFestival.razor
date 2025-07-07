@@ -129,7 +129,7 @@
                     @string.Join(", ", DropBands.Select(b => b.Band?.Name))
                     @string.Join(", ", DropBands.Select(b => b.Group))
                 </Div>
-                <DropContainer TItem="DropBand" Items="@DropBands" ItemsFilter="@((item, dropZone) => item.Group == dropZone)" ItemDropped="@BandDropped" Flex="Flex.Wrap.Grow.Is1">
+                <DropContainer TItem="DropBand" @ref="drop_Container" Items="@DropBands" ItemsFilter="@((item, dropZone) => item.Group == dropZone)" ItemDropped="@BandDropped" Flex="Flex.Wrap.Grow.Is1">
                     <ChildContent>
                         @for (int i = 1; i < 4; i++)
                         {

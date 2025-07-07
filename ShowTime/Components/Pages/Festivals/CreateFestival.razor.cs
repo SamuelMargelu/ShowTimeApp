@@ -14,6 +14,7 @@ namespace ShowTime.Components.Pages.Festivals
         private string NewFestivalLocation = string.Empty;
         private DateTime NewFestivalStartDate = DateTime.Now;
         private DateTime NewFestivalEndDate = DateTime.Now.AddDays(1);
+        private DropContainer<DropBand> drop_Container;
 
         private byte[]? NewFestivalPhoto;
 
@@ -25,6 +26,13 @@ namespace ShowTime.Components.Pages.Festivals
         protected override async Task OnInitializedAsync()
         {
             AllBands = (await BandService.GetAllAsync()).ToList();
+
+            DropBands = AllBands.Select(b => new DropBand
+            {
+                Band = b,
+                Group = "1" // toate în zona 1 inițial
+            }).ToList();
+
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -32,11 +40,7 @@ namespace ShowTime.Components.Pages.Festivals
             await base.OnAfterRenderAsync(firstRender);
             if (firstRender)
             {
-                DropBands = (await BandService.GetAllAsync()).Select(b => new DropBand
-                {
-                    Band = b,
-                    Group = "1" // toate în zona 1 inițial
-                }).ToList();
+                drop_Container.Refresh();
             }
             //await base.OnAfterRenderAsync(firstRender);
             //if (firstRender)
@@ -109,49 +113,49 @@ namespace ShowTime.Components.Pages.Festivals
             public string? Group { get; set; }
         }
         private List<DropBand> DropBands = new();
-        //{
-        //    new DropBand
-        //    {
-        //        Band = new Band
-        //        {
-        //            Id = 1,
-        //            Name = "Radiohead",
-        //            Genre = Genre.Rock
-        //        },
-        //        Group = "1"
-        //    },
-        //    new DropBand
-        //    {
-        //        Band = new Band
-        //        {
-        //            Id = 2,
-        //            Name = "Daft Punk",
-        //            Genre = Genre.Electronic
-        //        },
-        //        Group = "2"
-        //    },
-        //    new DropBand
-        //    {
-        //        Band = new Band
-        //        {
-        //            Id = 3,
-        //            Name = "Coldplay",
-        //            Genre = Genre.Pop
-        //        },
-        //        Group = "1"
-        //    },
-        //    new DropBand
-        //    {
-        //        Band = new Band
-        //        {
-        //            Id = 4,
-        //            Name = "Metallica",
-        //            Genre = Genre.Metal
-        //        },
-        //        Group = "3"
-        //    }
-        //};
-        private void HandleOnDeleted(Band deletedBand)
+    //    {
+    //        new DropBand
+    //        {
+    //            Band = new Band
+    //            {
+    //                Id = 1,
+    //                Name = "Radiohead",
+    //                Genre = Genre.Rock
+    //},
+    //            Group = "1"
+    //        },
+    //        new DropBand
+    //        {
+    //            Band = new Band
+    //            {
+    //                Id = 2,
+    //                Name = "Daft Punk",
+    //                Genre = Genre.Electronic
+    //            },
+    //            Group = "2"
+    //        },
+    //        new DropBand
+    //        {
+    //            Band = new Band
+    //            {
+    //                Id = 3,
+    //                Name = "Coldplay",
+    //                Genre = Genre.Pop
+    //            },
+    //            Group = "1"
+    //        },
+    //        new DropBand
+    //        {
+    //            Band = new Band
+    //            {
+    //                Id = 4,
+    //                Name = "Metallica",
+    //                Genre = Genre.Metal
+    //            },
+    //            Group = "3"
+    //        }
+    //    };
+private void HandleOnDeleted(Band deletedBand)
         {
             DropBands = DropBands.Where(b => b.Band?.Id != deletedBand.Id).ToList();
         }
