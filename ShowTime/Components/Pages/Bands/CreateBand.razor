@@ -1,12 +1,17 @@
-﻿@page "/CreateBand"
+﻿@page "/CreateBand/{BandIdQueryParameter:int?}"
+
 @rendermode InteractiveServer
+
 @inject IBandService BandService
 @inject NavigationManager NavigationManager
+@inject IJSRuntime JS
 
 <Div Class="d-flex justify-content-between align-items-center mb-4">
 	<Heading Size="HeadingSize.Is2" TextColor="TextColor.Primary" TextWeight="TextWeight.Bold">
-		<Icon Name="IconName.Add" Margin="Margin.Is2.FromEnd" />
-		Create New Band
+		<Icon Name="@(BandIdQueryParameter == null ? IconName.Add : IconName.Save)" Margin="Margin.Is2.FromEnd" />
+		@(BandIdQueryParameter == null
+				? "Create New Band"
+				: $"Edit {BandToUpdate?.Name ?? ""} Band")
 	</Heading>
 </Div>
 
@@ -79,10 +84,12 @@
 
 					<Button Color="Color.Primary"
 							Size="Size.Large"
-							@onclick="AddBand"
+							@onclick="@(BandIdQueryParameter == null ? AddBand : UpdateBand)"
 							Style="min-width: 120px;">
 						<Icon Name="IconName.Save" Margin="Margin.Is1.FromEnd" />
-						Create Band
+						@(BandIdQueryParameter == null
+						? "Create Band"
+						: $"Update {BandToUpdate?.Name}")
 					</Button>
 				</Div>
 			</Form>
