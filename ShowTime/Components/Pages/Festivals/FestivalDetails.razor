@@ -56,7 +56,12 @@
 								<i class="fas fa-map-marker-alt me-2"></i>
 								@Festival.Location
 							</p>
+							<button class="btn btn-primary" @onclick="() => NavigateToBuyTicket(FestivalId)">
+								<i class="fas fa-ticket-alt me-2"></i>
+								Buy Ticket
+							</button>
 						</div>
+
 					</div>
 				<span class="badge status-badge status-@GetStatusBootstrapColor()">
 					@GetFestivalStatus()
