@@ -25,29 +25,43 @@ namespace ShowTime.Components.Pages.Festivals
 
         private string errorMessage = string.Empty;
 
-
+        private bool needsDropContainerRefresh = false;
 
         protected override async Task OnInitializedAsync()
         {
-            AllBands = (await BandService.GetAllAsync()).ToList();
+            await base.OnInitializedAsync();
+        }
 
+        protected override async Task OnParametersSetAsync()
+        {
+            await base.OnParametersSetAsync();
+
+            AllBands = (await BandService.GetAllAsync()).ToList();
 
             DropBands = AllBands.Select(b => new DropBand
             {
                 Band = b,
-                Group = "AllBands" // toate în zona 1 inițial
+                Group = "AllBands"
             }).ToList();
 
-
             await FillFields();
+
+            needsDropContainerRefresh = true;
         }
+
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             await base.OnAfterRenderAsync(firstRender);
-            if (firstRender)
+
+            if (needsDropContainerRefresh && drop_Container is not null)
             {
                 drop_Container.Refresh();
+                needsDropContainerRefresh = false;
+            }
+
+            if (firstRender)
+            {
                 await JS.InvokeVoidAsync("scrollToTop");
             }
 
@@ -85,6 +99,21 @@ namespace ShowTime.Components.Pages.Festivals
                 return;
             }
 
+            // 1. Get the current BandFestivals from the DB
+            var currentBandFestivals = (await FestivalService.GetByIdIncludingAsync(
+                FestivalToUpdate.Id, f => f.BandFestivals)).BandFestivals?.ToList() ?? new List<BandFestival>();
+
+            // 2. Find BandFestivals to remove
+            var toRemove = currentBandFestivals
+                .Where(bf => NewBandFestival == null || !NewBandFestival.Any(nbf => nbf.BandsId == bf.BandsId))
+                .ToList();
+
+            // 3. Remove them from the DB (you may need a BandFestivalService or similar)
+            foreach (var bf in toRemove)
+            {
+               await BandFestivalsService.DeleteByBandAndFestivalIdAsync(bf);
+            }
+
             FestivalToUpdate.Name = NewFestivalName;
             FestivalToUpdate.Location = NewFestivalLocation;
             FestivalToUpdate.StartDate = NewFestivalStartDate;
@@ -114,7 +143,7 @@ namespace ShowTime.Components.Pages.Festivals
                 {
                     FestivalToUpdate = await FestivalService.GetByIdIncludingAsync(FestivalId, f => f.BandFestivals,
                                                                                        f => (f.BandFestivals as BandFestival).Band);
-
+                    
                     if (FestivalToUpdate == null)
                     {
                         errorMessage = "Festival not found.";
@@ -125,6 +154,8 @@ namespace ShowTime.Components.Pages.Festivals
                         NewFestivalStartDate = FestivalToUpdate.StartDate;
                         NewFestivalEndDate = FestivalToUpdate.EndDate;
                         NewFestivalPhoto = FestivalToUpdate.Photo;
+
+                        // Set up NewBandFestival for ordering
                         NewBandFestival = FestivalToUpdate.BandFestivals?
                             .OrderBy(bf => bf.BandOrder)
                             .Select(bf => new BandFestival
@@ -133,6 +164,24 @@ namespace ShowTime.Components.Pages.Festivals
                                 Band = bf.Band,
                                 BandOrder = bf.BandOrder
                             }).ToList() ?? new List<BandFestival>();
+
+                        // Update DropBands group and order
+                        foreach (var bandFestival in NewBandFestival)
+                        {
+                            var dropBand = DropBands.FirstOrDefault(db => db.Band?.Id == bandFestival.BandsId);
+                            if (dropBand != null)
+                            {
+                                dropBand.Group = "SelectedBands";
+                            }
+                        }
+
+                        // Order DropBands so that selected bands are in the correct order
+                        DropBands.Sort((a, b) =>
+                        {
+                            int orderA = NewBandFestival.FirstOrDefault(bf => bf.BandsId == a.Band?.Id)?.BandOrder ?? int.MaxValue;
+                            int orderB = NewBandFestival.FirstOrDefault(bf => bf.BandsId == b.Band?.Id)?.BandOrder ?? int.MaxValue;
+                            return orderA.CompareTo(orderB);
+                        });
                     }
 
                 }
@@ -142,6 +191,9 @@ namespace ShowTime.Components.Pages.Festivals
                     Console.WriteLine($"Error loading festival with id {FestivalId} - {ex.Message}");
                 }
             }
+
+            needsDropContainerRefresh = true;
+
         }
 
         private async void OnFileUpload(FileUploadEventArgs e)
@@ -168,6 +220,8 @@ namespace ShowTime.Components.Pages.Festivals
         private Task BandDropped(DraggableDroppedEventArgs<DropBand> dropBand)
         {
             dropBand.Item.Group = dropBand.DropZoneName;
+
+            StateHasChanged();
 
             return Task.CompletedTask;
         }
@@ -198,5 +252,6 @@ namespace ShowTime.Components.Pages.Festivals
         {
             NavigationManager.NavigateTo("/FestivalList");
         }
+
     }
 }

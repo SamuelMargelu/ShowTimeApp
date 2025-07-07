@@ -2,6 +2,7 @@
 
 @inject IFestivalService FestivalService
 @inject IBandService BandService
+@inject IBandFestivalsService BandFestivalsService
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JS
 
@@ -99,34 +100,6 @@
                     </FieldHelp>
                 </Field>
 
-                <!-- Bands (optional, multi-select) -->
-                <Field Margin="Margin.Is4.FromBottom">
-                    <FieldLabel TextWeight="TextWeight.Bold">
-                        <Icon Name="IconName.Users" Margin="Margin.Is1.FromEnd" />
-                        Bands
-                    </FieldLabel>
-                    <FieldBody>
-                        <Div Class="d-flex flex-wrap gap-2">
-                            @if (AllBands != null)
-                            {
-                                @foreach (var band in AllBands)
-                                {
-                                    <Button Color="@(SelectedBandIds.Contains(band.Id) ? Color.Primary : Color.Dark)"
-                                    Outline="@(SelectedBandIds.Contains(band.Id) ? false : true)"
-                                    Size="Size.Small"
-                                    @onclick="() => ToggleBandSelection(band.Id)">
-                                        @band.Name
-                                    </Button>
-                                }
-                            }
-                        </Div>
-                    </FieldBody>
-                    <FieldHelp>
-                        Click to select or deselect bands for the festival.
-                    </FieldHelp>
-                </Field>
-                <Div>
-                </Div>
                 <DropContainer TItem="DropBand" @ref="drop_Container" Items="@DropBands" ItemsFilter="@((item, dropZone) => item.Group == dropZone)" ItemDropped="@BandDropped" Flex="Flex.Wrap.Grow.Is1">
                     <ChildContent>
                         <DropZone TItem="DropBand" Name="AllBands" AllowReorder Reordered="@Reordered" Padding="Padding.Is3" Margin="Margin.Is3" Flex="Flex.Grow.Is1">
