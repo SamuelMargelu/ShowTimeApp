@@ -37,8 +37,12 @@ namespace ShowTime.Components.Pages.Festivals
             {
                 Festival = await FestivalService.GetByIdIncludingAsync(FestivalId, f => f.BandFestivals,
                                                                                    f => (f.BandFestivals as BandFestival).Band);
-                
-                if (Festival == null)
+
+                if (Festival != null)
+                {
+                    Festival.BandFestivals?.OrderBy(bf => bf.BandOrder).ToList();
+                }
+                else
                 {
                     errorMessage = "Festival not found.";
                 }

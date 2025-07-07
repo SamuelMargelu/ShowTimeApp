@@ -29,9 +29,9 @@
                     </FieldLabel>
                     <FieldBody>
                         <TextEdit @bind-Text="NewFestivalName"
-                                  Placeholder="Enter the festival name..."
-                                  Size="Size.Large"
-                                  Class="form-control" />
+                        Placeholder="Enter the festival name..."
+                        Size="Size.Large"
+                        Class="form-control" />
                     </FieldBody>
                     <FieldHelp>
                         Choose a unique and memorable name for your festival.
@@ -58,9 +58,9 @@
                     </FieldLabel>
                     <FieldBody>
                         <TextEdit @bind-Text="NewFestivalLocation"
-                                  Placeholder="Enter the festival location..."
-                                  Size="Size.Large"
-                                  Class="form-control" />
+                        Placeholder="Enter the festival location..."
+                        Size="Size.Large"
+                        Class="form-control" />
                     </FieldBody>
                     <FieldHelp>
                         Specify the location where the festival will take place.
@@ -75,8 +75,8 @@
                     </FieldLabel>
                     <FieldBody>
                         <InputDate @bind-Value="NewFestivalStartDate"
-                                   class="form-control"
-                                   style="width: 100%;" />
+                        class="form-control"
+                        style="width: 100%;" />
                     </FieldBody>
                     <FieldHelp>
                         Select the start date for the festival.
@@ -91,8 +91,8 @@
                     </FieldLabel>
                     <FieldBody>
                         <InputDate @bind-Value="NewFestivalEndDate"
-                                   class="form-control"
-                                   style="width: 100%;" />
+                        class="form-control"
+                        style="width: 100%;" />
                     </FieldBody>
                     <FieldHelp>
                         Select the end date for the festival.
@@ -112,9 +112,9 @@
                                 @foreach (var band in AllBands)
                                 {
                                     <Button Color="@(SelectedBandIds.Contains(band.Id) ? Color.Primary : Color.Dark)"
-                                            Outline="@(SelectedBandIds.Contains(band.Id) ? false : true)"
-                                            Size="Size.Small"
-                                            @onclick="() => ToggleBandSelection(band.Id)">
+                                    Outline="@(SelectedBandIds.Contains(band.Id) ? false : true)"
+                                    Size="Size.Small"
+                                    @onclick="() => ToggleBandSelection(band.Id)">
                                         @band.Name
                                     </Button>
                                 }
@@ -125,6 +125,32 @@
                         Click to select or deselect bands for the festival.
                     </FieldHelp>
                 </Field>
+                <Div>
+                </Div>
+                <DropContainer TItem="DropBand" @ref="drop_Container" Items="@DropBands" ItemsFilter="@((item, dropZone) => item.Group == dropZone)" ItemDropped="@BandDropped" Flex="Flex.Wrap.Grow.Is1">
+                    <ChildContent>
+                        <DropZone TItem="DropBand" Name="AllBands" AllowReorder Reordered="@Reordered" Padding="Padding.Is3" Margin="Margin.Is3" Flex="Flex.Grow.Is1">
+                                <Heading Size="HeadingSize.Is4" Margin="Margin.Is3.FromBottom">All Bands</Heading>
+                            </DropZone>
+
+                        <DropZone TItem="DropBand" Name="SelectedBands" AllowReorder Reordered="@Reordered" Padding="Padding.Is3" Margin="Margin.Is3" Flex="Flex.Grow.Is1">
+                            <Heading Size="HeadingSize.Is4" Margin="Margin.Is3.FromBottom">Selected Bands</Heading>
+                        </DropZone>
+                    </ChildContent>
+                    
+                    <ItemTemplate>
+                        <Card Shadow="Shadow.Default" Margin="Margin.Is3.OnY">
+                            <CardBody>
+								@context.Band.Name
+                            </CardBody>
+                        </Card>
+      
+                    </ItemTemplate>
+                </DropContainer>
+
+                <Div>
+                    @reorderStatus
+                </Div>
 
                 <!-- Buttons -->
                 <Div Class="d-flex gap-3 justify-content-end mt-4">
@@ -151,3 +177,5 @@
         </Column>
     </Row>
 </Container>
+
+                        

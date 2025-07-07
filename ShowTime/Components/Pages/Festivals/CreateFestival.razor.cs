@@ -1,8 +1,9 @@
-using Blazorise;
+﻿using Blazorise;
 using Microsoft.AspNetCore.Components;
-using ShowTime.Entities;
 using Microsoft.JSInterop;
-using ShowTime.Services.Implementations;
+using ShowTime.Entities;
+using ShowTime.Enum;
+using static ShowTime.Components.Pages.Festivals.CreateFestival;
 
 namespace ShowTime.Components.Pages.Festivals
 {
@@ -15,6 +16,8 @@ namespace ShowTime.Components.Pages.Festivals
         private string NewFestivalLocation = string.Empty;
         private DateTime NewFestivalStartDate = DateTime.Now;
         private DateTime NewFestivalEndDate = DateTime.Now.AddDays(1);
+        private List<BandFestival>? NewBandFestival = null;
+        private DropContainer<DropBand> drop_Container;
 
         private byte[]? NewFestivalPhoto;
 
@@ -28,6 +31,15 @@ namespace ShowTime.Components.Pages.Festivals
         protected override async Task OnInitializedAsync()
         {
             AllBands = (await BandService.GetAllAsync()).ToList();
+
+
+            DropBands = AllBands.Select(b => new DropBand
+            {
+                Band = b,
+                Group = "AllBands" // toate în zona 1 inițial
+            }).ToList();
+
+
             await FillFields();
         }
 
@@ -36,8 +48,10 @@ namespace ShowTime.Components.Pages.Festivals
             await base.OnAfterRenderAsync(firstRender);
             if (firstRender)
             {
+                drop_Container.Refresh();
                 await JS.InvokeVoidAsync("scrollToTop");
             }
+
         }
         private async Task AddFestival()
         {
@@ -57,7 +71,7 @@ namespace ShowTime.Components.Pages.Festivals
                 Location = NewFestivalLocation,
                 StartDate = NewFestivalStartDate,
                 EndDate = NewFestivalEndDate,
-                BandFestivals = selectedBands,
+                BandFestivals = NewBandFestival,
                 Photo = NewFestivalPhoto
             };
 
@@ -68,6 +82,7 @@ namespace ShowTime.Components.Pages.Festivals
             NewFestivalStartDate = DateTime.Now;
             NewFestivalEndDate = DateTime.Now.AddDays(1);
             SelectedBandIds.Clear();
+            NewBandFestival = null;
             NewFestivalPhoto = null;
 
             NavigateToFestivalList();
@@ -153,6 +168,47 @@ namespace ShowTime.Components.Pages.Festivals
             if (!SelectedBandIds.Add(bandId))
                 SelectedBandIds.Remove(bandId);
         }
+
+        public class DropBand
+        {
+            public Band? Band { get; set; }
+            public string? Group { get; set; }
+        }
+        private List<DropBand> DropBands = new();
+
+        private void HandleOnDeleted(Band deletedBand)
+        {
+            DropBands = DropBands.Where(b => b.Band?.Id != deletedBand.Id).ToList();
+        }
+
+        private Task BandDropped(DraggableDroppedEventArgs<DropBand> dropBand)
+        {
+            dropBand.Item.Group = dropBand.DropZoneName;
+
+            return Task.CompletedTask;
+        }
+
+        private string reorderStatus = string.Empty;
+        private Task Reordered(DropZoneOrder<DropBand> order)
+        {
+            reorderStatus = $"Order in dropzone {order.DestinationDropZoneName}: {string.Join(", ", order.OrderedItems.OrderBy(x => x.Order).Select(x => x.Item.Band.Name))}";
+            if (order.DestinationDropZoneName == "SelectedBands")
+            {
+                NewBandFestival = order.OrderedItems
+                    .OrderBy(x => x.Order)
+                    .Where(x => x.Item.Band != null)
+                    .Select((x, idx) => new BandFestival
+                    {
+                        BandsId = x.Item.Band.Id,
+                        Band = x.Item.Band,
+                        BandOrder = idx + 1
+                    })
+                    .ToList();
+            }
+
+            return Task.CompletedTask;
+        }
+
 
         private void NavigateToFestivalList()
         {
