@@ -11,6 +11,9 @@ namespace ShowTime.Components.Pages.Festivals
     {
         [Parameter]
         public int? FestivalIdQueryParameter { get; set; } = -1;
+
+        public ApplicationUser applicationUser { get; set; } = new ApplicationUser();
+
         private Festival? FestivalToUpdate { get; set; } = null;
         private string NewFestivalName = string.Empty;
         private string NewFestivalLocation = string.Empty;

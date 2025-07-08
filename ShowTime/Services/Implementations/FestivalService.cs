@@ -4,7 +4,8 @@ using ShowTime.Services.Interfaces;
 
 namespace ShowTime.Services.Implementations
 {
-    public class FestivalService(IFestivalRepository festivalRepository, IBandRepository bandRepository) : Service<Festival>(festivalRepository), IFestivalService
+    public class FestivalService(IFestivalRepository festivalRepository, IBandRepository bandRepository)
+        : Service<Festival>(festivalRepository), IFestivalService
     {
         public async Task AddBandtoFestival(int bandId, int festivalId)
         {

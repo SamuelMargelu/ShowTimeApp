@@ -45,7 +45,7 @@ namespace ShowTime.Components.Pages
             {
                 var Booking = new Booking
                 {
-                    Email = NewBookingEmail,
+                    //Email = NewBookingEmail,
                     FestivalId = NewFestivalId,
                     Festival = NewBookingFestival,
                     BookingDate = NewBookingDate,
@@ -72,7 +72,7 @@ namespace ShowTime.Components.Pages
                 {
                     var newBooking = new Booking
                     {
-                        Email = UpdateBookingEmail,
+                        //Email = UpdateBookingEmail,
                         FestivalId = UpdateBookingFestivalId,
                         Festival = UpdateBookingFestival,
                         BookingDate = DateTime.Now,

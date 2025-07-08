@@ -15,6 +15,8 @@ namespace ShowTime.Context
         public DbSet<Festival> Festivals { get; set; } = null!;
         public DbSet<BandFestival> BandFestivals { get; set; } = null!;
 
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; } = null!;
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<BandFestival>()
