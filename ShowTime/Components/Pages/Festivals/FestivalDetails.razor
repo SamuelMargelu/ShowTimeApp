@@ -1,11 +1,33 @@
+@using Microsoft.AspNetCore.Components.Authorization
 @page "/FestivalDetails/{FestivalId:int}"
 
 @inject IFestivalService FestivalService
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JS
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
 @rendermode InteractiveServer
 
+@if (showLoginModal)
+{
+	<div class="modal show d-block" tabindex="-1" style="background:rgba(0,0,0,0.5);">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Login Required</h5>
+					<button type="button" class="btn-close" @onclick="() => showLoginModal = false"></button>
+				</div>
+				<div class="modal-body">
+					<p>You need to be logged in to buy a ticket.</p>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary" @onclick="NavigateToLogin">Login</button>
+					<button class="btn btn-secondary" @onclick="() => showLoginModal = false">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+}
 <div class="festival-details-container">
 	@if (isLoading)
 	{
@@ -51,12 +73,13 @@
 							</button>
 						</div>
 						<div class="hero-title">
+							
 							<h1>@Festival.Name</h1>
 							<p class="hero-subtitle small-location">
 								<i class="fas fa-map-marker-alt me-2"></i>
 								@Festival.Location
 							</p>
-							<button class="btn btn-primary" @onclick="() => NavigateToBuyTicket(FestivalId)">
+							<button class="btn btn-primary" @onclick="OnBuyTicketClicked">
 								<i class="fas fa-ticket-alt me-2"></i>
 								Buy Ticket
 							</button>

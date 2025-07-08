@@ -12,11 +12,15 @@ namespace ShowTime.Components.Pages.Festivals
 
         public Festival? Festival;
         public bool isLoading = true;
+        private bool isLoggedIn;
+        private bool showLoginModal = false;
         public string errorMessage = string.Empty;
 
         protected override async Task OnInitializedAsync()
         {
             await LoadFestival();
+            var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            isLoggedIn = authState.User.Identity?.IsAuthenticated == true;
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -57,6 +61,23 @@ namespace ShowTime.Components.Pages.Festivals
                 isLoading = false;
                 StateHasChanged();
             }
+        }
+
+        private void OnBuyTicketClicked()
+        {
+            if (isLoggedIn)
+            {
+                NavigateToBuyTicket(FestivalId);
+            }
+            else
+            {
+                showLoginModal = true;
+            }
+        }
+
+        private void NavigateToLogin()
+        {
+            NavigationManager.NavigateTo("/Account/Login");
         }
 
         public void NavigateToFestivalList()
