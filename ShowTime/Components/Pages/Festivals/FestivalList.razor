@@ -1,128 +1,156 @@
 ﻿@page "/FestivalList"
+@using Microsoft.AspNetCore.Components.Authorization
+
 @rendermode InteractiveServer
+
 @inject IFestivalService FestivalService
 @inject NavigationManager NavigationManager
 
 @* <Card Style="min-height:600px"  *@
 <Container Fluid>
-    <Row>
-        <Column>
-            <Div Class="d-flex justify-content-between align-items-center mb-4">
-                <Heading Class="text-primary" Size="HeadingSize.Is2" TextWeight="TextWeight.Bold">
-                    <Icon Name="IconName.Calendar" Margin="Margin.Is2.FromEnd" />
-                    Festivals Directory
-                </Heading>
-            </Div>
-        </Column>
-    </Row>
+	<Row>
+		<Column>
+			<Div Class="d-flex justify-content-between align-items-center mb-4">
+				<Heading Class="text-primary" Size="HeadingSize.Is2" TextWeight="TextWeight.Bold">
+					<Icon Name="IconName.Calendar" Margin="Margin.Is2.FromEnd" />
+					Festivals Directory
+				</Heading>
+			</Div>
+		</Column>
+	</Row>
 
-    @if (Festivals == null)
-    {
-        <Row>
-            <Column>
-                <Div Class="d-flex justify-content-center align-items-center py-5">
-                    <Div Class="spinner-border text-primary me-3" role="status">
-                        <Span Class="visually-hidden">Loading...</Span>
-                    </Div>
-                    <Span Class="text-muted">Loading festivals...</Span>
-                </Div>
-            </Column>
-        </Row>
-    }
-    else if (!Festivals.Any())
-    {
-        <Row>
-            <Column>
-                <Div Class="text-center py-5">
-                    <Icon Name="IconName.Calendar" Size="IconSize.x5" Class="text-muted mb-3" />
-                    <Heading Size="HeadingSize.Is4" Class="text-muted" Margin="Margin.Is2.FromBottom">
-                        No Festivals Found
-                    </Heading>
-                    <Paragraph Class="text-muted" Margin="Margin.Is3.FromBottom">
-                        There are no festivals in the directory yet.
-                    </Paragraph>
-                </Div>
-            </Column>
-        </Row>
-    }
-    else
-    {
-        <Row>
-            @foreach (var festival in Festivals)
-            {
-                <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is4.OnDesktop" Class="h-100" Margin="Margin.Is4.FromBottom">
-                    <Card Class="festival-card h-100"
-                    Shadow="Shadow.Default"
-                    Border="Border.Is0"
-                    Style="height: 650px; cursor: pointer"
-                    @onclick="() => NavigateToFestivalDetails(festival.Id)">
-                        <!-- Card Image - ?% height (300px) -->
-                        <Div Style="height: 300px; overflow: hidden; position: relative;">
-                            <CardImage Class="festival-card-img"
-                                       Source="@(festival.Photo != null ? $"data:image/jpeg;base64,{Convert.ToBase64String(festival.Photo)}" : "https://letsenhance.io/static/73136da51c245e80edc6ccfe44888a99/1015f/MainBefore.jpg")"
-                                       Alt="@($"{festival.Name} cover image")"
-                                       Style="width: 100%; height: 100%; object-fit: cover;" />
-                        </Div>
+	@if (Festivals == null)
+	{
+		<Row>
+			<Column>
+				<Div Class="d-flex justify-content-center align-items-center py-5">
+					<Div Class="spinner-border text-primary me-3" role="status">
+						<Span Class="visually-hidden">Loading...</Span>
+					</Div>
+					<Span Class="text-muted">Loading festivals...</Span>
+				</Div>
+			</Column>
+		</Row>
+	}
+	else if (!Festivals.Any())
+	{
+		<Row>
+			<Column>
+				<Div Class="text-center py-5">
+					<Icon Name="IconName.Calendar" Size="IconSize.x5" Class="text-muted mb-3" />
+					<Heading Size="HeadingSize.Is4" Class="text-muted" Margin="Margin.Is2.FromBottom">
+						No Festivals Found
+					</Heading>
+					<Paragraph Class="text-muted" Margin="Margin.Is3.FromBottom">
+						There are no festivals in the directory yet.
+					</Paragraph>
+				</Div>
+			</Column>
+		</Row>
+	}
+	else
+	{
+		<Row>
+			@foreach (var festival in Festivals)
+			{
+				<Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is4.OnDesktop" Class="h-100" Margin="Margin.Is4.FromBottom">
+					<Card Class="festival-card h-100"
+						  Shadow="Shadow.Default"
+						  Border="Border.Is0"
+						  Style="height: 650px; cursor: pointer"
+						  @onclick="() => NavigateToFestivalDetails(festival.Id)">
+						<!-- Card Image - ?% height (300px) -->
+						<Div Style="height: 300px; overflow: hidden; position: relative;">
+							<CardImage Class="festival-card-img"
+									   Source="@(festival.Photo != null ? $"data:image/jpeg;base64,{Convert.ToBase64String(festival.Photo)}" : "https://letsenhance.io/static/73136da51c245e80edc6ccfe44888a99/1015f/MainBefore.jpg")"
+									   Alt="@($"{festival.Name} cover image")"
+									   Style="width: 100%; height: 100%; object-fit: cover;" />
+						</Div>
 
-                        <!-- Card Body - 35% height (228px) with flex layout -->
-                        <CardBody Class="d-flex flex-column" Style="height: 228px; padding: 1.25rem;">
-                            <!-- Header Section - Fixed height -->
-                            <Div TextColor="TextColor.Primary" Margin="Margin.Is3.FromBottom" Style="line-height: 1.2; height: 2.4em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
-                                <CardTitle Size="5" TextColor="TextColor.Primary" Margin="Margin.Is2.FromBottom">
-                                    @festival.Name
-                                </CardTitle>
-                            </Div>
+						<!-- Card Body - 35% height (228px) with flex layout -->
+						<CardBody Class="d-flex flex-column" Style="height: 228px; padding: 1.25rem;">
+							<!-- Header Section - Fixed height -->
+							<Div TextColor="TextColor.Primary" Margin="Margin.Is3.FromBottom" Style="line-height: 1.2; height: 2.4em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
+								<Div class="d-flex align-items-center justify-content-between" style="height: 2.4em; overflow: hidden;">
+									<CardTitle Size="5" TextColor="TextColor.Primary" Margin="Margin.Is2.FromBottom" class="mb-0">
+										@festival.Name
+									</CardTitle>
+									<AuthorizeView Roles="Admin">
+										<Div class="ms-2 d-flex">
+											<Button Class="btn flex-fill btn-secondary btn-sm me-2"
+											Clicked="() => NavigateToEditFestival(festival.Id)"
+											@onclick:stopPropagation="true">
+												<Icon Name="IconName.Edit" Margin="Margin.Is1.FromEnd" />
+												Edit
+											</Button>
+											<Button Class="btn flex-fill btn-danger btn-sm" Clicked="() => DeleteFestivalById(festival.Id)"
+												@onclick:stopPropagation="true">
+												<Icon Name="IconName.Eject" Margin="Margin.Is1.FromEnd" />
+												Delete
+											</Button>
+										</Div>
+									</AuthorizeView>
+								</Div>
 
-                            <!-- Content Section - Flexible height -->
-                            <Div Class="flex-grow-1" Style="min-height: 80px; max-height: 200px; overflow: hidden;">
-                                <Div Margin="Margin.Is2.FromBottom">
-                                    <Icon Name="IconName.MapMarker" Margin="Margin.Is1.FromEnd" />
-                                    <span class="text-muted">@festival.Location</span>
-                                </Div>
-                                <Div Margin="Margin.Is2.FromBottom">
-                                    <Icon Name="IconName.CalendarDay" Margin="Margin.Is1.FromEnd" />
-                                    <span class="text-muted">
-                                        @festival.StartDate.ToShortDateString() - @festival.EndDate.ToShortDateString()
-                                    </span>
-                                </Div>
-                                <Div Margin="Margin.Is2.FromBottom">
-                                    <Icon Name="IconName.Users" Margin="Margin.Is1.FromEnd" />
-                                    <span class="text-muted">
-                                        Bands: @(festival.BandFestivals?.Count ?? 0)
-                                    </span>
-                                </Div>
-                                <Div>
-                                    <Icon Name="IconName.TicketAlt" Margin="Margin.Is1.FromEnd" />
-                                    <span class="text-muted">
-                                        Bookings: @(festival.Bookings?.Count ?? 0)
-                                    </span>
-                                </Div>
-                            </Div>
-                        </CardBody>
-                    </Card>
-                </Column>
-            }
-        </Row>
-    }
+							</Div>
+
+
+							<!-- Content Section - Flexible height -->
+							<Div Class="flex-grow-1" Style="min-height: 80px; max-height: 200px; overflow: hidden;">
+								<Div Margin="Margin.Is2.FromBottom">
+									<Icon Name="IconName.MapMarker" Margin="Margin.Is1.FromEnd" />
+									<span class="text-muted">@festival.Location</span>
+								</Div>
+								<Div Margin="Margin.Is2.FromBottom">
+									<Icon Name="IconName.CalendarDay" Margin="Margin.Is1.FromEnd" />
+									<span class="text-muted">
+										@festival.StartDate.ToShortDateString() - @festival.EndDate.ToShortDateString()
+									</span>
+								</Div>
+								<Div Margin="Margin.Is2.FromBottom">
+									<Icon Name="IconName.Users" Margin="Margin.Is1.FromEnd" />
+									<span class="text-muted">
+										Bands: @(festival.BandFestivals?.Count ?? 0)
+									</span>
+								</Div>
+								<Div>
+									<Icon Name="IconName.TicketAlt" Margin="Margin.Is1.FromEnd" />
+									<span class="text-muted">
+										Bookings: @(festival.Bookings?.Count ?? 0)
+									</span>
+								</Div>
+							</Div>
+						</CardBody>
+					</Card>
+ 
+					<Div>
+
+					
+					</Div>
+			 
+				</Column>
+			}
+		</Row>
+	}
 </Container>
 
 
 
 <style>
-    .festival-card {
-        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-    }
+	.festival-card {
+		transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+	}
 
-        .festival-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15) !important;
-        }
+		.festival-card:hover {
+			transform: translateY(-5px);
+			box-shadow: 0 8px 25px rgba(0,0,0,0.15) !important;
+		}
 
-    .card-image-container img {
-        transition: transform 0.3s ease-in-out;
-    }
+	.card-image-container img {
+		transition: transform 0.3s ease-in-out;
+	}
 
-    .festival-card:hover .card-image-container img {
-        transform: scale(1.05);
-    }
+	.festival-card:hover .card-image-container img {
+		transform: scale(1.05);
+	}
 </style>

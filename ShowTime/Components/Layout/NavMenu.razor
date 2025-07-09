@@ -26,59 +26,62 @@
 			</NavLink>
 		</div>
 
-		<div class="nav-item px-3">
-			<NavLink class="nav-link" href="counter">
-				<span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Counter
-			</NavLink>
-		</div>
+		<AuthorizeView Roles="Admin">
+			<div class="nav-item px-3">
+				<NavLink class="nav-link" href="BandCrudTest">
+					<Icon Name="IconName.Clipboard"></Icon>
+					<span class="bi bi-music-note-beamed-nav-menu" aria-hidden="true"></span> Band CRUD Test
+				</NavLink>
+			</div>
 
-		<div class="nav-item px-3">
-			<NavLink class="nav-link" href="weather">
-				<span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Weather
-			</NavLink>
-		</div>
+			<div class="nav-item px-3">
+				<NavLink class="nav-link" href="FestivalCrudTest">
+					<Icon Name="IconName.Clipboard"></Icon>
+					<span class="bi bi-calendar-event-nav-menu" aria-hidden="true"></span> Festival CRUD Test
+				</NavLink>
+			</div>
 
-		<div class="nav-item px-3">
-			<NavLink class="nav-link" href="BandCrudTest">
-				<span class="bi bi-music-note-beamed-nav-menu" aria-hidden="true"></span> Band CRUD Test
-			</NavLink>
-		</div>
+			<div class="nav-item px-3">
+				<NavLink class="nav-link" href="BookingCrudTest">
+					<Icon Name="IconName.Clipboard"></Icon>
+					<span class="bi bi-calendar-event-nav-menu" aria-hidden="true"></span> Bookings CRUD Test
+				</NavLink>
+			</div>
+		</AuthorizeView>
 
+		<AuthorizeView Roles="Admin">
 		<div class="nav-item px-3">
-			<NavLink class="nav-link" href="FestivalCrudTest">
-				<span class="bi bi-calendar-event-nav-menu" aria-hidden="true"></span> Festival CRUD Test
+			<NavLink class="nav-link" href="CreateBand">
+					<Icon Name="IconName.PlusCircle"></Icon>
+				<span class="bi bi-calendar-event-nav-menu" aria-hidden="true"></span> Create Band
 			</NavLink>
 		</div>
+		</AuthorizeView>
 
+		<AuthorizeView Roles="Admin">
 		<div class="nav-item px-3">
-			<NavLink class="nav-link" href="BookingCrudTest">
-				<span class="bi bi-calendar-event-nav-menu" aria-hidden="true"></span> Bookings CRUD Test
+			<NavLink class="nav-link" href="CreateFestival">
+				<Icon Name="IconName.PlusCircle"></Icon>
+				<span class="bi bi-calendar-event-nav-menu" aria-hidden="true"></span> Create Festival
 			</NavLink>
 		</div>
+		</AuthorizeView>
 
 		<div class="nav-item px-3">
 			<NavLink class="nav-link" href="BandList">
+				<Icon Name="IconName.Music"></Icon>
 				<span class="bi bi-calendar-event-nav-menu" aria-hidden="true"></span> Bands
 			</NavLink>
 		</div>
 
-		<div class="nav-item px-3">
-			<NavLink class="nav-link" href="CreateBand">
-				<span class="bi bi-calendar-event-nav-menu" aria-hidden="true"></span> Create a New Band
-			</NavLink>
-		</div>
 
 		<div class="nav-item px-3">
 			<NavLink class="nav-link" href="FestivalList">
+				<Icon Name="IconName.Star"></Icon>
 				<span class="bi bi-calendar-event-nav-menu" aria-hidden="true"></span> Festivals
 			</NavLink>
 		</div>
 
-		<div class="nav-item px-3">
-			<NavLink class="nav-link" href="CreateFestival">
-				<span class="bi bi-calendar-event-nav-menu" aria-hidden="true"></span> Create a New Festival
-			</NavLink>
-		</div>
 
 		<AuthorizeView>
 			<Authorized>
@@ -92,6 +95,7 @@
 						<AntiforgeryToken />
 						<input type="hidden" name="ReturnUrl" value="@currentUrl" />
 						<button type="submit" class="nav-link">
+							<Icon Name="IconName.ArrowLeft"></Icon>
 							<span class="bi bi-arrow-bar-left-nav-menu" aria-hidden="true"></span> Logout
 						</button>
 					</form>
@@ -100,11 +104,13 @@
 			<NotAuthorized>
 				<div class="nav-item px-3">
 					<NavLink class="nav-link" href="Account/Register">
+						<Icon Name="IconName.UserPlus"></Icon>
 						<span class="bi bi-person-nav-menu" aria-hidden="true"></span> Register
 					</NavLink>
 				</div>
 				<div class="nav-item px-3">
 					<NavLink class="nav-link" href="Account/Login">
+						<Icon Name="IconName.User"></Icon>
 						<span class="bi bi-person-badge-nav-menu" aria-hidden="true"></span> Login
 					</NavLink>
 				</div>
