@@ -1,13 +1,11 @@
 ﻿namespace ShowTime.Entities
 {
-    public class Booking
+    public class FestivalDay
     {
         public int Id { get; set; }
-        public int? ApplicationUserId { get; set; }
-        public ApplicationUser? ApplicationUser { get; set; }
         public int FestivalId { get; set; }
         public Festival? Festival { get; set; }
-        public DateTime BookingDate { get; set; }
+        public DateTime Date { get; set; }
         public ICollection<BookingFestivalDays>? BookingFestivalDays { get; set; } = new List<BookingFestivalDays>();
     }
 }

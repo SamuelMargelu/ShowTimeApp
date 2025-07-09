@@ -14,8 +14,9 @@ namespace ShowTime.Context
         public DbSet<Booking> Bookings { get; set; } = null!;
         public DbSet<Festival> Festivals { get; set; } = null!;
         public DbSet<BandFestival> BandFestivals { get; set; } = null!;
-
         public DbSet<ApplicationUser> ApplicationUsers { get; set; } = null!;
+        public DbSet<FestivalDay> FestivalDays { get; set; } = null!;
+        public DbSet<BookingFestivalDays> BookingFestivalDays { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -31,6 +32,22 @@ namespace ShowTime.Context
                 .HasOne(bf => bf.Festival)
                 .WithMany(f => f.BandFestivals)
                 .HasForeignKey(bf => bf.FestivalsId);
+
+            modelBuilder.Entity<BookingFestivalDays>()
+                .HasKey(bfd => new { bfd.BookingId, bfd.FestivalDayId });
+
+            modelBuilder.Entity<BookingFestivalDays>()
+                .HasOne(bfd => bfd.Booking)
+                .WithMany(b => b.BookingFestivalDays)
+                .HasForeignKey(bfd => bfd.BookingId)
+                 .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<BookingFestivalDays>()
+                .HasOne(bfd => bfd.FestivalDay)
+                .WithMany(fd => fd.BookingFestivalDays)
+                .HasForeignKey(bfd => bfd.FestivalDayId)
+                .OnDelete(DeleteBehavior.Restrict);
+
 
             base.OnModelCreating(modelBuilder);
         }

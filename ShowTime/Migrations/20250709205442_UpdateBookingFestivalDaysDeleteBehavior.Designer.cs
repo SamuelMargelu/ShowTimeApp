@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ShowTime.Context;
 
@@ -11,9 +12,11 @@ using ShowTime.Context;
 namespace ShowTime.Migrations
 {
     [DbContext(typeof(ShowTimeDbContext))]
-    partial class ShowTimeDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250709205442_UpdateBookingFestivalDaysDeleteBehavior")]
+    partial class UpdateBookingFestivalDaysDeleteBehavior
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -243,7 +246,7 @@ namespace ShowTime.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Bands", (string)null);
+                    b.ToTable("Bands");
                 });
 
             modelBuilder.Entity("ShowTime.Entities.BandFestival", b =>
@@ -261,7 +264,7 @@ namespace ShowTime.Migrations
 
                     b.HasIndex("FestivalsId");
 
-                    b.ToTable("BandFestivals", (string)null);
+                    b.ToTable("BandFestivals");
                 });
 
             modelBuilder.Entity("ShowTime.Entities.Booking", b =>
@@ -287,7 +290,7 @@ namespace ShowTime.Migrations
 
                     b.HasIndex("FestivalId");
 
-                    b.ToTable("Bookings", (string)null);
+                    b.ToTable("Bookings");
                 });
 
             modelBuilder.Entity("ShowTime.Entities.BookingFestivalDays", b =>
@@ -302,7 +305,7 @@ namespace ShowTime.Migrations
 
                     b.HasIndex("FestivalDayId");
 
-                    b.ToTable("BookingFestivalDays", (string)null);
+                    b.ToTable("BookingFestivalDays");
                 });
 
             modelBuilder.Entity("ShowTime.Entities.Festival", b =>
@@ -332,7 +335,7 @@ namespace ShowTime.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Festivals", (string)null);
+                    b.ToTable("Festivals");
                 });
 
             modelBuilder.Entity("ShowTime.Entities.FestivalDay", b =>
@@ -353,7 +356,7 @@ namespace ShowTime.Migrations
 
                     b.HasIndex("FestivalId");
 
-                    b.ToTable("FestivalDays", (string)null);
+                    b.ToTable("FestivalDays");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
