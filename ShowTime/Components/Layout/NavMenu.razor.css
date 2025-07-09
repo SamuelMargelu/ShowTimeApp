@@ -7,12 +7,16 @@
   position: fixed;
   top: 1rem;
   right: 1rem;
-  border: 2px solid rgba(255, 255, 255, 0.8);
+  border: 2px solid rgba(102, 126, 234, 0.8);
   border-radius: 50%;
-  background: rgba(30, 41, 59, 0.9);
+  background: linear-gradient(
+    135deg,
+    rgba(102, 126, 234, 0.9),
+    rgba(118, 75, 162, 0.9)
+  );
   backdrop-filter: blur(20px);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 32px rgba(102, 126, 234, 0.4);
   z-index: 1000;
 }
 
@@ -31,15 +35,23 @@
 }
 
 .navbar-toggler:hover {
-  border-color: rgba(255, 255, 255, 1);
-  background: rgba(30, 41, 59, 1);
+  border-color: rgba(102, 126, 234, 1);
+  background: linear-gradient(
+    135deg,
+    rgba(102, 126, 234, 1),
+    rgba(118, 75, 162, 1)
+  );
   transform: scale(1.05);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 12px 40px rgba(102, 126, 234, 0.6);
 }
 
 .navbar-toggler:checked {
-  background: rgba(15, 23, 42, 0.95);
-  border-color: rgba(255, 255, 255, 1);
+  background: linear-gradient(
+    135deg,
+    rgba(118, 75, 162, 0.95),
+    rgba(240, 147, 251, 0.95)
+  );
+  border-color: rgba(240, 147, 251, 1);
 }
 
 .navbar-toggler:checked::before {
@@ -63,12 +75,12 @@
   height: 4rem;
   background: linear-gradient(
     135deg,
-    rgba(30, 41, 59, 0.95),
-    rgba(15, 23, 42, 0.98)
+    rgba(102, 126, 234, 0.95),
+    rgba(118, 75, 162, 0.98)
   );
   backdrop-filter: blur(20px);
   border-bottom: 1px solid rgba(148, 163, 184, 0.3);
-  box-shadow: 0 4px 32px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 32px rgba(102, 126, 234, 0.3);
   position: fixed;
   top: 0;
   left: 0;
@@ -96,8 +108,8 @@
 }
 
 .navbar-brand:hover {
-  color: rgba(196, 181, 253, 1) !important;
-  text-shadow: 0 0 20px rgba(196, 181, 253, 0.6);
+  color: rgba(240, 147, 251, 1) !important;
+  text-shadow: 0 0 20px rgba(240, 147, 251, 0.6);
   transform: scale(1.02);
 }
 
@@ -172,7 +184,7 @@
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(139, 92, 246, 0.2),
+    rgba(240, 147, 251, 0.3),
     transparent
   );
   transform: translateX(-100%);
@@ -184,19 +196,27 @@
 }
 
 .nav-item ::deep a.active {
-  background: rgba(139, 92, 246, 0.3);
+  background: linear-gradient(
+    135deg,
+    rgba(102, 126, 234, 0.4),
+    rgba(118, 75, 162, 0.4)
+  );
   color: white;
   font-weight: 600;
   transform: translateX(4px);
-  box-shadow: 0 4px 16px rgba(139, 92, 246, 0.3);
-  border-left: 3px solid rgba(139, 92, 246, 0.8);
+  box-shadow: 0 4px 16px rgba(102, 126, 234, 0.4);
+  border-left: 3px solid rgba(240, 147, 251, 0.8);
 }
 
 .nav-item ::deep .nav-link:hover {
-  background: rgba(139, 92, 246, 0.2);
+  background: linear-gradient(
+    135deg,
+    rgba(102, 126, 234, 0.3),
+    rgba(118, 75, 162, 0.2)
+  );
   color: white;
   transform: translateX(2px);
-  box-shadow: 0 2px 12px rgba(139, 92, 246, 0.2);
+  box-shadow: 0 2px 12px rgba(102, 126, 234, 0.3);
 }
 
 .nav-scrollable {
@@ -208,12 +228,12 @@
   height: 100vh;
   background: linear-gradient(
     180deg,
-    rgba(30, 41, 59, 0.95),
-    rgba(15, 23, 42, 0.98)
+    rgba(102, 126, 234, 0.95),
+    rgba(118, 75, 162, 0.98)
   );
   backdrop-filter: blur(20px);
   border-right: 1px solid rgba(148, 163, 184, 0.3);
-  box-shadow: 4px 0 32px rgba(0, 0, 0, 0.2);
+  box-shadow: 4px 0 32px rgba(102, 126, 234, 0.3);
   z-index: 998;
   opacity: 0;
   transform: translateX(-100%);
