@@ -1,4 +1,7 @@
-﻿@page "/CreateFestival/{FestivalIdQueryParameter:int?}"
+﻿@using Microsoft.AspNetCore.Authorization
+@page "/CreateFestival/{FestivalIdQueryParameter:int?}"
+
+@attribute [Authorize(Roles = "Admin")]
 
 @inject IFestivalService FestivalService
 @inject IBandService BandService

@@ -1,5 +1,10 @@
+@using Microsoft.AspNetCore.Authorization
 @page "/BandCrudTest"
+
+@attribute [Authorize(Roles = "Admin")]
+
 @rendermode InteractiveServer
+
 @inject IBandService BandService
 @inject IFestivalService FestivalService
 

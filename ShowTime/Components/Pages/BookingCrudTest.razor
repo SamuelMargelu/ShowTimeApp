@@ -1,5 +1,11 @@
-﻿@page "/BookingCrudTest"
+﻿@using Microsoft.AspNetCore.Authorization
+
+@page "/BookingCrudTest"
+
+@attribute [Authorize(Roles = "Admin")]
+
 @rendermode InteractiveServer
+
 @inject IBookingService BookingService
 @inject IFestivalService FestivalSerivce
 

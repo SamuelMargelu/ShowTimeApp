@@ -1,7 +1,415 @@
 ﻿@page "/"
+@inject IBandService BandService
+@inject IFestivalService FestivalService
+@inject NavigationManager NavigationManager
+@rendermode InteractiveServer
 
-<PageTitle>Home</PageTitle>
+<PageTitle>ShowTime - Festival Management</PageTitle>
 
-<h1>Hello, world!</h1>
+<!-- Hero Section -->
+<div class="hero-section">
+    <Container Fluid Class="h-100">
+        <Row Class="h-100 align-items-center">
+            <Column ColumnSize="ColumnSize.Is12.OnTablet.Is6.OnDesktop">
+                <div class="hero-content">
+                    <h1>Welcome to <span style="color: #feca57;">ShowTime</span></h1>
+                    <p>Your ultimate festival management platform. Discover amazing music festivals, explore talented bands, and create unforgettable experiences.</p>
+                    <div class="d-flex gap-3 flex-wrap justify-content-center">
+                        <Button Color="Color.Primary" Size="Size.Large" @onclick="NavigateToFestivals" Class="btn-pulse">
+                            <Icon Name="IconName.Calendar" Margin="Margin.Is2.FromEnd" />
+                            Explore Festivals
+                        </Button>
+                        <Button Color="Color.Light" Size="Size.Large" Outline @onclick="NavigateToCreateFestival">
+                            <Icon Name="IconName.Add" Margin="Margin.Is2.FromEnd" />
+                            Create Festival
+                        </Button>
+                    </div>
+                </div>
+            </Column>
+            <Column ColumnSize="ColumnSize.Is12.OnTablet.Is6.OnDesktop" Class="text-center">
+                <div class="floating-icons">
+                    <div class="icon-float music-note">🎵</div>
+                    <div class="icon-float stage">�</div>
+                    <div class="icon-float guitar">�</div>
+                    <div class="icon-float microphone">�</div>
+                    <div class="icon-float drums">🥁</div>
+                    <div class="icon-float headphones">🎧</div>
+                </div>
+            </Column>
+        </Row>
+    </Container>
+</div>
 
-Welcome to your new app.
+<!-- Stats Section -->
+<div class="stats-section">
+    <Container>
+        <Row Class="text-center mb-5">
+            <Column ColumnSize="ColumnSize.Is12">
+                <Heading Size="HeadingSize.Is2" Class="gradient-text mb-4">Platform Statistics</Heading>
+                <Paragraph Size="TextSize.Large" TextColor="TextColor.Muted">See what's happening on ShowTime</Paragraph>
+            </Column>
+        </Row>
+        <Row Class="g-4">
+            <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
+                <Card Class="stats-card text-center h-100 fade-in">
+                    <CardBody>
+                        <div class="stats-icon mb-3">
+                            <Icon Name="IconName.Calendar" Size="IconSize.X2" Style="color: #667eea;" />
+                        </div>
+                        <Heading Size="HeadingSize.Is3" TextColor="TextColor.Primary">7</Heading>@*  FestivalCount *@
+                        <Paragraph TextColor="TextColor.Muted">Active Festivals</Paragraph>
+                    </CardBody>
+                </Card>
+            </Column>
+            <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
+                <Card Class="stats-card text-center h-100 fade-in">
+                    <CardBody>
+                        <div class="stats-icon mb-3">
+                            <Icon Name="IconName.Users" Size="IconSize.X2" Style="color: #764ba2;" />
+                        </div>
+                        <Heading Size="HeadingSize.Is3" TextColor="TextColor.Primary">5</Heading> @*BandCount*@
+                        <Paragraph TextColor="TextColor.Muted">Registered Bands</Paragraph>
+                    </CardBody>
+                </Card>
+            </Column>
+            <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
+                <Card Class="stats-card text-center h-100 fade-in">
+                    <CardBody>
+                        <div class="stats-icon mb-3">
+                            <Icon Name="IconName.Star" Size="IconSize.X2" Style="color: #ff6b6b;" />
+                        </div>
+                        <Heading Size="HeadingSize.Is3" TextColor="TextColor.Primary">3</Heading> @*UpcomingFestivals*@
+                        <Paragraph TextColor="TextColor.Muted">Upcoming Events</Paragraph>
+                    </CardBody>
+                </Card>
+            </Column>
+            <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
+                <Card Class="stats-card text-center h-100 fade-in">
+                    <CardBody>
+                        <div class="stats-icon mb-3">
+                            <Icon Name="IconName.Heart" Size="IconSize.X2" Style="color: #feca57;" />
+                        </div>
+                        <Heading Size="HeadingSize.Is3" TextColor="TextColor.Primary">1000+</Heading>
+                        <Paragraph TextColor="TextColor.Muted">Happy Fans</Paragraph>
+                    </CardBody>
+                </Card>
+            </Column>
+        </Row>
+    </Container>
+</div>
+
+@if (IsLoading)
+{
+    <Div Class="py-5">
+        <Container>
+            <Row JustifyContent="JustifyContent.Center">
+                <Column ColumnSize="ColumnSize.Is12" Class="text-center">
+                    <Div Class="d-flex justify-content-center align-items-center" Style="min-height: 200px;">
+                        <Div Class="spinner-border text-primary" Role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </Div>
+                        <Paragraph Class="ms-3 mb-0">Loading amazing content...</Paragraph>
+                    </Div>
+                </Column>
+            </Row>
+        </Container>
+    </Div>
+}
+else
+{
+    <!-- Featured Festivals Section -->
+    <div class="features-section">
+        <Container>
+            <Row Class="mb-5">
+                <Column ColumnSize="ColumnSize.Is12" Class="text-center">
+                    <Heading Size="HeadingSize.Is2" Class="fw-bold mb-3 text-white">
+                        <Icon Name="IconName.Star" Margin="Margin.Is2.FromEnd" />
+                        Featured Festivals
+                    </Heading>
+                    <Paragraph TextColor="TextColor.Light" Size="TextSize.Large" Class="opacity-90">
+                        Discover the most exciting music festivals happening now and coming soon
+                    </Paragraph>
+                </Column>
+            </Row>
+            <Row>
+                @if (FeaturedFestivals?.Any() == true)
+                {
+                    @foreach (var festival in FeaturedFestivals)
+                    {
+                        <Column ColumnSize="ColumnSize.Is12.OnTablet.Is6.OnDesktop.Is4.OnWidescreen" Class="mb-4">
+                            <Card Class="festival-card h-100" Style="cursor: pointer;" @onclick="() => NavigateToFestivalDetails(festival.Id)">
+                                <div class="position-relative overflow-hidden" style="height: 200px;">
+                                    <img src="@GetFestivalImageUrl(festival)"
+                                         alt="@festival.Name"
+                                         class="w-100 h-100"
+                                         style="object-fit: cover;" />
+                                    <div class="position-absolute top-0 end-0 m-3">
+                                        <Badge Color="@GetStatusColor(festival)" Class="px-3 py-2">
+                                            @GetFestivalStatus(festival)
+                                        </Badge>
+                                    </div>
+                                </div>
+                                <CardBody Class="p-4">
+                                    <CardTitle Size="5" Class="fw-bold mb-2">@festival.Name</CardTitle>
+                                    <CardText Class="text-muted mb-2">
+                                        <Icon Name="IconName.MapMarker" Margin="Margin.Is1.FromEnd" />
+                                        @festival.Location
+                                    </CardText>
+                                    <CardText Class="text-muted mb-3">
+                                        <Icon Name="IconName.Calendar" Margin="Margin.Is1.FromEnd" />
+                                        @festival.StartDate.ToString("MMM dd") - @festival.EndDate.ToString("MMM dd, yyyy")
+                                    </CardText>
+                                    @if (festival.BandFestivals?.Any() == true)
+                                    {
+                                        <div class="d-flex flex-wrap gap-1 mb-3">
+                                            @foreach (var bandFestival in festival.BandFestivals.Take(3))
+                                            {
+                                                <Badge Color="Color.Secondary" Class="small">@bandFestival.Band?.Name</Badge>
+                                            }
+                                            @if (festival.BandFestivals.Count() > 3)
+                                            {
+                                                <Badge Color="Color.Light" Class="small">+@(festival.BandFestivals.Count() - 3) more</Badge>
+                                            }
+                                        </div>
+                                    }
+                                    <Button Color="Color.Primary" Size="Size.Small" Block @onclick:stopPropagation="true">
+                                        View Details
+                                    </Button>
+                                </CardBody>
+                            </Card>
+                        </Column>
+                    }
+                }
+                else
+                {
+                    <Column ColumnSize="ColumnSize.Is12" Class="text-center">
+                        <Alert Color="Color.Light" Class="p-4">
+                            <Icon Name="IconName.InfoCircle" Margin="Margin.Is2.FromEnd" />
+                            No festivals available yet. Be the first to create one!
+                        </Alert>
+                    </Column>
+                }
+            </Row>
+            <Row Class="mt-4">
+                <Column ColumnSize="ColumnSize.Is12" Class="text-center">
+                    <Button Color="Color.Light" Size="Size.Large" Outline @onclick="NavigateToFestivals">
+                        View All Festivals
+                        <Icon Name="IconName.ArrowRight" Margin="Margin.Is2.FromStart" />
+                    </Button>
+                </Column>
+            </Row>
+        </Container>
+    </div>
+        
+
+    <!-- Popular Bands Section -->
+    <Div Class="py-5" Style="background: linear-gradient(45deg, #f8f9fa, #e9ecef);">
+        <Container>
+            <Row Class="mb-5">
+                <Column ColumnSize="ColumnSize.Is12" Class="text-center">
+                    <Heading Size="HeadingSize.Is2" Class="fw-bold mb-3">
+                        <Icon Name="IconName.Music" TextColor="TextColor.Success" Margin="Margin.Is2.FromEnd" />
+                        Popular Bands
+                    </Heading>
+                    <Paragraph TextColor="TextColor.Muted" Size="TextSize.Large">
+                        Meet the talented artists who make festivals come alive
+                    </Paragraph>
+                </Column>
+            </Row>
+            <Row>
+                @if (PopularBands?.Any() == true)
+                {
+                    @foreach (var band in PopularBands)
+                    {
+                        <Column ColumnSize="ColumnSize.Is12.OnTablet.Is6.OnDesktop.Is4.OnWidescreen.Is2.OnFullHD" Class="mb-4">
+                            <Card Shadow="Shadow.Default" Class="border-0 h-100 band-card text-center" Style="transition: all 0.3s ease;">
+                                <CardBody Class="p-3">
+                                    <div class="band-avatar mb-3">
+                                        <img src="@GetBandImageUrl(band)"
+                                             alt="@band.Name"
+                                             class="rounded-circle"
+                                             style="width: 80px; height: 80px; object-fit: cover;" />
+                                    </div>
+                                    <CardTitle Size="6" Class="fw-bold mb-2">@band.Name</CardTitle>
+                                    <Badge Color="Color.Info" Class="mb-2">@band.Genre</Badge>
+                                    @if (band.BandFestivals?.Any() == true)
+                                    {
+                                        <CardText Class="small text-muted">
+                                            @band.BandFestivals.Count() festival(s)
+                                        </CardText>
+                                    }
+                                </CardBody>
+                            </Card>
+                        </Column>
+                    }
+                }
+                else
+                {
+                    <Column ColumnSize="ColumnSize.Is12" Class="text-center">
+                        <Alert Color="Color.Info" Class="p-4">
+                            <Icon Name="IconName.InfoCircle" Margin="Margin.Is2.FromEnd" />
+                            No bands registered yet. Register your band today!
+                        </Alert>
+                    </Column>
+                }
+            </Row>
+            <Row Class="mt-4">
+                <Column ColumnSize="ColumnSize.Is12" Class="text-center">
+                    <Button Color="Color.Success" Size="Size.Large" Outline @onclick="NavigateToBands">
+                        View All Bands
+                        <Icon Name="IconName.ArrowRight" Margin="Margin.Is2.FromStart" />
+                    </Button>
+                </Column>
+            </Row>
+        </Container>
+    </Div>
+}
+
+<!-- Call to Action Section -->
+<Div Class="py-5" Style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+    <Container>
+        <Row JustifyContent="JustifyContent.Center">
+            <Column ColumnSize="ColumnSize.Is12.OnTablet.Is8.OnDesktop" Class="text-center text-white">
+                <Heading Size="HeadingSize.Is2" TextColor="TextColor.White" Class="fw-bold mb-4">
+                    Ready to Create Your Festival?
+                </Heading>
+                <Paragraph Size="TextSize.Large" TextColor="TextColor.White" Class="mb-4 opacity-90">
+                    Join thousands of festival organizers who trust ShowTime to manage their events.
+                    Create, organize, and promote your music festival with ease.
+                </Paragraph>
+                <div class="d-flex gap-3 justify-content-center flex-wrap">
+                    <Button Color="Color.Warning" Size="Size.Large" @onclick="NavigateToCreateFestival" Class="px-5 py-3">
+                        <Icon Name="IconName.Add" Margin="Margin.Is2.FromEnd" />
+                        Create Festival
+                    </Button>
+                    <Button Color="Color.Light" Size="Size.Large" Outline @onclick="NavigateToCreateBand" Class="px-5 py-3">
+                        <Icon Name="IconName.Music" Margin="Margin.Is2.FromEnd" />
+                        Register Band
+                    </Button>
+                </div>
+            </Column>
+        </Row>
+    </Container>
+</Div>
+
+<!-- Custom Styles -->
+<style>
+    .hero-section {
+        position: relative;
+        overflow: hidden;
+    }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='m36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+            opacity: 0.1;
+        }
+
+    .hero-content {
+        z-index: 2;
+        position: relative;
+    }
+
+    .floating-icons {
+        position: relative;
+        height: 300px;
+        width: 100%;
+    }
+
+    .icon-float {
+        position: absolute;
+        font-size: 3rem;
+        animation: float 6s ease-in-out infinite;
+        opacity: 0.8;
+    }
+
+        .icon-float.music-note {
+            top: 20%;
+            left: 20%;
+            animation-delay: 0s;
+        }
+
+        .icon-float.stage {
+            top: 60%;
+            right: 20%;
+            animation-delay: 1.5s;
+        }
+
+        .icon-float.guitar {
+            bottom: 30%;
+            left: 30%;
+            animation-delay: 3s;
+        }
+
+        .icon-float.microphone {
+            top: 10%;
+            right: 30%;
+            animation-delay: 4.5s;
+        }
+
+    @@keyframes float {
+        0%, 100%
+
+    {
+        transform: translateY(0px) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-20px) rotate(5deg);
+    }
+
+    }
+
+    .stats-card {
+        transition: all 0.3s ease;
+        background: white;
+    }
+
+        .stats-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15) !important;
+        }
+
+    .festival-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(0,0,0,0.15) !important;
+    }
+
+        .festival-card:hover img {
+            transform: scale(1.05);
+        }
+
+    .band-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.1) !important;
+    }
+
+    .stats-icon {
+        padding: 1rem;
+        border-radius: 50%;
+        background: rgba(var(--bs-primary-rgb), 0.1);
+        display: inline-block;
+    }
+
+    @@media (max-width: 768px) {
+        .hero-section
+
+    {
+        min-height: 60vh;
+    }
+
+    .floating-icons {
+        height: 200px;
+    }
+
+    .icon-float {
+        font-size: 2rem;
+    }
+
+    }
+</style>
