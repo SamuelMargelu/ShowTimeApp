@@ -1,4 +1,7 @@
-﻿@page "/CreateBand/{BandIdQueryParameter:int?}"
+﻿@using Microsoft.AspNetCore.Authorization
+
+@page "/CreateBand/{BandIdQueryParameter:int?}"
+@attribute [Authorize(Roles = "Admin")]
 
 @rendermode InteractiveServer
 
