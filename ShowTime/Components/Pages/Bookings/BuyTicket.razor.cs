@@ -10,6 +10,8 @@ namespace ShowTime.Components.Pages.Bookings
 
         private bool ShowPurchaseCompleted = false;
 
+        private ApplicationUser? currentUser;
+
         private string NewBookingEmail = string.Empty;
         private Festival? NewBookingFestival;
         private DateTime NewBookingDate = DateTime.Now;
@@ -17,6 +19,11 @@ namespace ShowTime.Components.Pages.Bookings
         protected override async Task OnInitializedAsync()
         {
             NewBookingFestival = await FestivalService.GetByIdAsync(FestivalId);
+            if (HttpContextAccessor.HttpContext is not null)
+            {
+                currentUser = await UserAccessor.GetRequiredUserAsync(HttpContextAccessor.HttpContext);
+                // Now you can use currentUser
+            }
 
         }
 
@@ -27,11 +34,14 @@ namespace ShowTime.Components.Pages.Bookings
             {
                 var newBoking = new Booking
                 {
-                    Email = NewBookingEmail,
+                    ApplicationUserId = currentUser?.Id,
+                    ApplicationUser = currentUser,
                     FestivalId = FestivalId,
                     Festival = NewBookingFestival,
                     BookingDate = NewBookingDate,
                 };
+
+                currentUser?.Bookings.Add(newBoking);
 
                 await BookingService.AddAsync(newBoking);
 

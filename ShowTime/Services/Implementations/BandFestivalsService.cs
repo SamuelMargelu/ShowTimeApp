@@ -4,7 +4,8 @@ using ShowTime.Services.Interfaces;
 
 namespace ShowTime.Services.Implementations
 {
-    public class BandFestivalsService(IBandFestivalRepository bandFestivalRepository) : Service<BandFestival>(bandFestivalRepository), IBandFestivalsService
+    public class BandFestivalsService(IBandFestivalRepository bandFestivalRepository)
+        : Service<BandFestival>(bandFestivalRepository), IBandFestivalsService
     {
         public async Task DeleteByBandAndFestivalIdAsync(BandFestival bandFestival)
         {

@@ -1,12 +1,16 @@
-﻿@page "/BuyTicket/{FestivalId:int}"
+﻿@using ShowTime.Components.Account
+@page "/BuyTicket/{FestivalId:int}"
 
 @inject IFestivalService FestivalService
 @inject IBookingService BookingService
+@inject IApplicationUserService ApplicationUserService
 @inject NavigationManager NavigationManager
+@inject IdentityUserAccessor UserAccessor
+@inject IHttpContextAccessor HttpContextAccessor
 
 @rendermode InteractiveServer
 
-
+@currentUser?.Email
 <Div Class="d-flex justify-content-between align-items-center mb-4">
 	<Heading Size="HeadingSize.Is2" TextColor="TextColor.Primary" TextWeight="TextWeight.Bold">
 		<Icon Name="IconName.Ticket" Margin="Margin.Is2.FromEnd" />

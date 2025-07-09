@@ -50,10 +50,15 @@ builder.Services.AddScoped<IBandService, BandSerivce>();
 builder.Services.AddScoped<IBookingRepository, BookingRepository>();
 builder.Services.AddScoped<IBookingService, BookingService>();
 
-//BandFestival
+// BandFestival
 
 builder.Services.AddScoped<IBandFestivalRepository, BandFestivalRepository>();
 builder.Services.AddScoped<IBandFestivalsService, BandFestivalsService>();
+
+// ApplicationUser
+
+builder.Services.AddScoped<IApplicationUserRepository, ApplicationUserRepository>();
+builder.Services.AddScoped<IApplicationUserService, ApplicationUserService>();
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
