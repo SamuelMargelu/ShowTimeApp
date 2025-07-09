@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Components.Web;
 using ShowTime.Entities;
 
 namespace ShowTime.Components.Pages.Festivals
@@ -29,6 +30,29 @@ namespace ShowTime.Components.Pages.Festivals
         private void NavigateToFestivalDetails(int festivalId)
         {
             NavigationManager.NavigateTo($"/FestivalDetails/{festivalId}");
+        }
+
+        private void NavigateToEditFestival(int festivalId)
+        {
+            NavigationManager.NavigateTo($"/CreateFestival/{festivalId}");
+            
+        }
+
+        private async Task DeleteFestivalById(int id)
+        {
+            var festivalToDelete = await FestivalService.GetByIdAsync(id);
+            if (festivalToDelete != null)
+            {
+                await FestivalService.DeleteAsync(festivalToDelete);
+
+                Console.WriteLine($"Deleting festival: {festivalToDelete.Name}");
+
+                Festivals = (await FestivalService.GetAllIncludingAsync(f => f.BandFestivals,
+                                                                        f => (f.BandFestivals as BandFestival).Band,
+                                                                        f => f.Bookings)).ToList();
+                StateHasChanged();
+            }
+
         }
     }
 }
