@@ -1,9 +1,13 @@
 ﻿@inject NavigationManager NavigationManager
+@inject IJSRuntime JS
 
 @using Microsoft.AspNetCore.Components.Authorization
 
 <div class="top-row ps-3 navbar navbar-dark">
-	<div class="container-fluid">
+	<div class="container-fluid d-flex align-items-center">
+		<button type="button" class="btn btn-back me-3" title="Back" @onclick="NavigateBack">
+			<span class="bi bi-arrow-left-short-nav-menu" aria-hidden="true"></span>
+		</button>
 		<a class="navbar-brand" href="">ShowTime</a>
 	</div>
 </div>
@@ -15,6 +19,7 @@
 
 <!-- Navigation hint indicator -->
 <div class="nav-hint"></div>
+
 
 <div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
 	<nav class="flex-column">
@@ -82,11 +87,18 @@
 			</NavLink>
 		</div>
 
+		<div class="nav-item px-3">
+			<NavLink class="nav-link" href="MyBookings">
+				<Icon Name="IconName.Ticket"></Icon>
+				<span class="bi bi-calendar-event-nav-menu" aria-hidden="true"></span> My Bookings
+			</NavLink>
+		</div>
 
 		<AuthorizeView>
 			<Authorized>
 				<div class="nav-item px-3">
 					<NavLink class="nav-link" href="Account/Manage">
+						<Icon Name="IconName.User"></Icon>
 						<span class="bi bi-person-fill-nav-menu" aria-hidden="true"></span> @context.User.Identity?.Name
 					</NavLink>
 				</div>
@@ -133,6 +145,11 @@
 	{
 		currentUrl = NavigationManager.ToBaseRelativePath(e.Location);
 		StateHasChanged();
+	}
+
+	private async Task NavigateBack()
+	{
+		await JS.InvokeVoidAsync("history.back");
 	}
 
 	public void Dispose()

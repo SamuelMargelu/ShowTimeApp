@@ -1,6 +1,9 @@
-﻿@using ShowTime.Components.Account
-@page "/bookings/mybookings"
+﻿@using Microsoft.AspNetCore.Authorization
+@using ShowTime.Components.Account
+@page "/MyBookings"
 
+
+@attribute [Authorize]
 @inject IBookingService BookingService
 @inject IHttpContextAccessor HttpContextAccessor
 @inject IdentityUserAccessor UserAccessor

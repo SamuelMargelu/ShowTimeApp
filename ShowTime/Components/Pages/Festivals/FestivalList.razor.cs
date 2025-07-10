@@ -38,6 +38,11 @@ namespace ShowTime.Components.Pages.Festivals
             
         }
 
+        private void NavigateToCreateFestival()
+        {
+            NavigationManager.NavigateTo("/CreateFestival");
+        }   
+
         private async Task DeleteFestivalById(int id)
         {
             var festivalToDelete = await FestivalService.GetByIdAsync(id);
