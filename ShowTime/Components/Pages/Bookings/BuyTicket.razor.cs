@@ -22,7 +22,7 @@ namespace ShowTime.Components.Pages.Bookings
 
         protected override async Task OnInitializedAsync()
         {
-            NewBookingFestival = await FestivalService.GetByIdAsync(FestivalId);
+            NewBookingFestival = await FestivalService.GetFestivalWithDetailsAsync(FestivalId);
             FestivalDays = NewBookingFestival?.FestivalDays?.OrderBy(fd => fd.Date).ToList() ?? new List<FestivalDay>();
             if (HttpContextAccessor.HttpContext is not null)
             {
@@ -86,6 +86,20 @@ namespace ShowTime.Components.Pages.Bookings
                     NewBookingSelectedDaysIds.Add(dayId);
                     BookingPrice += 50;
                 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             }
             else
             {

@@ -1,5 +1,8 @@
-﻿@using ShowTime.Components.Account
+﻿@using Microsoft.AspNetCore.Authorization
+@using ShowTime.Components.Account
 @page "/BuyTicket/{FestivalId:int}"
+
+@attribute [Authorize]
 
 @inject IFestivalService FestivalService
 @inject IBookingService BookingService
