@@ -10,7 +10,7 @@
 
 @rendermode InteractiveServer
 
-@currentUser?.Email
+
 <Div Class="d-flex justify-content-between align-items-center mb-4">
 	<Heading Size="HeadingSize.Is2" TextColor="TextColor.Primary" TextWeight="TextWeight.Bold">
 		<Icon Name="IconName.Ticket" Margin="Margin.Is2.FromEnd" />
@@ -69,6 +69,18 @@
 					</FieldHelp>
 				</Field>
 
+				<Field Margin="Margin.Is3.FromBottom">
+					<FieldLabel TextWeight="TextWeight.Bold">
+						<Icon Name="IconName.MoneyBillAlt" Margin="Margin.Is1.FromEnd" />
+						Price
+					</FieldLabel>
+					<FieldBody>
+						@BookingPrice.ToString("C", System.Globalization.CultureInfo.CurrentCulture)
+					</FieldBody>
+					<FieldHelp>
+						$50 per day selected. Total price will be calculated based on the number of days you select.
+					</FieldHelp>
+				</Field>
 
 				<!-- Buttons -->
 				<Div Class="d-flex gap-3 justify-content-end mt-4">
