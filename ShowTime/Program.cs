@@ -60,6 +60,16 @@ builder.Services.AddScoped<IBandFestivalsService, BandFestivalsService>();
 builder.Services.AddScoped<IApplicationUserRepository, ApplicationUserRepository>();
 builder.Services.AddScoped<IApplicationUserService, ApplicationUserService>();
 
+//// FestivalDay
+
+builder.Services.AddScoped<IFestivalDayRepository, FestivalDayRepository>();
+builder.Services.AddScoped<IFestivalDayService, FestivalDayService>();
+
+// BookingFestivalDays
+
+builder.Services.AddScoped<IBookingFestivalDaysRepository, BookingFestivalDaysRepository>();
+builder.Services.AddScoped<IBookingFestivalDaysService, BookingFestivalDaysService>();
+
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();

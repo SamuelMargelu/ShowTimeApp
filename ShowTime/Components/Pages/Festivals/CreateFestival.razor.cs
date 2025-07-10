@@ -84,6 +84,15 @@ namespace ShowTime.Components.Pages.Festivals
 
             await FestivalService.AddAsync(newFestival);
 
+            var days = Enumerable.Range(0, (newFestival.EndDate - newFestival.StartDate).Days + 1)
+                .Select(offset => new FestivalDay
+                {
+                    FestivalId = newFestival.Id,
+                    Date = newFestival.StartDate.AddDays(offset)
+                }).ToList();
+
+            await FestivalDayService.AddRangeAsync(days);
+
             NewFestivalName = string.Empty;
             NewFestivalLocation = string.Empty;
             NewFestivalStartDate = DateTime.Now;

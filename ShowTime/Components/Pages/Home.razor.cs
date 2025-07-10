@@ -8,7 +8,8 @@ namespace ShowTime.Components.Pages
     {
         private List<Festival>? FeaturedFestivals;
         private List<Band>? PopularBands;
-        private int TotalFestivals = 0;
+        private int ActiveFestivals = 0;
+        private int UpcomingFestivals = 0;
         private int TotalBands = 0;
         private bool IsLoading = true;
 
@@ -26,7 +27,8 @@ namespace ShowTime.Components.Pages
                 // Load featured festivals (take first 3)
                 var allFestivals = await FestivalService.GetAllIncludingAsync(f => f.BandFestivals, f => (f.BandFestivals as BandFestival).Band);
                 FeaturedFestivals = allFestivals.Take(3).ToList();
-                TotalFestivals = allFestivals.Count();
+                ActiveFestivals = allFestivals.Count(f => f.StartDate <= DateTime.Now && f.EndDate >= DateTime.Now);
+                UpcomingFestivals = allFestivals.Count(f => f.StartDate > DateTime.Now);
 
                 // Load popular bands (take first 6)
                 var allBands = await BandService.GetAllIncludingAsync(b => b.BandFestivals);

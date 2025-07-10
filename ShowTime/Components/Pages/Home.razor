@@ -19,9 +19,9 @@
                             <Icon Name="IconName.Calendar" Margin="Margin.Is2.FromEnd" />
                             Explore Festivals
                         </Button>
-                        <Button Color="Color.Light" Size="Size.Large" Outline @onclick="NavigateToCreateFestival">
-                            <Icon Name="IconName.Add" Margin="Margin.Is2.FromEnd" />
-                            Create Festival
+                        <Button Color="Color.Light" Size="Size.Large" Outline @onclick="NavigateToBands">
+                            <Icon Name="IconName.Music" Margin="Margin.Is2.FromEnd" />
+                            View Bands
                         </Button>
                     </div>
                 </div>
@@ -56,7 +56,7 @@
                         <div class="stats-icon mb-3">
                             <Icon Name="IconName.Calendar" Size="IconSize.X2" Style="color: #667eea;" />
                         </div>
-                        <Heading Size="HeadingSize.Is3" TextColor="TextColor.Primary">7</Heading>@*  FestivalCount *@
+                        <Heading Size="HeadingSize.Is3" TextColor="TextColor.Primary">@ActiveFestivals</Heading>@*  FestivalCount *@
                         <Paragraph TextColor="TextColor.Muted">Active Festivals</Paragraph>
                     </CardBody>
                 </Card>
@@ -67,7 +67,7 @@
                         <div class="stats-icon mb-3">
                             <Icon Name="IconName.Users" Size="IconSize.X2" Style="color: #764ba2;" />
                         </div>
-                        <Heading Size="HeadingSize.Is3" TextColor="TextColor.Primary">5</Heading> @*BandCount*@
+                        <Heading Size="HeadingSize.Is3" TextColor="TextColor.Primary">@TotalBands</Heading> @*BandCount*@
                         <Paragraph TextColor="TextColor.Muted">Registered Bands</Paragraph>
                     </CardBody>
                 </Card>
@@ -78,7 +78,7 @@
                         <div class="stats-icon mb-3">
                             <Icon Name="IconName.Star" Size="IconSize.X2" Style="color: #ff6b6b;" />
                         </div>
-                        <Heading Size="HeadingSize.Is3" TextColor="TextColor.Primary">3</Heading> @*UpcomingFestivals*@
+                        <Heading Size="HeadingSize.Is3" TextColor="TextColor.Primary">@UpcomingFestivals</Heading> @*UpcomingFestivals*@
                         <Paragraph TextColor="TextColor.Muted">Upcoming Events</Paragraph>
                     </CardBody>
                 </Card>
@@ -265,32 +265,7 @@ else
     </Div>
 }
 
-<!-- Call to Action Section -->
-<Div Class="py-5" Style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-    <Container>
-        <Row JustifyContent="JustifyContent.Center">
-            <Column ColumnSize="ColumnSize.Is12.OnTablet.Is8.OnDesktop" Class="text-center text-white">
-                <Heading Size="HeadingSize.Is2" TextColor="TextColor.White" Class="fw-bold mb-4">
-                    Ready to Create Your Festival?
-                </Heading>
-                <Paragraph Size="TextSize.Large" TextColor="TextColor.White" Class="mb-4 opacity-90">
-                    Join thousands of festival organizers who trust ShowTime to manage their events.
-                    Create, organize, and promote your music festival with ease.
-                </Paragraph>
-                <div class="d-flex gap-3 justify-content-center flex-wrap">
-                    <Button Color="Color.Warning" Size="Size.Large" @onclick="NavigateToCreateFestival" Class="px-5 py-3">
-                        <Icon Name="IconName.Add" Margin="Margin.Is2.FromEnd" />
-                        Create Festival
-                    </Button>
-                    <Button Color="Color.Light" Size="Size.Large" Outline @onclick="NavigateToCreateBand" Class="px-5 py-3">
-                        <Icon Name="IconName.Music" Margin="Margin.Is2.FromEnd" />
-                        Register Band
-                    </Button>
-                </div>
-            </Column>
-        </Row>
-    </Container>
-</Div>
+
 
 <!-- Custom Styles -->
 <style>
