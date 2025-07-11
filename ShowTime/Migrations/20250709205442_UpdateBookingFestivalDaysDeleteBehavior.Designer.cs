@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ShowTime.Context;
 
@@ -11,9 +12,11 @@ using ShowTime.Context;
 namespace ShowTime.Migrations
 {
     [DbContext(typeof(ShowTimeDbContext))]
-    partial class ShowTimeDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250709205442_UpdateBookingFestivalDaysDeleteBehavior")]
+    partial class UpdateBookingFestivalDaysDeleteBehavior
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -465,7 +468,7 @@ namespace ShowTime.Migrations
             modelBuilder.Entity("ShowTime.Entities.FestivalDay", b =>
                 {
                     b.HasOne("ShowTime.Entities.Festival", "Festival")
-                        .WithMany("FestivalDays")
+                        .WithMany()
                         .HasForeignKey("FestivalId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -493,8 +496,6 @@ namespace ShowTime.Migrations
                     b.Navigation("BandFestivals");
 
                     b.Navigation("Bookings");
-
-                    b.Navigation("FestivalDays");
                 });
 
             modelBuilder.Entity("ShowTime.Entities.FestivalDay", b =>

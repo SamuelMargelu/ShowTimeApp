@@ -12,17 +12,23 @@ namespace ShowTime.Components.Pages.Bookings
 
         private ApplicationUser? currentUser;
 
+        private int BookingPrice = 0;
         private string NewBookingEmail = string.Empty;
         private Festival? NewBookingFestival;
         private DateTime NewBookingDate = DateTime.Now;
+        private List<int> NewBookingSelectedDaysIds = new List<int>();
+
+        private List<FestivalDay> FestivalDays = new();
 
         protected override async Task OnInitializedAsync()
         {
-            NewBookingFestival = await FestivalService.GetByIdAsync(FestivalId);
+            NewBookingFestival = await FestivalService.GetFestivalWithDetailsAsync(FestivalId);
+            FestivalDays = NewBookingFestival?.FestivalDays?.OrderBy(fd => fd.Date).ToList() ?? new List<FestivalDay>();
             if (HttpContextAccessor.HttpContext is not null)
             {
                 currentUser = await UserAccessor.GetRequiredUserAsync(HttpContextAccessor.HttpContext);
                 // Now you can use currentUser
+                NewBookingEmail = currentUser?.Email ?? string.Empty;
             }
 
         }
@@ -32,7 +38,7 @@ namespace ShowTime.Components.Pages.Bookings
 
             if (NewBookingFestival != null)
             {
-                var newBoking = new Booking
+                var newBooking = new Booking
                 {
                     ApplicationUserId = currentUser?.Id,
                     ApplicationUser = currentUser,
@@ -41,9 +47,18 @@ namespace ShowTime.Components.Pages.Bookings
                     BookingDate = NewBookingDate,
                 };
 
-                currentUser?.Bookings.Add(newBoking);
+                currentUser?.Bookings.Add(newBooking);
 
-                await BookingService.AddAsync(newBoking);
+                foreach (var dayId in NewBookingSelectedDaysIds)
+                {
+                    newBooking.BookingFestivalDays.Add(new BookingFestivalDays
+                    {
+                        FestivalDayId = dayId,
+                        Booking = newBooking
+                    });
+                }
+
+                await BookingService.AddAsync(newBooking);
 
 
                 ShowPurchaseCompleted = true;
@@ -57,6 +72,45 @@ namespace ShowTime.Components.Pages.Bookings
                 NavigateToFestivalList();
             }
         }
+        private bool IsDaySelected(int dayId)
+        {
+            return NewBookingSelectedDaysIds.Contains(dayId);
+        }
+
+        private void OnDayCheckedChanged(int dayId, bool isChecked)
+        {
+            if (isChecked)
+            {
+                if (!NewBookingSelectedDaysIds.Contains(dayId))
+                {
+                    NewBookingSelectedDaysIds.Add(dayId);
+                    BookingPrice += 50;
+                }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            }
+            else
+            {
+                if (NewBookingSelectedDaysIds.Contains(dayId))
+                {
+                    NewBookingSelectedDaysIds.Remove(dayId);
+                    BookingPrice -= 50;
+                }
+            }
+        }
+
 
         private void NavigateToFestivalList()
         {

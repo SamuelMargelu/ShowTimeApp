@@ -15,6 +15,12 @@
 					<Icon Name="IconName.Calendar" Margin="Margin.Is2.FromEnd" />
 					Festivals Directory
 				</Heading>
+				<AuthorizeView Roles="Admin">
+					<Button Color="Color.Primary" Size="Size.Medium" @onclick="NavigateToCreateFestival">
+						<Icon Name="IconName.Add" Margin="Margin.Is1.FromEnd" />
+						Add New Festival
+					</Button>
+				</AuthorizeView>
 			</Div>
 		</Column>
 	</Row>

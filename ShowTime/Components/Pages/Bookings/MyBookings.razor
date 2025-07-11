@@ -1,0 +1,95 @@
+﻿@using Microsoft.AspNetCore.Authorization
+@using ShowTime.Components.Account
+@page "/MyBookings"
+
+
+@attribute [Authorize]
+@inject IBookingService BookingService
+@inject IHttpContextAccessor HttpContextAccessor
+@inject IdentityUserAccessor UserAccessor
+@inject NavigationManager NavigationManager
+
+@rendermode InteractiveServer
+
+
+
+<Container Class="mt-5">
+    <Card Class="shadow-lg border-0">
+        <CardHeader Class="bg-primary text-white d-flex align-items-center">
+            <Icon Name="IconName.TicketAlt" Class="me-2" />
+            <h4 class="mb-0">My Bookings</h4>
+        </CardHeader>
+        <CardBody>
+            @if (Bookings == null)
+            {
+                <div class="text-center my-5">
+                    <Spinner Color="Color.Primary" Size="Size.Large" />
+                    <p class="text-muted mt-3">Loading your bookings...</p>
+                </div>
+            }
+            else if (!Bookings.Any())
+            {
+                <Alert Color="Color.Info" Class="mt-4">
+                    <Icon Name="IconName.InfoCircle" Class="me-2" />
+                    You have no bookings yet.
+                </Alert>
+            }
+            else
+            {
+                <Table Striped Hoverable Responsive Bordered Class="mt-3 rounded-3 overflow-hidden">
+                    <Thead Class="table-primary">
+                        <Tr>
+                            <Th>Festival</Th>
+                            <Th>Festival Period</Th>
+                            <Th>Booked Days</Th>
+                        </Tr>
+                    </Thead>
+                    <Tbody>
+                        @foreach (var booking in Bookings)
+                        {
+                            <Tr>
+                                <Td>
+                                    <Button Color="Color.Link" Class="p-0 fw-bold" Clicked="@(() => NavigateToFestivalDetails(booking.FestivalId))">
+                                        <Icon Name="IconName.Calendar" Class="me-1 text-primary" />
+                                        @(booking.Festival?.Name ?? "N/A")
+                                    </Button>
+                                </Td>
+                                <Td>
+                                    @if (booking.Festival != null)
+                                    {
+                                        <span class="fw-semibold">
+                                            @($"{booking.Festival.StartDate:MMM dd, yyyy} - {booking.Festival.EndDate:MMM dd, yyyy}")
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">N/A</span>
+                                    }
+                                </Td>
+                                <Td>
+                                    @if (booking.BookingFestivalDays != null && booking.BookingFestivalDays.Any())
+                                    {
+                                        @foreach (var bfd in booking.BookingFestivalDays.OrderBy(bfd => bfd.FestivalDay?.Date))
+                                        {
+                                            <Badge Color="Color.Info" Class="me-1 mb-1 px-3 py-2 rounded-pill shadow-sm">
+                                                <Icon Name="IconName.CalendarDay" Class="me-1" />
+                                                @(bfd.FestivalDay?.Date.ToString("MMM dd") ?? "N/A")
+                                            </Badge>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">No days selected</span>
+                                    }
+                                </Td>
+                            </Tr>
+                        }
+                    </Tbody>
+                </Table>
+            }
+        </CardBody>
+    </Card>
+</Container>
+
+
+

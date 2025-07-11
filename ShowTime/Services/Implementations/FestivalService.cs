@@ -19,10 +19,20 @@ namespace ShowTime.Services.Implementations
             var band = await bandRepository.GetByIdAsync(bandId)
                 ?? throw new ArgumentException($"Band with ID {bandId} not found.");
 
-            festival.BandFestivals.Add(new BandFestival { FestivalsId = festivalId, BandsId = bandId } );
+            festival.BandFestivals.Add(new BandFestival { FestivalsId = festivalId, BandsId = bandId });
 
             await festivalRepository.UpdateAsync(festival);
             await festivalRepository.SaveChangesAsync();
+        }
+
+        public async Task<Festival?> GetFestivalWithDetailsAsync(int id)
+        {
+            var festival = await festivalRepository.GetFestivalWithDetailsAsync(id);
+            if (festival == null)
+            {
+                throw new KeyNotFoundException($"Festival with ID {id} not found.");
+            }
+            return festival;
         }
     }
 }

@@ -1,5 +1,8 @@
-﻿@using ShowTime.Components.Account
+﻿@using Microsoft.AspNetCore.Authorization
+@using ShowTime.Components.Account
 @page "/BuyTicket/{FestivalId:int}"
+
+@attribute [Authorize]
 
 @inject IFestivalService FestivalService
 @inject IBookingService BookingService
@@ -10,7 +13,7 @@
 
 @rendermode InteractiveServer
 
-@currentUser?.Email
+
 <Div Class="d-flex justify-content-between align-items-center mb-4">
 	<Heading Size="HeadingSize.Is2" TextColor="TextColor.Primary" TextWeight="TextWeight.Bold">
 		<Icon Name="IconName.Ticket" Margin="Margin.Is2.FromEnd" />
@@ -37,6 +40,48 @@
 					</FieldBody>
 					<FieldHelp>
 						Please enter a valid email address to receive your ticket confirmation.
+					</FieldHelp>
+				</Field>
+
+				<Field Margin="Margin.Is3.FromBottom">
+					<FieldLabel TextWeight="TextWeight.Bold">
+						<Icon Name="IconName.CalendarDay" Margin="Margin.Is1.FromEnd" />
+						Select Festival Days
+					</FieldLabel>
+					<FieldBody>
+						@if (FestivalDays.Any())
+						{
+							<div class="d-flex flex-wrap gap-2">
+								@foreach (var day in FestivalDays)
+								{
+									<Check TValue="bool"
+										   Checked="@IsDaySelected(day.Id)"
+										   CheckedChanged="@(value => OnDayCheckedChanged(day.Id, value))">
+										@day.Date.ToString("dddd, MMM d")
+									</Check>
+								}
+							</div>
+						}
+						else
+						{
+							<span>No days available for this festival.</span>
+						}
+					</FieldBody>
+					<FieldHelp>
+						Select the days you want to attend.
+					</FieldHelp>
+				</Field>
+
+				<Field Margin="Margin.Is3.FromBottom">
+					<FieldLabel TextWeight="TextWeight.Bold">
+						<Icon Name="IconName.MoneyBillAlt" Margin="Margin.Is1.FromEnd" />
+						Price
+					</FieldLabel>
+					<FieldBody>
+						@BookingPrice.ToString("C", System.Globalization.CultureInfo.CurrentCulture)
+					</FieldBody>
+					<FieldHelp>
+						$50 per day selected. Total price will be calculated based on the number of days you select.
 					</FieldHelp>
 				</Field>
 

@@ -2,6 +2,7 @@
 @page "/FestivalDetails/{FestivalId:int}"
 
 @inject IFestivalService FestivalService
+@inject IFestivalDayService FestivalDayService
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JS
 @inject AuthenticationStateProvider AuthenticationStateProvider
@@ -21,7 +22,7 @@
 					<p>You need to be logged in to buy a ticket.</p>
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-primary" @onclick="NavigateToLogin">Login</button>
+					<button class="btn btn-primary" @onclick="() => NavigateToBuyTicket(FestivalId)">Login</button>
 					<button class="btn btn-secondary" @onclick="() => showLoginModal = false">Close</button>
 				</div>
 			</div>
@@ -200,6 +201,59 @@
 						</div>
 					}
 				</div>
+
+				<!-- Bookings Section -->
+				<div class="bookings-section mt-5">
+					<div class="section-header">
+						<h2>
+							<i class="fas fa-ticket-alt me-3"></i>
+							Bookings (@(Festival.Bookings?.Count ?? 0))
+						</h2>
+					</div>
+					@if (Festival.Bookings != null && Festival.Bookings.Any())
+					{
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th>User</th>
+									<th>Booking Date</th>
+									<th>Days Booked</th>
+								</tr>
+							</thead>
+							<tbody>
+								@foreach (var booking in Festival.Bookings)
+								{
+									<tr>
+										<td>@(booking.ApplicationUser?.Email ?? "N/A")</td>
+										<td>@booking.BookingDate.ToString("yyyy-MM-dd")</td>
+										<td>
+											@if (booking.BookingFestivalDays != null && booking.BookingFestivalDays.Any())
+											{
+												@foreach (var bfd in booking.BookingFestivalDays)
+												{
+													<span class="badge bg-info me-1">
+														@bfd.FestivalDay?.Date.ToString("MMM dd")
+													</span>
+												}
+											}
+											else
+											{
+												<span class="text-muted">No days selected</span>
+											}
+										</td>
+									</tr>
+								}
+							</tbody>
+						</table>
+					}
+					else
+					{
+						<div class="alert alert-info">
+							No bookings yet for this festival.
+						</div>
+					}
+				</div>
+
 			</div>
 		</div>
 	}
