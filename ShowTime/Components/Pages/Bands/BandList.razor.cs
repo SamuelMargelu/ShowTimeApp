@@ -25,9 +25,29 @@ namespace ShowTime.Components.Pages.Bands
             }
         }
 
+        private async Task DeleteBandById(int bandId)
+        {
+            var bandToDelete = await BandService.GetByIdAsync(bandId);
+            if (bandToDelete != null)
+            {
+                await BandService.DeleteAsync(bandToDelete);
+                Console.WriteLine($"Deleting band: {bandToDelete.Name}");
+            }
+
+            Bands = (await BandService.GetAllIncludingAsync(b => b.BandFestivals,
+                                                                b => (b.BandFestivals as BandFestival).Festival)).ToList();
+            StateHasChanged();
+
+        }
+
         private void NavigateToCreateBand()
         {
             NavigationManager.NavigateTo("/CreateBand");
+        }
+
+        private void NavigateToEditBand(int bandId)
+        {
+            NavigationManager.NavigateTo($"CreateBand/{bandId}");
         }
     }
 }
